@@ -1,0 +1,37 @@
+/*      Main.Css
+   Majority of styling goes here
+ */
+
+header {
+  text-transform: capitalize;
+}
+
+header .Name {
+  /* position: absolute; */
+  /* left: 0px; */
+  display: inline-block; /* So that transform works */
+
+  text-transform: uppercase;
+
+  color: Peru;
+  font-size: 1.3rem;
+  font-weight: bolder;
+  text-shadow: 5px 5px 4px black;
+}
+header .First {
+  /* background-color: yellow; */
+
+  transform: translate(12px, 20px) rotate(-45deg );
+}
+header .Last {
+  /* background-color: cyan; */
+
+  transform: translate(2px, 10px) rotate( -45deg );
+}
+
+footer {
+  color: Sienna;
+}
+
+
+/*  */
