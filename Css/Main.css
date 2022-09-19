@@ -13,10 +13,10 @@ header .Name {
 
   text-transform: uppercase;
 
-  color: Peru;
+  color: Sienna;
   font-size: 1.3rem;
   font-weight: bolder;
-  text-shadow: 5px 5px 4px black;
+  text-shadow: 2px 2px 2px Black;
 }
 header .First {
   /* background-color: yellow; */
@@ -28,6 +28,9 @@ header .Last {
 
   transform: translate(2px, 10px) rotate( -45deg );
 }
+header img {
+  transform: translate(10px, -6px) rotate( 45deg );
+}
 
 footer {
   color: Sienna;
@@ -36,6 +39,16 @@ footer {
 .Icon {
   height: 64px;
 }
+
+menu a {
+  color: black;
+  text-shadow:   1px 1px 1px Sienna;
+}
+
+.CurrentMenu {
+  background-color: yellow;
+}
+
 
 
 

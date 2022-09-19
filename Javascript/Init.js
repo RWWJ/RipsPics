@@ -1,12 +1,23 @@
 //
-// Init.js
+//	        Init.js
 //
-//  15 Sep 2022 RWWJ  Created
+//        Misc Helper Classes and functions
+//
+//  15 Sep 2022 Created
 //
 
 
-var Version = "V1.00";
-let FirstYear = "2022";
+const Version = "V1.01";
+const FirstYear = "2022";
+
+const MenuEntries = [
+        {url:"index.html", button:"Home"},
+        {url:"Photos.html", button:"Photos"},
+        {url:"TutorialsPhotography.html", button:"Photography"},
+        {url:"TutorialsPhotoshop.html", button:"Photoshop"},
+        {url:"About.html", button:"About"}
+      ];
+
 
 // Kick it off
 init( );
@@ -19,7 +30,49 @@ function init( ) {
   if( FirstYear == thisYear ) document.querySelector( "footer .Year" ).innerText = thisYear;
   else document.querySelector( "footer .Year" ).innerText = `${FirstYear} - ${thisYear}`;
 
+  createMenus( );
+}
 
+
+
+// DEBUG Menus visibly shift/bounce left/right when I change pages
+//   This is no better than OLD()
+//
+function createMenus( ) {
+  let menuElement = document.querySelector( "menu" );
+  let pageUrl = pageName( ) + ".html";
+  let menusHtml = "";
+
+
+  // for( let nextMenu = 0; nextMenu < MenuEntries.length; ++nextMeny )
+  for( let menu of MenuEntries ) {
+    // <a href="index.html" target="_self">Home</a>
+    if( menu.url == pageUrl ) {
+      // Include CurrentMenu class
+      menusHtml += `<a href="${menu.url}" target="_self" class="CurrentMenu">${menu.button}</a>`;
+    }
+    else menusHtml += `<a href="${menu.url}" target="_self">${menu.button}</a>`;
+  }
+
+  menuElement.innerHTML = menusHtml;
+}
+
+
+function createMenusOLD( ) {
+  let menuElement = document.querySelector( "menu" );
+  let pageUrl = pageName( ) + ".html";
+
+  menuElement.innerHTML = "";
+
+  // for( let nextMenu = 0; nextMenu < MenuEntries.length; ++nextMeny )
+  for( let menu of MenuEntries ) {
+    // <a href="index.html" target="_self">Home</a>
+    if( menu.url == pageUrl ) {
+      // Include CurrentMenu class
+      menuElement.innerHTML += `<a href="${menu.url}" target="_self" class="CurrentMenu">${menu.button}</a>`;
+    }
+    else menuElement.innerHTML += `<a href="${menu.url}" target="_self">${menu.button}</a>`;
+  }
 }
 
 

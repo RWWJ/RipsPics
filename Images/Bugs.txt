@@ -1,23 +1,35 @@
-21-05-22-015 - Hammer Jawed Jumping Spider.jpg
-16-07-22-030 - Bee Yellow Jacket on Sunflower.jpg
-19-09-01-078 - Monarch Chrysalis.jpg
-19-11-22-004 - Ladybug.jpg
-20-09-03-144 - Monarch Caterpillar.jpg
-20-09-03-170 - Monarch Butterfly Chrysalis.jpg
-20-09-17-063 - Common Green Bottle Fly on Web Strand - 3rd try - 1400x1050.jpg
-20-10-03-042 - Small Milkweed Nymph.jpg
-20-10-07-077 - Spotted Cucumber Beetle.jpg
-21-05-22-007 - Common White Cheeked Jumping Spider.jpg
-21-07-02-025 - Inchworm.jpg
-21-07-28-015 - Lupine Bug.jpg
-21-08-12-038 - Primrose Moth.jpg
-21-08-27-013 - Phantom Crane Fly Couple.jpg
-21-08-31-066 - Robber Fly - Efferia Aestuans.jpg
-21-09-05-023 - Northern Dog-day Cicada.jpg
-21-10-06-201 - Grayish or Grey Orange Jumping Spider - Phidippus princeps - With Leafhopper Prey.jpg
-21-10-10-028 - Woolly Aphid.jpg
-21-10-13-015 - Autumn Meadowhawk Dragonfly Female.jpg
-21-10-20-074 - Spotted Spreadwing Damselfly - Lestes congener.jpg
-21-12-11-006 - Eastern Parson Spider.jpg
-21-12-12-013 - Wooly Bear - Isabella Tiger Moth Caterpillar.jpg
-22-03-12-001 - Fraternal Potter Wasp.jpg
+16-07-22-030-BeeYellowJacketonSunflower.jpg
+19-09-01-078-MonarchChrysalis.jpg
+19-11-22-004-Ladybug.jpg
+20-09-03-090-RingedAssassinBug.jpg
+20-09-03-144-MonarchCaterpillar.jpg
+20-09-03-170-MonarchButterflyChrysalis.jpg
+20-09-06-032-PaleGreenassassinBugonmyHat.jpg
+20-09-11-013-ShieldBug.jpg
+20-09-12-011-DaddyLonglegsSpider.jpg
+20-09-17-062-RhododendronLeafhopper.jpg
+20-09-17-063-CommonGreenBottleFlyonWebStrand-3rdtry-1400x1050.jpg
+20-10-03-042-SmallMilkweedNymph.jpg
+20-10-03-081-GreenStinkBug.jpg
+20-10-03-094-SpottedSpreadwingDamselfly.jpg
+20-10-07-077-SpottedCucumberBeetle.jpg
+20-10-17-003-WaspYellowjacket-v2details.jpg
+20-10-22-033-WoollyAphid-FlyingLint.jpg
+20-12-12-010-BoldJumpingSpiderJuvenile.jpg
+20-12-31-007-FigitidaeWasp.jpg
+21-01-09-035-WesternConiferSeedBugandSquashBug-v2withPlanet-v1.jpg
+21-05-22-007-CommonWhiteCheekedJumpingSpider.jpg
+21-05-22-015-HammerJawedJumpingSpider.jpg
+21-07-02-025-Inchworm.jpg
+21-07-28-015-LupineBug.jpg
+21-08-12-038-PrimroseMoth.jpg
+21-08-27-013-PhantomCraneFlyCouple.jpg
+21-08-31-066-RobberFly-EfferiaAestuans.jpg
+21-09-05-023-NorthernDog-dayCicada.jpg
+21-10-06-201-GrayishorGreyOrangeJumpingSpider-Phidippusprinceps-WithLeafhopperPrey.jpg
+21-10-10-028-WoollyAphid.jpg
+21-10-13-015-AutumnMeadowhawkDragonflyFemale.jpg
+21-10-20-074-SpottedSpreadwingDamselfly-Lestescongener.jpg
+21-12-11-006-EasternParsonSpider.jpg
+21-12-12-013-WoolyBear-IsabellaTigerMothCaterpillar.jpg
+22-03-12-001-FraternalPotterWasp.jpg

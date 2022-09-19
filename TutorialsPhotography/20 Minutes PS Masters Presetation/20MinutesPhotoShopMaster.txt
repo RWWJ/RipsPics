@@ -1,0 +1,22 @@
+
+^ SHIFT ALT E
+
+Local Contrast - Sharpen 50 Amount 30 Radius
+	Robin.jpg
+
+Hue Saturation - Select color
+	Jungle Bridge.jpg
+
+Selective Color
+	Berries.jpg (Debby's Berries photo & edit)
+
+Dodge/Burn layer - Blend Mode Soft Light - Brush (B, D, X) Low Opacity - or use Gradiant
+	Old North Bridge.jpg
+
+Vignette - Elliptical Marquee - ^ Shift I - Blur
+	Jumping.jpg
+
+Elements - Mask on image layers workaround
+	Collin.jpg
+
+

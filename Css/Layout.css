@@ -22,13 +22,13 @@ body {
 
 header {
   position: relative;
-  background-color: tomato;
   background-color: tan;
+  background: linear-gradient(-45deg, tan, Sienna);
 
-  box-shadow: 4px 4px 6px SaddleBrown,  -4px 4px 6px SaddleBrown;
+  box-shadow: 4px 4px 6px SaddleBrown,  -2px 2px 4px SaddleBrown;
 
   display: grid;
-  grid-template-columns: min-content 1fr;
+  grid-template-columns: min-content 1fr min-content;
 }
 
 header div {
@@ -41,13 +41,21 @@ header menu {
 }
 menu a {
   /* background-color: beige; */
+
+  display: inline-block; /* So that min-width works */
+  min-width: 60px;
+
   text-decoration: none;
-  color: Sienna;
   box-shadow: 2px 2px 4px black;
 
-  margin: 0px 6px;
-  padding: 1px 4px;
+  text-align: center;
 
+  margin: 0px 6px;
+  padding: 1px 4px 3px 4px;
+}
+header img {
+  /* background-color: black; */
+  margin: auto 10px;
 }
 
 .Content {

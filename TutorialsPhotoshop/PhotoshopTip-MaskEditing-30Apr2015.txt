@@ -1,0 +1,22 @@
+
+		EDITING MASKS
+
+by Ray Wallace
+
+When working on a layer mask, it is sometimes difficult to tell where you've painted
+on it and where you haven't. This is especially the case when you are masking some
+subtle affect. In these cases, it is useful to look at the mask contents it self
+(as appose to the effect it is having). There are two ways to do this:
+   1. <ALT> click on the mask icon. This will display the mask in place of your image.
+	To return to the normal image view, just <ALT> click on the icon again.
+
+   2. Press the \ (backslash) key. This will switch you into Quick Mask mode, which
+	displays a translucent pink overlay on the image. Press the \ (backslash) key
+	again to return to just seeing the image.
+
+In both of these states, you can continue editing (i.e. painting on) the mask, or you
+can return to the "normal" state before continuing to work on the mask.
+
+
+
+

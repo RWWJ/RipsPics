@@ -1,0 +1,83 @@
+Q: Is it better to shoot in RAW or Jpeg??
+
+
+A: by Ray Wallace
+
+The "correct" answer is not a short one.
+
+For example, one of our club members was once told he should shoot RAW,
+so on his next photo trip he shot exclusively raw and when he returned home
+he was not able to view (or process) the RAW files. When he eventually acquired
+the software to do the conversion from RAW to jpeg, he found it to be a pain in the lens,
+enticing him to switch back to shooting jpeg.
+
+So in contrast to a lot of photographers who simply and adamantly admonish
+"You should always shoot RAW!", my answer goes like this:
+
+If you are not familiar with using RAW files, then don't stop
+shooting jpeg until you have master (or gotten good at) processing
+RAW files. Possibly the best way to learn to use RAW files is
+to set your camera to save BOTH jpeg and RAW versions of the
+images you take. If your camera does not have this setting, then
+set your camera to save RAW, take some test photos, set the camera
+back to saving jpeg (i.e. what your used to) then go work on processing
+those RAW test images. Keep doing that until you're comfortable with
+processing RAW and you realize that RAW is the way to  go.
+
+There are even some photographers who like RAW that have their camera
+set to save both the RAW and jpeg versions.
+Then if they are happy with the jpeg file, they just use it and don't
+"bother" with the RAW. Everyone needs to figure out what works
+best for their style, expertise, and workflow.
+
+If you are now to the point where you can competently and happily
+deal with RAW image files, then the answer to the original
+question may have become obvious to you; You should shoot in RAW,
+since RAW image files have more detail and flexibility than jpeg!
+
+If it isn't obvious, then that statement may not do you as much good
+as it should, so let me explain...
+
+Your camera will store much more image date in a RAW file than
+it can in a jpeg file. Most significantly, more data (detail)
+is stored in the highlight portion of the image (whites) and in the
+shadow portion of the image (blacks). Such that if you were to have
+your camera save both the RAW and jpeg versions of an image and
+the jpeg had overexposed (blown out) highlights, you may be able to
+"recover" some or all of the "lost" data in the highlights by
+processing the RAW file appropriately. You may in fact be able to
+"recover" up to a couple of stops worth of image information,
+depending on the particular camera, conversion software, and technique
+(i.e. skill in using the RAW to jpeg conversion software).
+
+Another aspect of RAW files that make them better than jpeg is that
+RAW files hold more information for any given pixel in the image than
+jpeg files can. Jpeg files can hold a value from 0 to 255 for each of
+the red, green, and blue parts of a pixel. Whereas a RAW file can hold
+a value of 0 to 4095 for each of the pixel components (or more depending
+on the particular camera).
+
+And yet a third difference between the two formats is that jpeg files are
+compressed (to make them smaller) in such a way that some pixel detail
+is thrown away and "lost". Which is why jpeg is called a lossy file format.
+
+If you need more reasons; If you get the white balance "wrong", you have
+a LOT more leeway changing it in a RAW file than adjusting it in a jpeg.
+In fact RAW files do not have the white balance applied to them, though
+the white balance information from the camera is stored in the RAW file,
+it is only a suggestion for the conversion software, whereas the jpeg file
+will already have all its image data adjusted based on the white balance
+setting, so you can lose some detail when you adjust the white balance
+of a jpeg on your computer.
+
+Wow, ok, that may seem like too much information, but in fact there is
+a lot of detail I left out. Although I do believe I included enough detail for
+each of you to decide whether you should use RAW or jpeg (or both) today,
+or tomorrow, or....
+
+I should add...Not everyone realizes that you're camera most likely came with software
+that does the RAW to jpeg conversion. For Canon that is Digital Photo Professional,
+for Nikon it is ViewNX. So you don't need to own Elements or Photoshop to use RAW
+files.
+
+Keep on shooting!

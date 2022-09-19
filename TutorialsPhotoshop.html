@@ -20,6 +20,7 @@
 
 
     <!-- Load some Javascript Functions -->
+    <script defer src="Libraries/Helpers.js"> </script>
     <script defer src="Javascript/Init.js"> </script>
   </head>
 
@@ -32,10 +33,13 @@
       </div>
 
       <menu>
-        <a href="index.html">Home</a>
-        <a href="Photos.html">Photos</a>
-        <a href="About.html">About</a>
+        <!-- Init.js will build (overwrite) the menus -->
+        <a href="index.html" target="_self">Home</a>
+        <a href="Photos.html" target="_self">Photos</a>
+        <a href="About.html" target="_self">About</a>
       </menu>
+
+      <img  src="Images/RayFeltCowboyHat-64x64.png" alt="Logo">
     </header>
     <!-- End FrameHeader -->
 
