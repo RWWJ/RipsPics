@@ -31,6 +31,9 @@ function init( ) {
   else document.querySelector( "footer .Year" ).innerText = `${FirstYear} - ${thisYear}`;
 
   createMenus( );
+
+  // Call some init() routines based on the web page we are on
+  if( pageName() == "TutorialsPhotoshop" || pageName() == "TutorialsPhotography" ) tutorialsInit( pageName );
 }
 
 
