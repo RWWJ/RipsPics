@@ -10,21 +10,32 @@
 
 function tutorialsInit( pageName ) {
   let container = document.querySelector( ".Tutorials" );
+  container.innerHTML = "";
 
   fileReadText( `${pageName()}/TutorialList.txt`, textObj => {
-    container.innerHTML = textObj.text.split("\n")[0];
-    let htmlFile = textObj.text.split("\n")[0];
+    if( textObj.text ) {
+      // Add the list of Tutorials to the DOM
+      for( let tutorial of textObj.text.split("\n") ) {
+        container.innerHTML += `<div class="ListEntry">${tutorial}</div>`;
+      }
 
-    fileReadText( `${pageName()}/${htmlFile}`, textObj => {
-      container.innerHTML = textObj.text;
-    } );
+      container.onclick = showTutorialOnClick;
+    }
   } );
 }
 
 
-function showTutorials( ) {
+function showTutorialOnClick( event ) {
+  let htmlFile;
+  let container = document.querySelector( ".Tutorials" );
 
+  if( event.target.tagName == "DIV") {
+    htmlFile = event.target.innerText;
 
+    fileReadText( `${pageName()}/${htmlFile}`, textObj => {
+      if( textObj.text ) container.innerHTML = textObj.text;
+    } );
+  }
 }
 
 

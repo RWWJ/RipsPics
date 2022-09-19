@@ -52,6 +52,8 @@ menu a {
 
   margin: 0px 6px;
   padding: 1px 4px 3px 4px;
+
+  cursor: pointer;
 }
 header img {
   /* background-color: black; */
