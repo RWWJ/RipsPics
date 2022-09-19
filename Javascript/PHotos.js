@@ -5,7 +5,7 @@
 //
 //  18 Sep 2022 	Created
 //
-
+ 
 
 // Photos.html calls this when we click on anything in the Categories <section>
 function categoriesOnClick( event ) {
