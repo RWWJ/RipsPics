@@ -1,3 +1,4 @@
+QuickTips.html
 BlurBackground.html
 MaskEditing.html
 Spirograph.html
