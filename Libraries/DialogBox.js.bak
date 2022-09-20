@@ -8,21 +8,10 @@
 //  RWWJ  1 Jan 2022  Created
 //  RWWJ 30 Aug 2022  Moved mouseDown to close dialog into createDialogBox()
 //                    Added handling for ESC/escape key to close dialog
-//  RWWJ  6 Sep 2022  Added makeDOMId() to sanitize ID names (replace invalid ID characters)
-//                    Modified DialogMenu() to display a Text Input with a Button when button name is ""
-//                    Added constrainDialogPosition() and calls to it after adding content to each dialog box
-//                    Added Version text
-//                    Version 1.1
-// RWWJ 19 Sep 2022   In both createButton() and createActionButton(), move the .appendChild(button) outside of the else{}
-//                    Version 1.2
 //
 //  NEEDS/REQURIES/USES:
 //    Mostly Standalone (so far)
 //
-
-
-var DialogBoxJsVersion = "1.2";
-
 
 //
 //   MEMBER FUNCTIONS
@@ -33,11 +22,9 @@ var DialogBoxJsVersion = "1.2";
 // DialogOk( titleStr, msgText, x, y, callbackFunction = null )
 // DialogMenu( titleStr, menuStrs, x, y, callbackFunction = null )
 // DialogActions( titleStr, actions, x, y )
-// makeDOMId( name, suffix = "ID" )
 // createTextArea( parentElement )
 // createButton( parentElement, txt, x = 0, y = 0, isMenu = false )
 // createActionButton( parentElement, txt, action, isMenu = false )
-// constrainDialogPosition( dialogElement )
 // createDialogBox( titleStr, msgText, x = null, y = null )
 // createDialogBox2( titleStr, msgText, x = null, y = null )
 // closeDialogBox2( event )
@@ -112,7 +99,6 @@ function DialogInventory( viewPort, board, playerInventory ) {
     `;
   }
 
-  constrainDialogPosition( dialogBox );
 }
 
 
@@ -124,7 +110,7 @@ function DialogInventory( viewPort, board, playerInventory ) {
 //
 function createCanvas( parentElement, title, w, h ) {
   // Make it so we have different ID's for each canvas that gets added to a dialogBox, but reuse them subsequent incarnations
-  var canvasID = makeDOMId( title, "CanvasID" );
+  var canvasID = "__"+title+"CanvasID";
   // Attempt to get the <div> that we may have previously created
   var element = document.getElementById( canvasID );
 
@@ -171,8 +157,6 @@ function DialogYesNo( titleStr, msgText, x, y, callbackFunction = null ) {
   var buttonTwo = createButton( msgBoxElement, "no", msgBoxElement.style.left, msgBoxElement.style.top );
   var buttonOne = createButton( msgBoxElement, "yes", msgBoxElement.style.left, msgBoxElement.style.top );
 
-  constrainDialogPosition( msgBoxElement );
-
   msgBoxElement.onclick = event => {
     if( callbackFunction ) callbackFunction(event.target==buttonOne ? "yes" : "no");
     msgBoxElement.style.display = "none";
@@ -199,8 +183,6 @@ function DialogOk( titleStr, msgText, x, y, callbackFunction = null ) {
   }
   if( y < 0 ) msgBoxElement.style.top = Math.abs(y) - parseInt(msgBoxElement.clientHeight)  +"px";
 
-  constrainDialogPosition( msgBoxElement );
-
   msgBoxElement.onclick = event => {
     if( callbackFunction ) callbackFunction("ok");
     msgBoxElement.style.display = "none";
@@ -209,9 +191,7 @@ function DialogOk( titleStr, msgText, x, y, callbackFunction = null ) {
 
 
 //
-// menuStr is an array [menu1, menu2, ...] for example: ["Copy", "Paste"]
-//
-// Pass in an empty menu string (""), to have a mated Text Input field (clicking button returns text typed into Input field)
+// menuStr is an array [title, menu1, menu2, ...] for example: ["Title txt", "Copy", "Paste"]
 //
 // Pass the selected menu string to the callbackFunction()
 //
@@ -223,47 +203,12 @@ function DialogMenu( titleStr, menuStrs, x, y, callbackFunction = null ) {
 
   // Create a button for each menu item.
   for( nextButton = 0; nextButton < menuStrs.length; ++nextButton ) {
-    if( menuStrs[nextButton] ) {
-      buttons[nextButton] = createButton( msgBoxElement, menuStrs[nextButton], msgBoxElement.style.left, msgBoxElement.style.top, true );
-    }
-    else {
-      // If an empty string "" ,then create a "[CREATE/ADD]" Button with sibling edit box for user to enter text
-      let container = document.createElement( "div" );
-
-      // The Button
-      buttons[nextButton] = createButton( container, "[CREATE]", 1, 1 ); // x,y of 0,0 moves it out of view in the <div>!!!
-
-      // The Input Text Edit box
-      let editBox = document.createElement( "input" );
-      editBox.setAttribute( "type", "text" );
-      editBox.style.marginLeft = "4px";  // Style it
-      editBox.style.boxShadow = "2px 2px 2px gray";
-      editBox.placeholder = "New User Name";
-      editBox.onclick = event => event.stopPropagation(); // Prevent click from getting to dialogBox and closing it
-      editBox.oninput = event => {
-        let siblingButton = event.target.parentElement.firstChild;
-        siblingButton.innerText = event.target.value;
-      }
-      container.appendChild( editBox );
-
-      // Add it all to the dialog box
-      msgBoxElement.appendChild( container );
-
-      // Place the cursor in the edit box by default
-      editBox.focus();
-    }
+    buttons[nextButton] = createButton( msgBoxElement, menuStrs[nextButton], msgBoxElement.style.left, msgBoxElement.style.top, true );
   }
-
-  constrainDialogPosition( msgBoxElement );
 
   // Close dialog box on mouse click
   msgBoxElement.onclick = event => {
-    // If dialog box or title string was clicked on to close/cancel OR the unmodified "[CREATE]" button was clicked, then return nothing; Else return text of button clicked on
-    let returnString;
-    if( (event.target == msgBoxElement) || event.target.classList.contains("DlgTitle") || (event.target.innerText == "[CREATE]") ) returnString = "";
-    else returnString = event.target.innerText;
-
-    if( callbackFunction ) callbackFunction(returnString);
+    if( callbackFunction ) callbackFunction(event.target.innerText);
     msgBoxElement.style.display = "none";
   };
 }
@@ -293,20 +238,7 @@ function DialogActions( titleStr, actions, x, y ) {
 
   textArea = createTextArea( msgBoxElement );
 
-  constrainDialogPosition( msgBoxElement );
-
   return textArea;
-}
-
-
-
-//
-// Creates a DOM Element ID by sanitizing the name string, appending the suffix, and prepending __ (double underscore)
-//
-// Replaces invalid ID characters with _ (underscore)
-//
-function makeDOMId( name, suffix = "ID" ) {
-  return "__" + name.replace( /[\[\]!@#$%^&\*\(\)]/g, "_" ) + suffix;
 }
 
 
@@ -365,7 +297,7 @@ function createTextArea( parentElement ) {
 // Location (upper left corner) defaults (if x and y are 0) to 33% of dialog <div> size
 function createButton( parentElement, txt, x = 0, y = 0, isMenu = false ) {
   // Make it so we have different ID's for "yes", "no", "ok", "cancel", etc... buttons
-  var buttonID = makeDOMId( txt, "_ButtonID" );
+  var buttonID = "__"+txt+"ButtonID";
   // Attempt to get the <div> that we may have previously created
   var button = document.getElementById( buttonID );
   if( !x ) x = window.innerWidth / 3;
@@ -381,14 +313,17 @@ function createButton( parentElement, txt, x = 0, y = 0, isMenu = false ) {
 
     button.id = buttonID;
 
+    // Position it
+    // button.style.position = "absolute";
     button.style.position = "relative";
 
+    // Style it
     button.style.margin = "2px";
     button.style.cursor = "pointer";
-  }
 
-  // insert button into page DOM, associated to our dialog box <div>
-  parentElement.appendChild(button);
+    // insert button into page DOM, associated to our dialog box <div>
+    parentElement.appendChild(button);
+  }
 
   // Set new position
   button.style.left = x +"px";
@@ -412,7 +347,7 @@ function createButton( parentElement, txt, x = 0, y = 0, isMenu = false ) {
 //
 function createActionButton( parentElement, txt, action, isMenu = false ) {
   // Make it so we have different ID's for "yes", "no", "ok", "cancel", etc... buttons
-  var buttonID = makeDOMId( txt, "_ButtonID" );
+  var buttonID = "__"+txt+"ButtonID";
   // Attempt to get the <div> that we may have previously created
   var button = document.getElementById( buttonID );
 
@@ -433,10 +368,10 @@ function createActionButton( parentElement, txt, action, isMenu = false ) {
     button.style.margin = "2px";
     button.style.backgroundColor = "orange";
     button.style.cursor = "pointer";
-  }
 
-  // insert button into page DOM, associated to our dialog box <div>
-  parentElement.appendChild(button);
+    // insert button into page DOM, associated to our dialog box <div>
+    parentElement.appendChild(button);
+  }
 
   // Set new text
   button.innerText = txt;
@@ -453,22 +388,6 @@ function createActionButton( parentElement, txt, action, isMenu = false ) {
 }
 
 
-function constrainDialogPosition( dialogElement ) {
-  let x = dialogElement.offsetLeft;
-  let y = dialogElement.offsetTop;
-  let w = dialogElement.clientWidth;
-  let h = dialogElement.clientHeight;
-  let padding = 10;  // A little padding to push it just a tad away from edge
-
-  // Constrain Dialog location so it fits within window boundry
-  if( x + w + padding > window.innerWidth ) {
-    dialogElement.style.left = ( (window.innerWidth - w - padding) > 0 ? (window.innerWidth - w - padding) : 0 ) + "px";
-  }
-  if( y + h + padding > window.innerHeight ) {
-    dialogElement.style.top = ( (window.innerHeight - h - padding) > 0 ? (window.innerHeight - h - padding) : 0 ) + "px";
-  }
-}
-
 
 //
 // Support function
@@ -479,8 +398,7 @@ function constrainDialogPosition( dialogElement ) {
 // Location (upper left corner) defaults (if x and y are null) to 33% of window size
 //
 function createDialogBox( titleStr, msgText, x = null, y = null ) {
-  var dlgID = makeDOMId( titleStr, "_DlgID" );
-
+  var dlgID = titleStr+"__DlgID";
   // Attempt to get the <div> that we may have previously created
   var msgBox = document.getElementById( dlgID );
   if( x == null ) x = window.innerWidth / 3;
@@ -514,7 +432,7 @@ function createDialogBox( titleStr, msgText, x = null, y = null ) {
     document.body.appendChild(msgBox);
 
     // Hide dialog by clicking on it
-    // The createActionButton() stopPropagation, so this event only gets fired if user clicks on background of dialogBox
+    // The createActionButton() stopsPropatation, so this event only gets fired if user clicks on background of dialogBox
     // NOTE: Some dialog box wrappers to this funciton, will overright the .onclick. Nothing wrong with that.
     msgBox.onclick = event => {
       msgBox.style.display = "none";
@@ -522,7 +440,7 @@ function createDialogBox( titleStr, msgText, x = null, y = null ) {
 
     // Hide dialog by pressing ESC
     // NOTE: Must call event.preventDefault() from the mouse event handler that got us here (if any), so we don't lose focus
-    msgBox.tabIndex = 0; // Set .tabIndex so that .focus() works
+    msgBox.contentEditable = true; // OR set .tabIndex = 0 so that .focus() works
     msgBox.focus();
     msgBox.onkeydown = event => {
       if( event.key == "Escape" ) msgBox.style.display = "none";
@@ -552,7 +470,7 @@ function createDialogBox( titleStr, msgText, x = null, y = null ) {
 // Location defaults to centered horizontally and/or vertically in parent, if x and/or y are null
 //
 function createDialogBox2( titleStr, msgText, x = null, y = null ) {
-  var dlgID = makeDOMId( titleStr, "_DlgID" );
+  var dlgID = titleStr+"__DlgID";
   // Attempt to get the <div> that we may have previously created
   var msgBox = document.getElementById( dlgID );
 
@@ -610,7 +528,7 @@ function closeDialogBox2(event) {
 //
 function createSlider( label, min, max, x = null, y = null, callback = null ) {
   // Make it so we have different ID's for "yes", "no", "ok", "cancel", etc... buttons
-  var elementID = makeDOMId( label, "_ElementID" );
+  var elementID = "__"+label+"ElementID";
   var labelElementID = "label"+elementID;
   // Attempt to get the element that we may have previously created
   var element = document.getElementById( elementID );
@@ -708,14 +626,11 @@ function DialogHistory1( titleStr, current, history, x, y, callbackFunction = nu
 
   msgBoxElement.innerHTML = htmlStr;
 
-  constrainDialogPosition( msgBoxElement );
-
   msgBoxElement.onclick = event => {
     if( callbackFunction ) callbackFunction(event.target.innerText);
     msgBoxElement.style.display = "none";
   };
 }
-
 
 
 

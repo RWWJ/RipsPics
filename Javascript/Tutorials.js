@@ -33,7 +33,11 @@ function showTutorialOnClick( event ) {
     htmlFile = event.target.innerText;
 
     fileReadText( `${pageName()}/${htmlFile}`, textObj => {
-      if( textObj.text ) container.innerHTML = textObj.text;
+      if( textObj.text ) {
+        // container.innerHTML = textObj.text;
+
+        DialogOk( htmlFile, textObj.text, event.target.parentElement.offsetLeft, event.target.parentElement.offsetTop );
+      }
     } );
   }
 }
