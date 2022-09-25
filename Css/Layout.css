@@ -61,7 +61,7 @@ header img {
 }
 
 .Content {
-  /* background-color: tan; */
+  /* background-color: red; */
   background: linear-gradient(135deg, tan, Sienna);
   scroll-behavior: smooth;
   overflow: auto;
