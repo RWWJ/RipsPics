@@ -1,0 +1,161 @@
+{
+  "success": true,
+  "submissions": [
+    {
+      "form_url": "https://deborahwallacebooks.com/",
+      "form_data": {
+        "name": "It's me :-)",
+        "email": "HoudiniJr@GMail.com",
+        "Message": "How many ways do I need to fix this?"
+      },
+      "submitted_at": {
+        "date": "2022-09-27 01:15:03.000000",
+        "timezone_type": 3,
+        "timezone": "UTC"
+      }
+    },
+    {
+      "form_url": "https://deborahwallacebooks.com/",
+      "form_data": {
+        "name": "It's me :-)",
+        "email": "HoudiniJr@GMail.com",
+        "Message": "How many ways do I need to fix this?"
+      },
+      "submitted_at": {
+        "date": "2022-09-27 01:14:50.000000",
+        "timezone_type": 3,
+        "timezone": "UTC"
+      }
+    },
+    {
+      "form_url": "https://deborahwallacebooks.com/",
+      "form_data": {
+        "name": "It's me :-)",
+        "email": "HoudiniJr@GMail.com",
+        "Message": "How many ways do I need to fix this?"
+      },
+      "submitted_at": {
+        "date": "2022-09-27 01:11:47.000000",
+        "timezone_type": 3,
+        "timezone": "UTC"
+      }
+    },
+    {
+      "form_url": "https://deborahwallacebooks.com/",
+      "form_data": {
+        "name": "Somebody",
+        "email": "HoudiniJr@GMail.com",
+        "Message": "Added .com to the thank you url"
+      },
+      "submitted_at": {
+        "date": "2022-09-27 01:07:41.000000",
+        "timezone_type": 3,
+        "timezone": "UTC"
+      }
+    },
+    {
+      "form_url": "https://deborahwallacebooks.com/",
+      "form_data": {
+        "name": "Nobody",
+        "email": "Ray@RipsPics.com",
+        "Message": "No that it's verified on the new domain name name...I have to test again :-("
+      },
+      "submitted_at": {
+        "date": "2022-09-27 01:05:15.000000",
+        "timezone_type": 3,
+        "timezone": "UTC"
+      }
+    },
+    {
+      "form_url": "https://deborahwallacebooks.com/",
+      "form_data": {
+        "name": "Raymond",
+        "email": "HoudiniJr@GMail.com",
+        "Message": "Now that the site is up on the real domain name, I need to test the \"Thank You\" page to see if it's working yet"
+      },
+      "submitted_at": {
+        "date": "2022-09-27 01:00:46.000000",
+        "timezone_type": 3,
+        "timezone": "UTC"
+      }
+    },
+    {
+      "form_url": "https://rwwj.github.io/",
+      "form_data": {
+        "name": "Ray",
+        "email": "HoudiniJr@GMail.com",
+        "Message": "Me again and again and again and again :-)\r\n\r\nStill Testing \"Thank you\" page, now that code is on the server"
+      },
+      "submitted_at": {
+        "date": "2022-09-26 02:25:02.000000",
+        "timezone_type": 3,
+        "timezone": "UTC"
+      }
+    },
+    {
+      "form_url": "https://rwwj.github.io/",
+      "form_data": {
+        "name": "Ray",
+        "email": "HoudiniJr@GMail.com",
+        "Message": "Me again :-)\r\n\r\nTesting \"Thank you\" page, now that code is on the server"
+      },
+      "submitted_at": {
+        "date": "2022-09-26 02:01:40.000000",
+        "timezone_type": 3,
+        "timezone": "UTC"
+      }
+    },
+    {
+      "form_url": "http://127.0.0.1:3000/",
+      "form_data": {
+        "name": "Rip",
+        "email": "Ray@RipsPics.com",
+        "Message": "Reply-to field seems to work"
+      },
+      "submitted_at": {
+        "date": "2022-09-25 20:34:42.000000",
+        "timezone_type": 3,
+        "timezone": "UTC"
+      }
+    },
+    {
+      "form_url": "http://127.0.0.1:3000/",
+      "form_data": {
+        "name": "RWWJ",
+        "email": "HoudiniJr@GMail.com",
+        "Message": "See if we have a Reply-to field now?"
+      },
+      "submitted_at": {
+        "date": "2022-09-25 20:29:48.000000",
+        "timezone_type": 3,
+        "timezone": "UTC"
+      }
+    },
+    {
+      "form_url": "http://127.0.0.1:3000/",
+      "form_data": {
+        "Person": "Raymond Wallace",
+        "EMail_address": "HoudiniJr@GMail.com",
+        "Message": "Another test.\r\n\r\nThis time without your EMail address."
+      },
+      "submitted_at": {
+        "date": "2022-09-25 19:31:32.000000",
+        "timezone_type": 3,
+        "timezone": "UTC"
+      }
+    },
+    {
+      "form_url": "http://127.0.0.1:3000/",
+      "form_data": {
+        "Person": "Ray",
+        "EMail_address": "Ray@RipsPics.com",
+        "Message": "Retry --- Testing...\r\n   Deborah, let me know if you get this please!"
+      },
+      "submitted_at": {
+        "date": "2022-09-25 19:14:18.000000",
+        "timezone_type": 3,
+        "timezone": "UTC"
+      }
+    }
+  ]
+}

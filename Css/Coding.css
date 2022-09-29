@@ -1,0 +1,80 @@
+/*   Coding.css
+ *
+ */
+
+
+@font-face {
+  font-family: YeOldeOak; /* arbitrary name for this font. Can be a "string" */
+  src: url("../Ye Olde Oak.ttf");
+}
+
+.Coding > h1 {
+font-family: YeOldeOak;
+  font-size: 6rem;
+  text-align: center;
+  color: purple;
+  font-weight: lighter; /* So we can see the font texture */
+}
+
+.LocalHostOnly {
+
+}
+.Hidden {
+  display: none;
+}
+
+#ContactFormDataID {
+  background-color: Sienna;
+  width: 700px;
+  margin: 0px auto;
+  padding: 10px 10px;
+  border-radius: 6px;
+}
+
+#ContactFormDataID > div, #ContactFormDataID > span {
+  background-color: tan;
+  display: block;
+
+  border-radius: 6px;
+  /* width: 100%; */
+  box-shadow: 4px 4px 16px purple;
+  margin: 0px auto;
+  padding: 7px 4px;
+
+  text-align: center;
+}
+
+#ContactFormDataID button {
+  box-shadow: 2px 2px 6px purple;
+  border-radius: 8px;
+  padding: 3px 5px;
+  margin: 0px 10px;
+
+  text-shadow: 1px 1px 2px purple;
+
+  cursor: pointer;
+}
+
+#ContactFormDataID > table {
+  margin: 10px auto;
+}
+
+#ContactFormDataID thead {
+    border-bottom: solid 1px black;
+    background-color: #82057F80; /* purple low opacity */
+}
+
+#ContactFormDataID tbody {
+    border-bottom: solid 1px black;
+    background-color: white;
+}
+#ContactFormDataID td, #ContactFormDataID th {
+    padding: 2px 10px;
+}
+
+
+
+
+
+
+/*  */

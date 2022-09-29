@@ -15,7 +15,8 @@ const MenuEntries = [
         {url:"Photos.html", button:"Photos"},
         {url:"TutorialsPhotography.html", button:"Photography"},
         {url:"TutorialsPhotoshop.html", button:"Photoshop"},
-        {url:"About.html", button:"About"}
+        {url:"About.html", button:"About"},
+        {url:"Coding.html", button:"Coding"}
       ];
 
 

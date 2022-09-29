@@ -62,6 +62,8 @@ var FileJsVersion = "1.7";
 
 var FileWaitingOnFiles = 0;
 
+const FormFeedChar = String.fromCharCode(12);
+
 
 //
 // Test all the functions in File.js
@@ -461,6 +463,7 @@ function fileReadTextPrompt( callback=null ) {
 function fileSaveText( defaultFileName, text ) {
   // Create a <a> tag (hyperlink), with a dataURL, then "click() on it"
   var aElement = document.createElement( "a" );
+  const formFeedRegExp = new RegExp( FormFeedChar, 'g' ); // Regexpresion with global replace
 
   aElement.download = defaultFileName;  // The download attribute causes the browser to download instead of navigate
 

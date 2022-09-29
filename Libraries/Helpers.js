@@ -25,6 +25,7 @@
 //  RWWJ   4 Sep 2022  Fixed playSoundFileWebAudio(), playSoundFile(), playSoundFile2() to use fileName param and return sound element
 //                     Version 1.8
 //  RWWJ   5 Sep 2022  Added hash() function (I did not write it)
+//  RWWJ  24 Sep 2022  Removed "redundant" .replace(".html", "") in pageName(), as it is a fix for Atom preview
 //
 //
 
@@ -80,16 +81,8 @@ function fullscreenToggle( ) {
 // Could use location.pathname() instead of .href(), but still need to .split("/"), so code is no shorter
 //
 function pageName( ) {
-  // return location.href.split("/").slice(-1).toString().replace(".html", "").split("?")[0].split("#")[0].replace("index", "Home") || "Home";
-  // return location.href.split("/").slice(-1).toString().replace(".html", "").split("?")[0].split("#")[0] || "index";
-
-  // FIX: Added decodeURI() to convert %20 back to a space (for html filenames with spaces, "Contact Us.html" et.al.)
-  // return  decodeURI(location.href.split("/").slice(-1).toString().replace(".html", "").split("?")[0].split("#")[0] || "index");
-
   // FIX: For Atom editor preview html, it seems to append a (second) .html extension
-  // return  decodeURI(location.href.split("/").slice(-1).toString().replace(".html", "").replace(".html", "").split("?")[0].split("#")[0] || "index");
-  // Remove redundant .replace(".html", "")
-  return  decodeURI(location.href.split("/").slice(-1).toString().replace(".html", "").split("?")[0].split("#")[0] || "index");
+  return  decodeURI(location.href.split("/").slice(-1).toString().replace(".html", "").replace(".html", "").split("?")[0].split("#")[0] || "index");
 }
 
 
