@@ -1,3 +1,4 @@
+EditComparisons.html
 QuickTips.html
 BlurBackground.html
 MaskEditing.html

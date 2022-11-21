@@ -24,15 +24,22 @@
 
 
     <!-- Load some Javascript Functions -->
+    <script defer src="Libraries/Math.js"> </script>
     <script defer src="Libraries/Helpers.js"> </script>
     <script defer src="Libraries/Files.js"> </script>
+    <script defer src="Libraries/Canvas.js"> </script>
+
+    <script defer src="Javascript/AutumnLeaves.js"> </script>
+    <script defer src="Javascript/CanvasPlay.js"> </script>
+    <script defer src="Javascript/DeborahsFormData.js"> </script>
+    <script defer src="Javascript/SpritesheetEdit.js"> </script>
+    <script defer src="Javascript/DeborahsZoomVideo.js"> </script>
     <script defer src="Javascript/RollUpDown.js"> </script>
     <script defer src="Javascript/Coding.js"> </script>
     <script defer src="Javascript/Init.js"> </script>
   </head>
 
   <body>
-
     <header>
       <div>
         <span class="First Name">ray</span>
@@ -49,30 +56,151 @@
 
 
     <div class="Content Coding">
+      <h1>¯\_(👁️ ͜ʖ ͡👁️)_/¯Coding (👁️ ͜ʖ ͡👁️)</h1>
+      <menu>
+        <button id="PauseID" onclick="pauseOnClick(event)">⏸️ Pause</button>
+      </menu>
 
-        <h1>Coding</h1>
+      <!-- Template -->
+      <!-- <section class="RollUpDown">
+        <div class="Title">??? TITLE ???</div>
+        <div class="RollDownContent">
+          <div>
+            <button type="button" name="button" onclick="doSomething???OnClick(event)">???DO SOMETHING???</button>
+            <button type="button" name="button" onclick="stopDoingIt???OnClick(event)">???STOP DOING IT???</button>
+          </div>
 
-        <!-- Template -->
-        <!-- <section class="RollUpDown">
-            <div class="Title" onclick="rollUpDownOnClick(event)">??? TITLE ???</div>
-            <div class="Content">
-                <div>
-                    ???  Code goes here ???
-                </div>
+          <div data-code-function="???DoSomething???">
+            This is your    WorkElement    use it for your output (canvas, text, HTML tags, etc)
+            NOTE: The area inside this div will get cleared by Javascript
+          </div>
+        </div>
+      </section>
+      -->
+
+      <section class="RollUpDown">
+        <div class="Title">Autumn Leaves</div>
+        <div class="RollDownContent">
+          <div>
+            <button type="button" onclick="leavesRunOnClick(event)">RE-RUN</button>
+            <button type="button" onclick="leavesClearOnClick(event)">CLEAR</button>
+            <div class="SliderContainer">
+              <label for="LeavesScale">Scale</label>
+              <span class="SliderMin">1</span>
+              <input type="range" oninput="sliderOnInput(event)" name="LeavesScale" step="0.5" value="50" min="-20" max="20">
+              <span class="SliderMax">99</span>
+              <output>46</output>
             </div>
-        </section> -->
+          </div>
+
+          <div data-code-function="AutumnLeaves">
+            This is your    WorkElement    use it for your output (canvas, text, HTML tags, etc)
+            NOTE: The area inside this div will get cleared by Javascript
+          </div>
+        </div>
+      </section>
 
 
-        <section class="RollUpDown LocalHostOnly Hidden">
-            <div class="Title" onclick="rollUpDownOnClick(event)">GET DEBORAH'S FORM DATA</div>
-            <div class="Content" id="ContactFormDataID">
-                <span class="">
-                    <button type="button" name="button" onclick="getDeborahsFormDataOnClick(event)">GET DEBORAH'S FORM DATA</button>
-                    <button type="button" name="button" onclick="saveDeborahsFormDataOnClick(event)">SAVE FORM DATA</button>
-                </span>
-                <!-- js will insert html here -->
-            </div>
+      <section class="RollUpDown"> <!-- js code toggles .RollDown on this when Title is clicked -->
+        <div class="Title">Canvas Play</div>
+        <div class="RollDownContent">
+          <div>
+            <button type="button" onclick="playOnClick(event)">RE-RUN</button>
+            <button type="button" onclick="clearOnClick(event)">CLEAR</button>
+          </div>
+
+          <div data-code-function="CanvasPlay">
+            <!-- This is your    WorkElement    use it for your output (canvas, text, HTML tags, etc) -->
+          </div>
+        </div>
+      </section>
+
+
+      <section class="RollUpDown"> <!-- js code toggles .RollDown on this when Title is clicked -->
+        <div class="Title">Spritesheet Editing</div>
+        <div class="RollDownContent">
+          <div>
+            <!-- <canvas width="64px" height="64px"></canvas> -->
+            <button type="button" onclick="saveSpriteSheetOnClick(event)"
+              style="width:220px; height:64px; background-image: url('Coding/save-icon.png');
+              background-size: 64px;
+              background-position: right;
+              background-repeat: no-repeat;"
+            >
+            SAVE SPRITE SHEET</button>
+          </div>
+
+          <div data-code-function="SpritesheetEditing">
+            <!-- This is your    WorkElement    use it for your output (canvas, text, HTML tags, etc) -->
+          </div>
+        </div>
+      </section>
+
+
+      <section class="RollUpDown LocalHostOnly Hidden">
+        <div class="Title">GET & SAVE DEBORAH'S CONTACT FORM DATA</div>
+        <div class="RollDownContent">
+          <div class="">
+            <button type="button" name="button" onclick="getDeborahsFormDataOnClick(event)">GET FORM DATA</button>
+            <button type="button" name="button" onclick="saveDeborahsFormDataOnClick(event)">SAVE FORM DATA</button>
+          </div>
+
+          <div data-code-function="DeborahsFormData"> <!-- js will insert html here --> </div>
+        </div>
+      </section>
+
+
+
+
+      <section class="RollUpDown LocalHostOnly Hidden">
+        <div class="Title">Deborah's Zoom Video</div>
+        <div class="RollDownContent">
+          <div>
+            <menu onclick=menuOnClick(event)>
+              ☰
+              <li>📂 Files</li>
+              <li>💾 Save</li>
+              <li>📂 🗃️ Open</li>
+            </menu>
+
+            <img id="RawlinsID" src="Coding/19-06-23-008 - Rawlins Front Cover.jpg" class="Hidden" alt="">
+          </div>
+
+          <div data-code-function="DeborahsZoomVideo">
+            <!-- This is your    WorkElement    use it for your output (canvas, text, HTML tags, etc) -->
+
+            <h2>CAPTURED VIDEO</h2>
+            <video>
+            </video>
+          </div>
+
+        </div>
+      </section>
+
+      <label>
+        MY SECTION
+        <section class="SectionTest" onclick="console.log(`${event.target}: CLICKED`)">
+          <h2>Test</h2>
+          <p>Just testing various css and html snippets</p>
         </section>
+      </label>
+
+      <label for="labelTestID">
+        Testing labels
+      </label>
+      <output class="SectionTest" id="labelTestID" onclick="console.log(`${event.target}: CHECKED`)">
+        <h2>TestING</h2>
+        <p>Saying Hello</p>
+      </output>
+
+      <div class="">
+        <h2>COOLORS.CO</h2>
+        <span style="background-color:var(--morning-blue); color:var(--dark-purple)">--morning-blue</span>
+        <span style="background-color:var(--dark-purple); color:var(--morning-blue)">--dark-purple</span>
+        <span style="background-color:var(--copper-red); color:var(--lemon-yellow-crayola)">--copper-red</span>
+        <span style="background-color:var(--lemon-yellow-crayola); color:var(--copper-red)">--lemon-yellow-crayola</span>
+        <span style="background-color:var(--spanish-bistre); color:var(--lemon-yellow-crayola)">--spanish-bistre</span>
+      </div>
 
     </div> <!-- End Content -->
 
@@ -82,8 +210,6 @@
       <a href="https://www.facebook.com/HoudiniJr/photos_by"><img src="Images/FacebookLogo.png" alt="Icon"> Facebook</a>
       <span><span class="Email"><a href="mailto:Ray@RipsPics.com?bcc=HoudiniJr@GMail.com&subject=RipsPics%20website" target="_blank" title="Webmaster EMail">Ray@RipsPics.com</a></span> <span class="Version"></span></span>
     </footer>
-
-
   </body>
 </html>
 

@@ -35,6 +35,7 @@ function init( ) {
 
   // Call some init() routines based on the web page we are on
   if( pageName() == "TutorialsPhotoshop" || pageName() == "TutorialsPhotography" ) tutorialsInit( pageName );
+  else if( pageName() == "Coding" ) codingInit();
 }
 
 

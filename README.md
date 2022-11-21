@@ -5,9 +5,11 @@
      Sep 2022
 
 
-Photography and photo editing, examples and information.
+**P**hotography and photo editing, examples and information.
 
 
-  - Photos
-  - Photography
-  - Photoshop
+  - *Photos*
+  - *Photography*
+  - *Photoshop*
+
+Check out working version at [RipsPics.com](https://www.RipsPics.com)

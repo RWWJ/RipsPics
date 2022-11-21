@@ -26,19 +26,22 @@
 //                     Version 1.8
 //  RWWJ   5 Sep 2022  Added hash() function (I did not write it)
 //  RWWJ  24 Sep 2022  Removed "redundant" .replace(".html", "") in pageName(), as it is a fix for Atom preview
-//
+//  RWWJ  07 Oct 2022  Added extension()
+//					   Version 1.9
+//  RWWJ  30 Oct 2022  Added changeExtension( fileName, ext )
 //
 
 
-let HelpersJsVersion = "1.8";
+let HelpersJsVersion = "1.9";
 
 
 // Import all with this statement (NOTE: change the directory as appropriate)
 //import {fullscreenToggle, hostName, pageName, capitalizeWords, isCellPhone, cloneObj,
-//        daysInMonth, loadScript, playSoundFile} from "../Javascript-Libraries/Helpers-Module.js";
+//        daysInMonth, loadScript, playSoundFile, pathFromURL, hash, extension, changeExtension} from "../Javascript-Libraries/Helpers-Module.js";
 
 
-// export {fullscreenToggle, pageName, hostName, capitalizeWords, isCellPhone, cloneObj, daysInMonth, loadScript, playSoundFile};
+// export {fullscreenToggle, pageName, hostName, capitalizeWords, isCellPhone, cloneObj, daysInMonth, loadScript, playSoundFile, pathFromURL, hash, extension,
+//    changeExtension };
 
 
 //        Functions
@@ -56,7 +59,8 @@ let HelpersJsVersion = "1.8";
 // playSoundFile2( fileName, volume = 0.01 )
 // pathFromURL( url )
 // hash( string )
-
+// extension( filename )
+// changeExtension( fileName, ext )
 
 
 
@@ -373,6 +377,39 @@ function hash( str, seed = 0) {
     h2 = Math.imul(h2 ^ (h2>>>16), 2246822507) ^ Math.imul(h1 ^ (h1>>>13), 3266489909);
     return 4294967296 * (2097151 & h2) + (h1>>>0);
 }
+
+
+
+//
+// Returns .ext (extension of filename), i.e. ".jpg", ".pdf"
+//
+function extension( fileName ) {
+  let extStart;
+
+  extStart = fileName.lastIndexOf( "." );
+  if( extStart != -1 ) return fileName.substring( extStart );
+  else return "";
+}
+
+
+
+//
+// Returns fileName with it's extension changed to ext (e.g. "name.jpg" changed to "name.json")
+//
+// NOTE: Appends the ext if one does not exist
+//
+function changeExtension( fileName, ext ) {
+  let extStart;
+
+  if( ext[0] != "." ) ext = "." + ext;
+
+  extStart = fileName.lastIndexOf( "." );
+  if( extStart != -1 ) return fileName.slice( 0, extStart ) + ext;
+  else return fileName + ext;
+}
+
+
+
 
 
 

@@ -1,121 +1,171 @@
+//
+//       Coding.js
+//
+//  ~23 Sep 2022  Created for fetching and saving Deboraha's contact form submissions
+//
+//
 
 
-let ContactFormDataCsv = "";
-let ContactFormData;
-// let DummyFormData = {
-//     "success": true,
-//     "submissions": [{
-//         "form_url": "https://formsubmit.co/support",
-//         "form_data": {
-//             "name": "Devro LABS",
-//             "email": "hello@devrolabs.com",
-//             "Message": "hello! there"
-//         },
-//         "submitted_at": {
-//             "date": "2019-07-17 16:37:42.000000",
-//             "timezone_type": 3,
-//             "timezone": "UTC"
-//         }
-//     }, {
-//         "form_url": "https://devrolabs.com/contact",
-//         "form_data": {
-//             "name": "FormSubmit",
-//             "email": "support@formsubmit.co",
-//             "Message": "Hey there. Was wondering if you take debit cards?"
-//         },
-//         "submitted_at": {
-//             "date": "2019-07-17 16:37:35.000000",
-//             "timezone_type": 3,
-//             "timezone": "UTC"
-//         }
-//     }]
-// };
+const DispatchTable = {
+  AutumnLeaves : autumnLeavesStart,
+  CanvasPlay : canvasPlayStart,
+  SpritesheetEditing : spritesheetEditingStart,
+  DeborahsZoomVideo : deborahsZoomVideoStart,
+  DeborahsFormData : deborahsFormDataStart,
+};
+
+// Use WorkElement for your output (canvas, text, HTML tags, etc)
+let WorkElement = null;
+let MouseX = 0;
+let MouseY = 0;
+let Paused = true;
+let PauseElement = document.getElementById("PauseID");
+
+// Canvas class object for CanvasPlay, AutumnLeaves, etc...
+let CanvasObj = null;
 
 
-coding( );
+
+// These values are set in getWorkArea()
+let WorkAreaWidth = 0;
+let WorkAreaHeight = 0;
+let WorkAreaXOffset = 0;
+let WorkAreaYOffset = 0;
+
+// Use this when we "RollUp" a code section, to cancel the animation request
+let LastAnimationRequest = 0;
+
+// Currently only used by SpritesheetEdit
+let CellSize = 64;
+let CellCols = 0;
+let CellRows = 0;
 
 
-function coding( ) {
-  // Unhide .LocalHostOnly class sections. We only want to see if we're on LocalHost
+
+//
+// Init the page
+//
+// NOTE: Individual RollUpDown sections are initialied in titleOnClick()
+//
+function codingInit( ) {
+  // Unhide .LocalHostOnly class sections. We only want to see if we're on LocalHost (i.e. Deborah's ) form code
   if( hostName() == "localhost" || hostName() == "127.0.0.1" ) {
     let localHostElements = document.querySelectorAll( ".LocalHostOnly" );
     for( let element of localHostElements ) element.classList.remove( "Hidden" );
   }
-  //
-  // ContactFormData = DummyFormData;
-  // displayFormData( ContactFormData );
-}
 
-function getDeborahsFormDataOnClick( event ) {
-  // oneTimeToGetApiKey( );
-  const apiKey = "3535982b73a97b039342b743cbd3abf99692c19cf22912f35babcbdcf792cc8d";
+  if( PauseElement ) setPause( Paused );
 
-  fileReadJson( `https://formsubmit.co/api/get-submissions/${apiKey}`,
-    dataObj => {
-      ContactFormData = dataObj.jsonObj;
-
-      if( ContactFormData.success ) {
-        displayFormData( ContactFormData );
-      }
-      else console.error( `Api request failed: ${ContactFormData.message}` );
-  } );
-}
-
-function oneTimeToGetApiKey( ) {
-  fileReadText( "https://formsubmit.co/api/get-apikey/Deborah@DeborahWallaceBooks.com",
-    dataObj => {
-      console.log( dataObj.text );
-  } );
-}
-
-function displayFormData( formData ) {
-  let codingElement = document.querySelector( "#ContactFormDataID > div" );
-  let tableHtml = "<table><thead><tr>";
-
-  tableHtml += `<th>EMail</th> <th>Name</th> <th>Date</th> <th>Message</th>`;
-  tableHtml += "</tr></thead><tbody>";
-
-  for( let submission of formData.submissions ) {
-    let date = submission.submitted_at.date.split(" ")[0];
-
-    tableHtml += "<tr>";
-    tableHtml += `<td>${submission.form_data.email}</td> <td>${submission.form_data.name}</td> <td>${date}</td> <td>${submission.form_data.Message}</td>\n`;
-    tableHtml += "</tr>";
+  let titleElements = document.querySelectorAll( ".RollUpDown .Title" );
+  for( let titleElement of titleElements ) {
+    titleElement.addEventListener( "click", rollUpDownOnClick ); // Does the rolling Up/Down
+    titleElement.addEventListener( "click", titleOnClick );
   }
-
-  codingElement.innerHTML = tableHtml + "</tbody></table>";
 }
 
-function saveDeborahsFormDataOnClick( event ) {
-  ContactFormDataCsv = jsonToCsv( ContactFormData );
+//
+// Start up individual sections when they are rolled down (i.e. RollUpDown sections)
+//
+function  titleOnClick( event ) {
+  let parentElement = event.target.parentElement; // The whole RollUpDown Section
 
-  fileSaveText( "DeborahsContactFormData.csv", ContactFormDataCsv );
-}
+  // Things to do if the click was to RollDown this section
+  if( parentElement.classList.contains( "RollDown" ) ) {
+    parentElement.ontransitionend = event => {
+      // Only for the "min-height" transition, NOT both opacity and min-height
+      if( event.propertyName == "min-height" ) {
+        // Store the div element for all to use for displaying content in
+        WorkElement = event.target.querySelector( "[data-code-function]" ); // The transition is on the .RollDownContent
+        WorkElement.innerHTML = ""; // Clear anything there (i.e. NOTES to developer) in the html
 
-function jsonToCsv( formData ) {
-  let csvData = "";
-  let data;
-  const FormFeedChar = String.fromCharCode(12);
+        getWorkArea( );
 
-  // Headers
-  csvData += "Name, EMail, Date, Message\n";
-
-  if( formData.success ) {
-    for( let submission of formData.submissions ) {
-      let date = submission.submitted_at.date.split(" ")[0];  // Just date, NOT time
-      // Need to quote the msg if there are embedded , (comman), " (quote), \r\n, or \n
-      let quotedMsg = submission.form_data.Message;
-
-      if( quotedMsg.includes('"') || quotedMsg.includes(',') || quotedMsg.includes('\n') ) {
-        quotedMsg = quotedMsg.replace(/"/g,'""'); // Double up on any existing quotes before wrapping the whole thing in quotes
-        quotedMsg = `"${quotedMsg}"`; // Quote the cell
+        DispatchTable[WorkElement.dataset.codeFunction]( );
       }
+    };
+  }
+  // Things to do if the click was to "RollUp" this section
+  else {
+    event.target.parentElement.ontransitionend = null;
 
-      csvData += `${submission.form_data.name},${submission.form_data.email},${date},${quotedMsg}\n`;
+    // Stop any pending animation request
+    if( LastAnimationRequest ) {
+      cancelAnimationFrame( LastAnimationRequest );
+      LastAnimationRequest = "";
     }
   }
-  return csvData;
 }
+
+
+function getWorkArea( ) {
+  let elementRect = WorkElement.getBoundingClientRect();
+
+  WorkAreaWidth = elementRect.width;
+  WorkAreaHeight = elementRect.height;
+}
+
+function contentOnScroll( event ) {
+  constrainWorkArea( );
+}
+
+
+function constrainWorkArea( ) {
+  CellCols = Math.floor(WorkAreaWidth / CellSize);
+  CellRows = Math.floor(WorkAreaHeight / CellSize);
+
+  // Using CellCols & CellRows has the effect of constraining Width & Height to CellSize
+  WorkAreaWidth = CellCols * CellSize;
+  WorkAreaHeight = CellRows * CellSize;
+}
+
+
+function contentOnResize( event ) {
+  getWorkArea( );
+  constrainWorkArea( );
+
+  spritesheetOnResize( );
+  canvasPlayOnResize( );
+}
+
+
+function mouseOnMove( event ) {
+  MouseX = event.offsetX;
+  MouseY = event.offsetY;
+
+  // console.log(`.offsetX:${event.offsetX}, .clentX:${event.clientX}, .target.offsetLeft:${event.target.offsetLeft}`);
+  // console.log(`.offsetY:${event.offsetY}, .clentY:${event.clientY}, .target.offsetTop:${event.target.offsetTop}`);
+}
+
+
+function pauseOnClick( event ) {
+  if( event.target.innerText.includes("Pause") ) {
+    Paused = true;
+    event.target.innerText = "▶️ Resume";
+  }
+  else if( event.target.innerText.includes("Resume") ) {
+    Paused = false;
+    event.target.innerText = "⏸️ Pause";
+  }
+}
+
+
+//
+// Pass true to pause and false to resume
+// You can toggle Paused with setPause(!Paused);
+//
+function setPause( pause ) {
+  if( pause ) {
+    Paused = true;
+    PauseElement.innerText = "▶️ Resume";
+  }
+  else {
+    Paused = false;
+    PauseElement.innerText = "⏸️ Pause";
+  }
+}
+
+
+
 
 
 

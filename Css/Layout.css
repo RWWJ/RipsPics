@@ -9,21 +9,27 @@
   padding: 0px;
 }
 
+canvas {
+  /* Canvas are inline, so they take up space below them, like text does to leave space for descenders */
+  vertical-align: bottom;
+}
+
 body {
   height: 100vh;
   width: 90%;
   margin: 0px auto;
-  background-color: beige;
+  background-color: var(--LightColor);
 
   display: grid;
   grid-template-columns: 100%;
+  /* grid-template-rows: 90px auto max-content; */
   grid-template-rows: 90px auto max-content;
 }
 
 header {
   position: relative;
-  background-color: tan;
-  background: linear-gradient(-45deg, tan, Sienna);
+  background-color: var(--MediumColor);
+  background: linear-gradient(-45deg, var(--MediumColor), var(--DarkerColor));
 
   box-shadow: 4px 4px 6px SaddleBrown,  -2px 2px 4px SaddleBrown;
 
@@ -40,7 +46,7 @@ header menu {
   margin: auto auto;
 }
 menu a {
-  /* background-color: beige; */
+  /* background-color: var(--LightColor); */
 
   display: inline-block; /* So that min-width works */
   min-width: 60px;
@@ -62,23 +68,22 @@ header img {
 
 .Content {
   /* background-color: red; */
-  background: linear-gradient(135deg, tan, Sienna);
+  background: linear-gradient(135deg, var(--MediumColor), var(--DarkerColor));
   scroll-behavior: smooth;
   overflow: auto;
-
-  padding: 5px 10px;
+}
+.Content h1 {
+  font-size: 2rem;
+  padding-top: 5px;
 }
 
 footer {
-  background-color: beige;
+  background-color: var(--LightColor);
   padding: 4px 10px;
 
   display: grid;
   grid-template-columns: auto 1fr auto;
-}
 
-
-footer {
   font-size: 0.8rem;  /* Make the same as img width */
 }
 footer img {

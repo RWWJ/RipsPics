@@ -15,13 +15,16 @@
 //                    Version 1.1
 // RWWJ 19 Sep 2022   In both createButton() and createActionButton(), move the .appendChild(button) outside of the else{}
 //                    Version 1.2
+//  21 Nov 2022  Fixed the handling of x,y defaults in createButton()
+//               Added a Close button in createDialogBox(), which will affect DialogOk() and all the others that use it
+//               Version 1.3
 //
 //  NEEDS/REQURIES/USES:
 //    Mostly Standalone (so far)
 //
 
 
-var DialogBoxJsVersion = "1.2";
+var DialogBoxJsVersion = "1.3";
 
 
 //
@@ -190,7 +193,10 @@ function DialogOk( titleStr, msgText, x, y, callbackFunction = null ) {
   var msgBoxElement = createDialogBox( titleStr, msgText, Math.abs(x), Math.abs(y) );
 
   // Create "Ok" button
-  createButton( msgBoxElement, "Ok", msgBoxElement.style.left, msgBoxElement.style.top );
+  createButton( msgBoxElement, "Ok", msgBoxElement.style.left, msgBoxElement.style.top ).onclick = event => {
+    if( callbackFunction ) callbackFunction("ok");
+    msgBoxElement.style.display = "none";
+  };
 
   if( x < 0 ) {
     x = Math.abs(x) - parseInt(msgBoxElement.clientWidth);
@@ -201,9 +207,10 @@ function DialogOk( titleStr, msgText, x, y, callbackFunction = null ) {
 
   constrainDialogPosition( msgBoxElement );
 
+  // Override the .onclick() in createDialogBox() so the dialog box does NOT go away when we click on it
   msgBoxElement.onclick = event => {
-    if( callbackFunction ) callbackFunction("ok");
-    msgBoxElement.style.display = "none";
+    // if( callbackFunction ) callbackFunction("ok");
+    // msgBoxElement.style.display = "none";
   };
 }
 
@@ -363,13 +370,13 @@ function createTextArea( parentElement ) {
 // Returns button (the <button> element), so calling function can make it go away, etc...
 //
 // Location (upper left corner) defaults (if x and y are 0) to 33% of dialog <div> size
-function createButton( parentElement, txt, x = 0, y = 0, isMenu = false ) {
+function createButton( parentElement, txt, x = null, y = null, isMenu = false ) {
   // Make it so we have different ID's for "yes", "no", "ok", "cancel", etc... buttons
   var buttonID = makeDOMId( txt, "_ButtonID" );
   // Attempt to get the <div> that we may have previously created
   var button = document.getElementById( buttonID );
-  if( !x ) x = window.innerWidth / 3;
-  if( !y ) y = window.innerHeight / 3;
+  if( x === null ) x = window.innerWidth / 3;
+  if( y === null ) y = window.innerHeight / 3;
 
   if( button ) {
       // We have previously created/used this, so just make <button> visible again
@@ -534,7 +541,14 @@ function createDialogBox( titleStr, msgText, x = null, y = null ) {
   msgBox.style.top = y +"px";
 
   // Set new text. Uppercase the titleStr
-  msgBox.innerHTML = '<span class="DlgTitle">' + titleStr.toUpperCase() + '</span>'+ "<hr>" + msgText + "<br>";
+  msgBox.innerHTML = `<span class="DlgClose"></span> <span class="DlgTitle">${titleStr.toUpperCase()}</span> <hr> ${msgText} <br>`;
+
+  // Create "Close" button
+  let titleElement = msgBox.querySelector(".DlgClose");
+  let closeButtonElement = createButton( titleElement, "Close", 0, 0 );
+  closeButtonElement.onclick = event => {
+    msgBox.style.display = "none";
+  };
 
   return msgBox;
 }

@@ -1,0 +1,33 @@
+
+h3 {
+  /* margin-top is overridden by "".Tutorial h3" in the top level Css/Tutorial.css file */
+  margin: 1rem 0rem 0.5rem 1rem;
+}
+
+p {
+  font-family: sans-serif;
+
+  margin-left: 0.5rem;
+}
+
+.ContainerImgLeft {
+  display: grid;
+  grid-template-columns: 500px 1fr;
+}
+
+.ContainerImgNarrowLeft {
+  display: grid;
+
+  grid-template-columns: 100px 1fr;
+}
+
+.ImgLeft {
+  box-shadow: 4px 4px 6px black;
+
+  margin-bottom: 2rem;
+  margin-left: 0.5rem;
+}
+
+.TextRight {
+  margin-left: 1rem;
+}

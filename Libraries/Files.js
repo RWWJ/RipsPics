@@ -62,8 +62,6 @@ var FileJsVersion = "1.7";
 
 var FileWaitingOnFiles = 0;
 
-const FormFeedChar = String.fromCharCode(12);
-
 
 //
 // Test all the functions in File.js
@@ -463,7 +461,6 @@ function fileReadTextPrompt( callback=null ) {
 function fileSaveText( defaultFileName, text ) {
   // Create a <a> tag (hyperlink), with a dataURL, then "click() on it"
   var aElement = document.createElement( "a" );
-  const formFeedRegExp = new RegExp( FormFeedChar, 'g' ); // Regexpresion with global replace
 
   aElement.download = defaultFileName;  // The download attribute causes the browser to download instead of navigate
 
@@ -538,6 +535,31 @@ function fileSaveJson( defaultFileName, jsonObj ) {
 // Accepts a default filename and either a <canvas> element or a <canvas> context
 //
 function fileSaveCanvas( defaultFileName, canvas ) {
+  let dataUrl;
+  let linkElement = document.createElement( "a" );
+
+  // If a canvas context was passed in, then get it's canvas element
+  if( "canvas" in canvas )  canvas = canvas.canvas;
+
+  dataUrl = canvas.toDataURL( "image/png", 1 ); // use "image/png" (the default), "image/jpeg". Quality is 100% (1.0)
+
+  linkElement.download = defaultFileName;  // The download attribute causes the browser to download instead of navigate
+  linkElement.href = dataUrl;
+
+  linkElement.click();  // Save as dialog box will let user save the data to a file
+}
+
+
+
+//
+// Shows a file dialog to user
+// Writes image in canvas to the selected file
+//
+// NO indication of failure, success or canceling by user
+//
+// Accepts a default filename and either a <canvas> element or a <canvas> context
+//
+function fileSaveCanvasOLD( defaultFileName, canvas ) {
   // If a canvas context was passed in, then get it's canvas element
   if( "canvas" in canvas )  canvas = canvas.canvas;
 

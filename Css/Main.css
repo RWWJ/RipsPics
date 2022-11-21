@@ -2,20 +2,49 @@
    Majority of styling goes here
  */
 
+html {
+  /* Color variable definitions */
+  --DarkestColor: #8C5426;
+  --DarkerColor: #a0522d; /* Sienna; */
+  --DarkColor: #dCa476;
+  --MediumColor: #d2b48c; /* tan; */
+  --NormalColor: blanchedalmond;
+  --LightColor: beige;
+  --SkyBlue: #009cd8;
+
+  --FancyFont: "Calisto MT", Georgia, serif;
+  --NiceFont: 'Trebuchet MS', "Lucida Sans", sans-serif;
+  --SharpFont: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+  --CursiveFont: 'Brush Script MT', 'Brush Script Std', cursive; /* Hard to read, not on Cell phones */
+  --FantasyFont: Copperplate, Papyrus, fantasy;
+}
+
+body {
+  /* font-family: var(--FancyFont); */
+  /* font-family: var(--NiceFont); */
+  /* font-family: var(--SharpFont); */
+  /* font-family: var(--CursiveFont); */
+  font-family: var(--FantasyFont);
+  font-size: 14px;
+}
+
+hr {
+  border: 2px inset var(--MediumColor);
+  margin: 10px 0px;
+}
+
 
 header {
   text-transform: capitalize;
 }
 
 header .Name {
-  /* position: absolute; */
-  /* left: 0px; */
   display: inline-block; /* So that transform works */
 
   text-transform: uppercase;
 
-  color: Sienna;
-  font-size: 1.3rem;
+  color: var(--DarkerColor); /* Sienna; */
+  font-size: 1.0rem;
   font-weight: bolder;
   text-shadow: 2px 2px 2px Black;
 }
@@ -34,7 +63,7 @@ header img {
 }
 
 footer {
-  color: Sienna;
+  color: var(--DarkerColor); /* Sienna; */
 }
 
 a {
@@ -47,17 +76,23 @@ a {
 
 menu a {
   color: black;
-  text-shadow:   1px 1px 1px Sienna;
+  text-shadow:   1px 1px 1px var(--DarkerColor); /* Sienna; */
 }
 
 .CurrentMenu {
-  background-color: tan;
-  text-shadow: 0px 0px 5px Sienna; /* Subtle blury background */
+  background-color: var(--MediumColor); /* tan; */
+  text-shadow: 0px 0px 5px var(--DarkerColor); /* Sienna; Subtle blury background */
 }
 
 .Version {
   margin-left: 8px;
 }
+
+
+.Hidden, .HideContent {
+  display: none;
+}
+
 
 
 

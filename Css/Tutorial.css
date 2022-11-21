@@ -13,7 +13,7 @@
 
 
 .Tutorial h3 {
-  margin-top: 0.5rem;
+  margin-top: 1.0rem;
 }
 
 
@@ -41,8 +41,8 @@
 
 .Tutorials div {
   margin: 6px 6px;
-  background-color: tan;
-  background: linear-gradient(-45deg, tan, Sienna);
+  background-color: var(--MediumColor);
+  background: linear-gradient(-45deg, var(--MediumColor), var(--DarkerColor));
 
   cursor: pointer;
 }
