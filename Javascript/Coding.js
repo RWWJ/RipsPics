@@ -7,11 +7,11 @@
 
 
 const DispatchTable = {
-  AutumnLeaves : autumnLeavesStart,
-  CanvasPlay : canvasPlayStart,
-  SpritesheetEditing : spritesheetEditingStart,
-  DeborahsZoomVideo : deborahsZoomVideoStart,
-  DeborahsFormData : deborahsFormDataStart,
+  AutumnLeaves : {start:autumnLeavesStart, stop:autumnLeavesStop},
+  CanvasPlay : {start:canvasPlayStart, stop:canvasPlayStop},
+  SpritesheetEditing : {start:spritesheetEditingStart, stop:spritesheetEditingStop},
+  DeborahsZoomVideo : {start:deborahsZoomVideoStart, stop:deborahsZoomVideoStop},
+  DeborahsFormData : {start:deborahsFormDataStart, stop:deborahsFormDataStop},
 };
 
 // Use WorkElement for your output (canvas, text, HTML tags, etc)
@@ -60,7 +60,23 @@ function codingInit( ) {
   for( let titleElement of titleElements ) {
     titleElement.addEventListener( "click", rollUpDownOnClick ); // Does the rolling Up/Down
     titleElement.addEventListener( "click", titleOnClick );
+    titleElement.addEventListener( "rolledUp", titleOnRolledUp );
   }
+}
+
+
+function titleOnRolledUp( event ) {
+  event.target.parentElement.ontransitionend = null;
+
+  console.debug( "titleOnRolledUp()", event.RWWJ ); // Just playing around with passing data to the event handler
+
+  // Stop any pending animation request
+  if( LastAnimationRequest ) {
+    cancelAnimationFrame( LastAnimationRequest );
+    LastAnimationRequest = "";
+  }
+
+  DispatchTable[WorkElement.dataset.codeFunction].stop( );
 }
 
 //
@@ -80,19 +96,24 @@ function  titleOnClick( event ) {
 
         getWorkArea( );
 
-        DispatchTable[WorkElement.dataset.codeFunction]( );
+        DispatchTable[WorkElement.dataset.codeFunction].start( );
       }
     };
   }
   // Things to do if the click was to "RollUp" this section
   else {
-    event.target.parentElement.ontransitionend = null;
+    // DEBUG See titleOnRolledUp()
 
-    // Stop any pending animation request
-    if( LastAnimationRequest ) {
-      cancelAnimationFrame( LastAnimationRequest );
-      LastAnimationRequest = "";
-    }
+//     event.target.parentElement.ontransitionend = null;
+//
+//     // Stop any pending animation request
+//     if( LastAnimationRequest ) {
+//       cancelAnimationFrame( LastAnimationRequest );
+//       LastAnimationRequest = "";
+//     }
+//
+// // DEBUG call .stop() from here or from withing onRollDown event handler???
+// //    DispatchTable[WorkElement.dataset.codeFunction].stop( );
   }
 }
 

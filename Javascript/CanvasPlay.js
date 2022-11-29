@@ -31,6 +31,14 @@ function canvasPlayStart( ) {
 }
 
 
+function canvasPlayStop( ) {
+  CanvasObj.canvasElement.remove();           // Remove <canvas> from DOM
+  CanvasObj.canvas.canvas.onmousemove = null; // Remove handler
+  CanvasObj = null;           // Free canvas memory
+  document.onkeydown = null;  // Remove handler
+}
+
+
 //
 // Dummy function so Coding.js onResize() has a function to call
 //

@@ -32,6 +32,14 @@ function autumnLeavesStart( ) {
 }
 
 
+function autumnLeavesStop( ) {
+  CanvasObj.canvasElement.remove();           // Remove <canvas> from DOM
+  CanvasObj.canvas.canvas.onmousemove = null; // Remove handler
+  CanvasObj = null;                           // Free canvas memory
+  AutumnLeavesGlobals.spritesheet = null;     // Free Image memory
+}
+
+
 function leafAnimation( milliseconds ) {
   let whichLeaf = 0; // Anything from 0 to spriteInfo.cols
   let angle;

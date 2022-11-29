@@ -64,6 +64,18 @@ function spritesheetEditingStart( ) {
 }
 
 
+function spritesheetEditingStop( ) {
+  WorkElement.onmousedown = null;  // Remove handler
+  document.querySelector(".Coding").onscroll = null; // Remove handler
+  window.onresize = null;          // Remove handler
+  SpriteSheet = null;              // Free Image memory
+  SpriteCanvas.canvas.remove();    // Remove <canvas> from DOM
+  SpriteCanvas = null;             // Free canvas memory
+  MainCanvas.canvas.remove();      // Remove <canvas> from DOM
+  MainCanvas.canvas.onmousemove = null;  // Free <canvas> element memory
+  document.onkeydown = null;       // Remove handler
+}
+
 
 function spritesheetOnResize( ) {
   // MainCanvas may have to change it's size

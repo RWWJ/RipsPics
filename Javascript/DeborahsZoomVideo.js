@@ -25,9 +25,15 @@ function deborahsZoomVideoStart( ) {
 }
 
 
+function deborahsZoomVideoStop( ) {
+  console.log( "deborahsZoomVideoStop(): Need to write this");
+  CanvasCtx.canvas.remove();           // Remove <canvas> from DOM
+}
+
+
 function menuOnClick( event ) {
 if( event.target.innerText.includes("Save") ) {
-    if( !SaveButton.disabled ) fileSaveVideoBlob( "RawlinsZoomIn.webm", RawlinsBlob );
+    if( !SaveButton.classList.contains("Disabled") ) fileSaveVideoBlob( "RawlinsZoomIn.webm", RawlinsBlob );
   }
 }
 

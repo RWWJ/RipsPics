@@ -7,12 +7,19 @@
 
 // Contact Form globals
 let ContactFormDataCsv = "";
-let ContactFormData = {submissions:[]};
+let ContactFormData = { submissions:[{
+        submitted_at:{date:"___"},
+        form_data:{ name:"___", email:"___", Message:"CLICK [ GET FORM DATA ] BUTTON" }
+      }] };
 
 
 
 function deborahsFormDataStart( ) {
   displayFormsubmitCOFormData( ContactFormData );
+}
+
+function deborahsFormDataStop( ) {
+  WorkElement.innerHTML = null; // Remove <table> from DOM
 }
 
 
@@ -47,6 +54,7 @@ function displayFormsubmitCOFormData( formData ) {
   tableHtml += `<th>EMail</th> <th>Name</th> <th>Date</th> <th>Message</th>`;
   tableHtml += "</tr></thead><tbody>";
 
+  if( !formData.submissions.length ) tableHtml += "<tr><td>___</td><td>___</td><td>___</td><td>NO MESSAGES</td></tr>";
   for( let submission of formData.submissions ) {
     let date = submission.submitted_at.date.split(" ")[0];
 

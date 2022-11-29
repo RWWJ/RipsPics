@@ -12,6 +12,11 @@ let RolledDownElement = null; // So we can roll it back up when it is clicked ag
 
 function rollUpDownOnClick( event ) {
   if( RolledDownElement ) {
+    // Fire "rolledUp" event on titleElement (RolledDownElement), so it can Shutdown the element just rolled up
+    let rolledUpEvent = new Event( "rolledUp", {bubbles:true} );
+    rolledUpEvent.RWWJ="Raymond"; // Just playing around with passing data to the event handler
+    RolledDownElement.dispatchEvent( rolledUpEvent ); // Happens synchronously (only returns AFTER all handlers called)
+
     // Roll up the previuosly rolled down element (if there was one)
     RolledDownElement.parentElement.classList.remove( "RollDown" );
   }
@@ -25,52 +30,6 @@ function rollUpDownOnClick( event ) {
     event.target.parentElement.scrollIntoView(true); // true = will be aligned to the top of the visible area of the scrollable ancestor.
     RolledDownElement = event.target;
   }
-}
-
-
-function DigitalTechniquesRollUpDownInit(  ) {
-  let elementHtml = "";
-  const dir = "../digital_techniques/";
-  let container = document.querySelector( ".DigitalTechniques" );
-
-  fileReadText( `digital_techniques.txt`, textObj => {
-    if( textObj.text ) {
-      let fileNames = textObj.text.split("\n");
-
-      for( let fileName of fileNames ) {
-        elementHtml += `<div class="RollUpDown">`;
-        elementHtml += `  <div class="Title" onclick=rollUpDownOnClick(event)>${fileName}</div>`;
-        elementHtml += `  <div class="RollDownContent">`;
-
-        if( extension(fileName) == ".pdf" ) {
-          elementHtml += `    <object type="application/pdf" data="${dir}${fileName}"> </object>`;
-        }
-        if( extension(fileName) == ".txt" ) {
-          elementHtml += `    <object type="text/plain" data="${dir}${fileName}"> </object>`;
-        }
-        if( extension(fileName) == ".html" ) {
-          elementHtml += `    <object type="text/html" data="${dir}${fileName}"> </object>`;
-        }
-
-        elementHtml += `  </div>`;
-        elementHtml += `</div>`;
-
-
-        // fileReadText( `$digital_techniques/${htmlFile}`, textObj => {
-        //   if( textObj.text ) {
-        //   }
-        // } );
-      }
-
-      container.innerHTML = elementHtml;
-    }
-  } );
-}
-
-
-function showDigitalTechniques( ) {
-
-
 }
 
 
