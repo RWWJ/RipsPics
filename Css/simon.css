@@ -1,0 +1,167 @@
+/*
+ * SIMON SAYS Circles
+ */
+
+div.SimonContainer {
+  position: relative;
+
+  width: 600px;
+  height: 600px;
+
+  box-shadow: 2px 2px 3px black;
+}
+div.SimonStatusArea {
+  /* height: 4rem; */
+  font-size: 2.8rem;
+
+  display: grid;
+  grid-template-columns: 4rem 1fr;
+  grid-template-rows: 4rem;
+}
+div.SimonSays {
+  border-radius: 10px;
+  border: solid 1px gray;
+  box-shadow: 2px 2px 3px black;
+}
+div.SimonScore {
+  font-size: 3.8rem;
+
+  border-radius: 10px;
+  border: solid 1px gray;
+  box-shadow: 2px 2px 3px black;
+
+  /* Since our font is taller than the div, needed line-height to move the text (number) up */
+  line-height: 3.8rem; /* The smaller it is than div height, the more it moves up */
+}
+div.OuterCir {
+  position: relative;
+  margin: 50px auto;
+  border-radius: 100%;
+  box-shadow: 8px 8px 32px black;
+
+  width: 400px;
+  height: 400px;
+}
+div.UpperLeftCir, div.UpperRightCir, div.LowerLeftCir, div.LowerRightCir, div.InnerCir {
+  position: absolute;
+  transform: translate(-100%, -100%);
+
+  width: 50%;
+  height: 50%;
+  border: solid 10px black;
+
+  cursor: pointer;
+}
+/* All but the center circle */
+div.UpperLeftCir:hover, div.UpperRightCir:hover, div.LowerLeftCir:hover, div.LowerRightCir:hover {
+  opacity: 90%;
+}
+div.UpperLeftCir {
+  top: 50%;
+  left: 50%;
+  border-radius: 100% 0 0 0;
+
+  background-color: darkgreen;
+}
+div.UpperLeftCir.LightOn {
+  background-color: lightgreen;
+}
+div.UpperRightCir {
+  top: 50%;
+  left: 100%;
+  border-radius: 0 100%  0 0;
+
+  background-color: darkred;
+}
+div.UpperRightCir.LightOn {
+  background-color: red;
+}
+div.LowerRightCir {
+  top: 100%;
+  left: 100%;
+  border-radius: 0 0 100% 0;
+
+  background-color: darkblue;
+}
+div.LowerRightCir.LightOn {
+  background-color: blue;
+}
+div.LowerLeftCir {
+  top: 100%;
+  left: 50%;
+  border-radius: 0 0 0 100%;
+
+  background-color: goldenrod;
+}
+div.LowerLeftCir.LightOn {
+  background-color: yellow;
+}
+div.InnerCir {
+  width: 48%;
+  height: 48%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+
+  background-color: gray;
+}
+div.SimonOn, div.SimonPlay {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  cursor: pointer;
+  width: 120px;
+  height: 60px;
+
+  border: solid 1px gray;
+  box-shadow: 2px 2px 4px brown, -1px -1px 2px white;
+
+  text-align: center;
+  font-size: 1.5rem;
+  vertical-align: sub;
+  line-height: 3.6rem; /* Vertical Positioning */
+}
+div.SimonOn {
+  border-radius: 120px 120px 0% 0%;
+  top: 43%;
+  background-color: var(--spanish-bistre);
+}
+div.SimonPlay {
+  border-radius: 0% 0% 120px 120px;
+  top: 58%;
+  background-color: var(--dark-purple);
+}
+div.SimonOn:after {
+  content: "ON";
+}
+div.SimonPlay:after {
+  content: "PLAY";
+}
+div.SimonOn:hover, div.SimonPlay:hover {
+  opacity: 70%;
+}
+
+div.PowerIndicator {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+
+  background-color: rgb(255, 255, 255, 0.5);
+
+  z-index: 0;
+}
+div.PowerIndicator.PowerOn {
+  border: solid 1px yellow;
+  box-shadow: 4px 4px 10px goldenrod, -4px -4px 10px goldenrod;
+
+  background-color: initial;
+
+  z-index: -10;
+}
+
+
+
+/*  */

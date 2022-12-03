@@ -1,5 +1,8 @@
 /*
  *     RollUpDown.css
+ *
+ *  2 Dec 2022  Changed ".RollDownContent div {}" to be ".RollDownContent > div{}"
+ *              So this .css file does NOT break <div> formating in .css files loaded before it
  */
 
 .RollUpDown {
@@ -62,13 +65,14 @@
   padding: 6px 8px;
   overflow: hidden;
 }
-.RollDownContent div {
+.RollDownContent > div {
   padding: 0px;
   margin: 0px;
   height: 100%;
   width: 100%;
 }
 
+/* Make sure if we add <object>'s (e.g. .pdf files), they are not bigger than our RollUpDown section */
 .RollUpDown object {
   width: 100%;
   height: 100%;

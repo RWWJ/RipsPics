@@ -7,6 +7,7 @@
 
 
 const DispatchTable = {
+  SimonSays : {start:simonSaysStart, stop:simonSaysStop},
   AutumnLeaves : {start:autumnLeavesStart, stop:autumnLeavesStop},
   CanvasPlay : {start:canvasPlayStart, stop:canvasPlayStop},
   SpritesheetEditing : {start:spritesheetEditingStart, stop:spritesheetEditingStop},
