@@ -12,6 +12,8 @@
 //
 
 
+var SoundJsVersion = "1.1";
+
 
 // Arrays of Frequency and associated music Notes
 let Frequency = [1318.51, 1174.66, 1046.5, 987.767, 880, 783.991, 698.456, 659.255, 587.33, 523.251, 493.883, 436.04, 392.44, 349.228, 329.628, 293.665, 261.626, 246.942, 220, 195.998, 174.614, 164.8, 146.8, 130.8,
@@ -27,7 +29,7 @@ let Notes = ["E6", "D6", "C6", "B5", "A5", "G5", "F5", "E5", "D5", "C5", "B4", "
 
 // Make this a global so we can keep using/reusing it (for playing multiple tones or .wav files for example)
 // NOTE: Can not set it to a new AudioContext() here. The context has to be created AFTER the user has clicked on a webpage element.
-var AudioProcessor = null;
+let AudioProcessor = null;
 
 function soundTime( ) {
   if( !AudioProcessor ) AudioProcessor = new AudioContext();
@@ -45,11 +47,11 @@ function soundTime( ) {
 function playNote( noteName, noteTime=1.3, volumeLevel=1.0, atTime=null ) {
   if( !AudioProcessor ) AudioProcessor = new AudioContext();
 
-  var oscilator = AudioProcessor.createOscillator();
-  var volume = AudioProcessor.createGain();  // Values from -~ to +~ (infinite). The default value is 1 (when the gain node is created)
+  let oscilator = AudioProcessor.createOscillator();
+  let volume = AudioProcessor.createGain();  // Values from -~ to +~ (infinite). The default value is 1 (when the gain node is created)
   // Look up noteName in the Notes array
-  var noteIndex = Notes.indexOf(noteName.toUpperCase());
-  var note = noteIndex >= 0 ? noteIndex : 0;
+  let noteIndex = Notes.indexOf(noteName.toUpperCase());
+  let note = noteIndex >= 0 ? noteIndex : 0;
 
   // Use .currentTime if an atTime is not specified, that is, start playing imediately
   // Also, don't start in the past
@@ -75,14 +77,14 @@ function playNote( noteName, noteTime=1.3, volumeLevel=1.0, atTime=null ) {
 // Example useage of playNote() above
 function examplePlayNoteRandomMusic(  ) {
   // Random Music
-  var noteName;
-  var duration;
+  let noteName;
+  let duration;
   const maxDuration = 0.5;  // 0.5 is a good number
-  var noteNum = Math.floor(Math.random() * (Notes.length / 2) + Notes.length / 4); // Prime the noteNum sequences in the middle range
-  var numberOfNotes = 800;   // 3200 @ 0.5 duration is ~ 13 min of play; 800 @ 0.5 is ~ 3.5 min; 250 @ 0.5 is ~ 1 min; 40 @ 2.5 is ~ 1 min
+  let noteNum = Math.floor(Math.random() * (Notes.length / 2) + Notes.length / 4); // Prime the noteNum sequences in the middle range
+  let numberOfNotes = 800;   // 3200 @ 0.5 duration is ~ 13 min of play; 800 @ 0.5 is ~ 3.5 min; 250 @ 0.5 is ~ 1 min; 40 @ 2.5 is ~ 1 min
   const volume = 0.05; // 0.15 is a good listening level, try lower for bacground "noise"
-  var next;
-  var atTime;
+  let next;
+  let atTime;
 
   if( !AudioProcessor ) AudioProcessor = new AudioContext();
 

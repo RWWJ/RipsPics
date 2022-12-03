@@ -54,15 +54,15 @@ var DialogBoxJsVersion = "1.3";
 // Not sure if we need to pass in viewPort OR the .board
 //
 function DialogInventory( viewPort, board, playerInventory ) {
-  var dialogBox;
-  var dialogBoxX = null;  // Will get centered horizontally
-  var dialogBoxY = 100;
-  var contentElement;
-  var canvas;
-  var canvasSize = viewPort.cellSize; // Realy no relationship to cellSize, but it is a good size for these :-)
-  var item;
+  let dialogBox;
+  let dialogBoxX = null;  // Will get centered horizontally
+  let dialogBoxY = 100;
+  let contentElement;
+  let canvas;
+  let canvasSize = viewPort.cellSize; // Realy no relationship to cellSize, but it is a good size for these :-)
+  let item;
   // Only gets the (top level) key names, not the the individual objects
-  var inventoryArray = Object.keys(playerInventory);
+  let inventoryArray = Object.keys(playerInventory);
 
   // Create our main dialog box
   dialogBox = createDialogBox2( "INVENTORY", "Items in Players inventory", dialogBoxX, dialogBoxY );
@@ -96,8 +96,8 @@ function DialogInventory( viewPort, board, playerInventory ) {
     canvas = createCanvas( containerElement, inventoryArray[item], canvasSize, canvasSize );
 
     // Calculate x, y, with formula for indent, border, etc...
-    var srcX = board.layers[layer].imageObj.spriteXY(col,row).x;
-    var srcY = board.layers[layer].imageObj.spriteXY(col,row).y;
+    let srcX = board.layers[layer].imageObj.spriteXY(col,row).x;
+    let srcY = board.layers[layer].imageObj.spriteXY(col,row).y;
     canvas.drawImage( board.layers[layer].imageObj.element, srcX, srcY, canvasSize, canvasSize, 0, 0, canvasSize, canvasSize );
 
     let propertiesElement = document.createElement("div");
@@ -127,9 +127,9 @@ function DialogInventory( viewPort, board, playerInventory ) {
 //
 function createCanvas( parentElement, title, w, h ) {
   // Make it so we have different ID's for each canvas that gets added to a dialogBox, but reuse them subsequent incarnations
-  var canvasID = makeDOMId( title, "CanvasID" );
+  let canvasID = makeDOMId( title, "CanvasID" );
   // Attempt to get the <div> that we may have previously created
-  var element = document.getElementById( canvasID );
+  let element = document.getElementById( canvasID );
 
   // Create this <canvas> if we haven't previously
   if( !element ) {
@@ -141,11 +141,11 @@ function createCanvas( parentElement, title, w, h ) {
   }
 
   // Create container for Title and Canvas, so they go in one grid area
-  var area = document.createElement("div");
+  let area = document.createElement("div");
   parentElement.appendChild(area);
 
   // Create a title
-  var titEl = document.createElement("div");
+  let titEl = document.createElement("div");
   area.appendChild(titEl);
   titEl.innerText = title;
 
@@ -168,11 +168,11 @@ function createCanvas( parentElement, title, w, h ) {
 //
 function DialogYesNo( titleStr, msgText, x, y, callbackFunction = null ) {
   // Build the main part of the dialog box
-  var msgBoxElement = createDialogBox( titleStr, msgText, x, y );
+  let msgBoxElement = createDialogBox( titleStr, msgText, x, y );
 
   // Create "yes" and "no" buttons
-  var buttonTwo = createButton( msgBoxElement, "no", msgBoxElement.style.left, msgBoxElement.style.top );
-  var buttonOne = createButton( msgBoxElement, "yes", msgBoxElement.style.left, msgBoxElement.style.top );
+  let buttonTwo = createButton( msgBoxElement, "no", msgBoxElement.style.left, msgBoxElement.style.top );
+  let buttonOne = createButton( msgBoxElement, "yes", msgBoxElement.style.left, msgBoxElement.style.top );
 
   constrainDialogPosition( msgBoxElement );
 
@@ -190,7 +190,7 @@ function DialogYesNo( titleStr, msgText, x, y, callbackFunction = null ) {
 //
 function DialogOk( titleStr, msgText, x, y, callbackFunction = null ) {
   // Build the main part of the dialog box
-  var msgBoxElement = createDialogBox( titleStr, msgText, Math.abs(x), Math.abs(y) );
+  let msgBoxElement = createDialogBox( titleStr, msgText, Math.abs(x), Math.abs(y) );
 
   // Create "Ok" button
   createButton( msgBoxElement, "Ok", msgBoxElement.style.left, msgBoxElement.style.top ).onclick = event => {
@@ -223,10 +223,10 @@ function DialogOk( titleStr, msgText, x, y, callbackFunction = null ) {
 // Pass the selected menu string to the callbackFunction()
 //
 function DialogMenu( titleStr, menuStrs, x, y, callbackFunction = null ) {
-  var nextButton;
-  var buttons = [];
+  let nextButton;
+  let buttons = [];
   // Build the main part of the dialog box
-  var msgBoxElement = createDialogBox( titleStr, "", x, y );
+  let msgBoxElement = createDialogBox( titleStr, "", x, y );
 
   // Create a button for each menu item.
   for( nextButton = 0; nextButton < menuStrs.length; ++nextButton ) {
@@ -287,11 +287,11 @@ function DialogMenu( titleStr, menuStrs, x, y, callbackFunction = null ) {
 // Return's the textArea element, so caller can write and read text using textArea.value
 //
 function DialogActions( titleStr, actions, x, y ) {
-  var nextButton;
-  var buttons = [];
-  var textArea;
+  let nextButton;
+  let buttons = [];
+  let textArea;
   // Build the main part of the dialog box
-  var msgBoxElement = createDialogBox( titleStr, "", x, y );
+  let msgBoxElement = createDialogBox( titleStr, "", x, y );
 
   // Create a button for each menu item.
   for( nextButton = 0; nextButton < actions.length; ++nextButton ) {
@@ -324,9 +324,9 @@ function makeDOMId( name, suffix = "ID" ) {
 // Returns textArea (the <textarea> element), so calling function can make it go away, etc...
 //
 function createTextArea( parentElement ) {
-  var textAreaID = "__TextAreaID";
+  let textAreaID = "__TextAreaID";
   // Attempt to get the <div> that we may have previously created
-  var textArea = document.getElementById( textAreaID );
+  let textArea = document.getElementById( textAreaID );
 
   if( textArea ) {
       // We have previously created/used this, so just make <textarea> visible again
@@ -372,9 +372,9 @@ function createTextArea( parentElement ) {
 // Location (upper left corner) defaults (if x and y are 0) to 33% of dialog <div> size
 function createButton( parentElement, txt, x = null, y = null, isMenu = false ) {
   // Make it so we have different ID's for "yes", "no", "ok", "cancel", etc... buttons
-  var buttonID = makeDOMId( txt, "_ButtonID" );
+  let buttonID = makeDOMId( txt, "_ButtonID" );
   // Attempt to get the <div> that we may have previously created
-  var button = document.getElementById( buttonID );
+  let button = document.getElementById( buttonID );
   if( x === null ) x = window.innerWidth / 3;
   if( y === null ) y = window.innerHeight / 3;
 
@@ -419,9 +419,9 @@ function createButton( parentElement, txt, x = null, y = null, isMenu = false ) 
 //
 function createActionButton( parentElement, txt, action, isMenu = false ) {
   // Make it so we have different ID's for "yes", "no", "ok", "cancel", etc... buttons
-  var buttonID = makeDOMId( txt, "_ButtonID" );
+  let buttonID = makeDOMId( txt, "_ButtonID" );
   // Attempt to get the <div> that we may have previously created
-  var button = document.getElementById( buttonID );
+  let button = document.getElementById( buttonID );
 
   if( button ) {
       // We have previously created/used this, so just make <button> visible again
@@ -486,10 +486,10 @@ function constrainDialogPosition( dialogElement ) {
 // Location (upper left corner) defaults (if x and y are null) to 33% of window size
 //
 function createDialogBox( titleStr, msgText, x = null, y = null ) {
-  var dlgID = makeDOMId( titleStr, "_DlgID" );
+  let dlgID = makeDOMId( titleStr, "_DlgID" );
 
   // Attempt to get the <div> that we may have previously created
-  var msgBox = document.getElementById( dlgID );
+  let msgBox = document.getElementById( dlgID );
   if( x == null ) x = window.innerWidth / 3;
   if( y == null ) y = window.innerHeight / 3;
 
@@ -566,9 +566,9 @@ function createDialogBox( titleStr, msgText, x = null, y = null ) {
 // Location defaults to centered horizontally and/or vertically in parent, if x and/or y are null
 //
 function createDialogBox2( titleStr, msgText, x = null, y = null ) {
-  var dlgID = makeDOMId( titleStr, "_DlgID" );
+  let dlgID = makeDOMId( titleStr, "_DlgID" );
   // Attempt to get the <div> that we may have previously created
-  var msgBox = document.getElementById( dlgID );
+  let msgBox = document.getElementById( dlgID );
 
   // Create a <dialog> if a previous call hasn't already (i.e. reuse old dialog box)
   if( !msgBox ) {
@@ -624,11 +624,11 @@ function closeDialogBox2(event) {
 //
 function createSlider( label, min, max, x = null, y = null, callback = null ) {
   // Make it so we have different ID's for "yes", "no", "ok", "cancel", etc... buttons
-  var elementID = makeDOMId( label, "_ElementID" );
-  var labelElementID = "label"+elementID;
+  let elementID = makeDOMId( label, "_ElementID" );
+  let labelElementID = "label"+elementID;
   // Attempt to get the element that we may have previously created
-  var element = document.getElementById( elementID );
-  var labelElement = document.getElementById( labelElementID );
+  let element = document.getElementById( elementID );
+  let labelElement = document.getElementById( labelElementID );
 
   if( x==null ) x = window.innerWidth / 3;
   if( y==null ) y = window.innerHeight / 3;
@@ -690,12 +690,12 @@ function createSlider( label, min, max, x = null, y = null, callback = null ) {
 // Pass the selected menu string to the callbackFunction()
 //
 function DialogHistory1( titleStr, current, history, x, y, callbackFunction = null ) {
-  var nextLine;
-  var numStates = history.length;
+  let nextLine;
+  let numStates = history.length;
   // Build the main part of the dialog box
-  var msgBoxElement = createDialogBox( titleStr, "", x, y );
+  let msgBoxElement = createDialogBox( titleStr, "", x, y );
   // Get current html of the dialog we just created
-  var htmlStr = msgBoxElement.innerHTML;
+  let htmlStr = msgBoxElement.innerHTML;
 
   // Append a style string onto the current dialog html
   htmlStr += "<style>span.DialogSpan{display:inline-block; width:60px;margin:6px;border:solid 2px red;}</style>";

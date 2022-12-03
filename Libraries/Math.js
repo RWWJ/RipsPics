@@ -3,14 +3,16 @@
 //
 //        Misc Math Classes and functions
 //
-//  RWWJ  19 Oct 2022  Created
-//  RWWJ  30 Oct 2022  Added bunch of vector functions (did not test all of them)
+//  19 Oct 2022 Created
+//  30 Oct 2022 Added bunch of vector functions (did not test all of them)
+//  17 Nov 2022 Added vectorAdd() and vectorDivideBy()
+//              v 1.3
+//  18 Nov 2022 Added vectorNegate(), vectorDotProduct()
 //
 
 
 
-
-let MathJsVersion = "1.1";
+var MathJsVersion = "1.3";
 
 
 
@@ -27,7 +29,11 @@ let MathJsVersion = "1.1";
 // setMagnitude( point, len )
 // distance( point1, point2 )
 // normalize( point )
-// multiply( point, scalar )
+// vectorAdd( point1, point2 )
+// vectorMultiplyBy( point, scalar )
+// vectorDivideBy( point, scalar )
+// vectorNegate( point )
+// vectorDotProduct( point1, point2 )
 //
 
 
@@ -72,7 +78,7 @@ let magnitude = length;
 // Use direction of point, return point of a vector with new length
 //
 function setLength( point, len ) {
-  return multiply( normalize( point ) , len );
+  return vectorMultiplyBy( normalize( point ) , len );
 }
 
 
@@ -113,9 +119,41 @@ function normalize( point ) {
 //
 //
 //
-function multiply( point, scalar ) {
+function vectorAdd( point1, point2 ) {
+  return { x:point1.x + point2.x, y:point1.y + point2.y }
+}
+
+
+//
+//
+//
+function vectorMultiplyBy( point, scalar ) {
   return { x:point.x * scalar, y:point.y * scalar }
 }
+
+
+//
+// point / scalar  (i.e. Divide point by scalar)
+//
+function vectorDivideBy( point, scalar ) {
+  return { x:point.x / scalar, y:point.y / scalar }
+}
+
+
+//
+// Reverses the direction of the vector
+//
+function vectorNegate( point ) {
+  return { x:-point.x, y:-point.y };
+}
+
+//
+// dot product is commutative. So, point1 and point2 can be reversed with the same result
+//
+function vectorDotProduct( point1, point2 ) {
+  return point1.x * point2.x + point1.y * point2.y;
+}
+
 
 
 

@@ -30,18 +30,24 @@
 //					   Version 1.9
 //  RWWJ  30 Oct 2022  Added changeExtension( fileName, ext )
 //
+//  19 Nov 2022  Added uuid() and initSlider()
+//        Version 2.0
 
 
-let HelpersJsVersion = "1.9";
+var HelpersJsVersion = "2.0";
 
 
 // Import all with this statement (NOTE: change the directory as appropriate)
 //import {fullscreenToggle, hostName, pageName, capitalizeWords, isCellPhone, cloneObj,
-//        daysInMonth, loadScript, playSoundFile, pathFromURL, hash, extension, changeExtension} from "../Javascript-Libraries/Helpers-Module.js";
+//        daysInMonth, loadScript, playSoundFile, pathFromURL, hash, uuid, extension, changeExtension,
+//        changeExt, initSlider
+//       } from "../Javascript-Libraries/Helpers-Module.js";
 
 
-// export {fullscreenToggle, pageName, hostName, capitalizeWords, isCellPhone, cloneObj, daysInMonth, loadScript, playSoundFile, pathFromURL, hash, extension,
-//    changeExtension };
+// export {fullscreenToggle, pageName, hostName, capitalizeWords, isCellPhone, cloneObj,
+//         daysInMonth, loadScript, playSoundFile, pathFromURL, hash, uuid, extension, changeExtension,
+//         changeExt, initSlider
+//        };
 
 
 //        Functions
@@ -59,9 +65,11 @@ let HelpersJsVersion = "1.9";
 // playSoundFile2( fileName, volume = 0.01 )
 // pathFromURL( url )
 // hash( string )
+// uuid()
 // extension( filename )
 // changeExtension( fileName, ext )
-
+// changeExt( fileName, ext )
+// initSlider( {name="Percentage", sliderId=null, parent = null, callback=null, min=0, max=100} )
 
 
 //
@@ -170,7 +178,7 @@ function cloneObj( src ) {
 // i.e. dateString, dateObject, or milliseconds since January 1, 1970, 00:00:00 UTC
 //
 function daysInMonth( theDate = null ) {
-  var dt;
+  let dt;
   dt = theDate ? new Date(theDate) : new Date();
 
   // Specifying a day of 0 makes us go to the last day of the month previous to the specified one
@@ -186,7 +194,7 @@ function daysInMonth( theDate = null ) {
 // in the file are ready to be used
 //
 function loadScript( jsFileName, callback = null ) {
-    var scriptElement = document.createElement("script");
+    let scriptElement = document.createElement("script");
 
     if( callBack ) scriptElement.onload = callback;	// The callback function can use the newly loaded .js file
 
@@ -203,14 +211,8 @@ function loadScript( jsFileName, callback = null ) {
 // NOTE Does NOT work for .mp3 nor .ogg
 //    Does work for .wav, m4a
 function playSoundFileWebAudio( soundFileName, volume = 0.01 ) {
-  var buffer = null;
-  var sndContext = new AudioContext();
-
-  // soundFileName = "Sounds/aliencom.wav";  // Works
-  // soundFileName = "Sounds/Dry Leaves Walking - RWWJ.m4a";  // Works
-  // soundFileName = "Sounds/Charity Rag-BudShank-Saxophone.mp3"; // NOT working
-  // soundFileName = "Sounds/kindland - PublicDomain - Dark_Rainy_Night(ambience).ogg"; // NOT working
-  // soundFileName = "Sounds/natural_bound-ElectronicBackgroundMusic.mp3"; // NOT working
+  let buffer = null;
+  let sndContext = new AudioContext();
 
   fetch(soundFileName)
   .then( response => {
@@ -223,7 +225,7 @@ function playSoundFileWebAudio( soundFileName, volume = 0.01 ) {
     return sndContext.decodeAudioData( data );
   })
   .then( decodedData => {
-    var sourceNode = sndContext.createBufferSource( );
+    let sourceNode = sndContext.createBufferSource( );
     buffer = decodedData;
     sourceNode.buffer = buffer;
 
@@ -248,7 +250,7 @@ function playSoundFileWebAudio( soundFileName, volume = 0.01 ) {
 // Does NOT work with the .ogg file I have
 //
 function playSoundFile( fileName, volume = 0.01 ) {
-  var sndElement = document.createElement( "audio" );
+  let sndElement = document.createElement( "audio" );
 
   // fileName = "Sounds/aliencom.wav";  // Works
   // fileName = "Sounds/Charity Rag-BudShank-Saxophone.mp3"; // Works
@@ -294,7 +296,7 @@ function playSoundFile( fileName, volume = 0.01 ) {
 // Does NOT work with the .ogg file I have
 //
 function playSoundFile2( fileName, volume = 0.01 ) {
-  var sndElement;
+  let sndElement;
 
   // fileName = "Sounds/aliencom.wav";  // Works
   // fileName = "Sounds/Charity Rag-BudShank-Saxophone.mp3"; // Works
@@ -378,6 +380,20 @@ function hash( str, seed = 0) {
     return 4294967296 * (2097151 & h2) + (h1>>>0);
 }
 
+//
+//  Generate an RFC compliant UUID (GUID), specifally an rfc uuid v4 (standard uuid these days)
+//
+//  NOTE: The UUID is a valid html class and id name
+//
+//  23 Feb 2022	Created by Ray Wallace based on code from by broofa at:
+//    https://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid/2117523#2117523
+//
+function uuid() {
+  return crypto.randomUUID ?
+    crypto.randomUUID() : // .randomUUID() is only avalable in https:// (secure) connections
+    ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16) );
+}
+
 
 
 //
@@ -398,6 +414,8 @@ function extension( fileName ) {
 //
 // NOTE: Appends the ext if one does not exist
 //
+// A synonym for changeExt()
+//
 function changeExtension( fileName, ext ) {
   let extStart;
 
@@ -410,6 +428,126 @@ function changeExtension( fileName, ext ) {
 
 
 
+//
+// Returns fileName with it's extension changed to ext (e.g. "name.jpg" changed to "name.json")
+//
+// NOTE: Appends the ext if one does not exist
+//
+// A synonym for changeExtension()
+//
+function changeExt( fileName, ext ) {
+  return changeExtension( fileName, ext );
+}
+
+
+
+
+//
+// sliderId
+//   If sliderId is specified, then we'll use the associated element if it's already in the DOM, or create it if it isn't
+//   If sliderId is not specified (or or there is no element for the id provided), then a slider (range input) will be created.
+///  NOTE: You must specify a sliderId if you want the slider value saved and restored to/from localStorage
+//
+// parent (can be either an element OR an "ID_string")
+//   Where the slider and all it's parts (label, min, max, and value spans) will be appended to.
+//   If it doesn't exist then we'll append to the body
+//
+// min
+//    Minimum value slider can have
+//
+// max
+//    Maximum value slider can have
+//
+// callback()
+//   Called anytime slider value changes and is passed that value
+//   Also called once during Initialization so caller knows the initial value (possibly restore from localStorage)
+//
+// Return sliderId.
+//
+// localStorage
+//   If a sliderId is specified, then we will store and restore the slider's value to/from local storage
+//
+// Classes .SliderContainer, .Slider (same as input[type=range]), .SliderLabel, .SliderRange, .SliderValue
+//   NOTE: Caller can use these classes to style the "parts" of the slider
+//
+function initSlider( {name="Percentage", sliderId=null, parent = null, callback=null, min=0, max=100} ) {
+  let storeAndRestore = sliderId ? true : false;  // Don't clutter localStorage with a bunch of random sliderId name entries
+  let value = null;
+  let sliderElement = null;
+  // let containerElement = document.createElement("div");
+  let labelElement = document.createElement("label");
+  let minElement = document.createElement("span");
+  let maxElement = document.createElement("span");
+  let valueElement = document.createElement("span");
+
+  // The Container
+  // containerElement.className = "SliderContainer";
+
+  // Slider id and element (either get or create it)
+  if( sliderId ) sliderElement = document.getElementById( sliderId );
+  else sliderId = uuid().slice(-12) + "_ID";
+  if( sliderElement === null ) sliderElement = document.createElement("input");
+
+  // Get stored value from localStorage (if there), now that we have a sliderId
+  // NOTE value will be null if not in localStorage
+  if( storeAndRestore ) value = jsonFromLocalStorage(`Slider_${sliderId}`);
+
+  // Slider
+  sliderElement.type = "range";
+  sliderElement.id = sliderId;
+  sliderElement.class = "Slider";
+  sliderElement.min = min;
+  sliderElement.max = max;
+  if( value !== null ) sliderElement.value = value;
+  else value = sliderElement.value;
+
+  // The Label
+  labelElement.innerText = name;
+  labelElement.className = "SliderLabel";
+
+  // The Min
+  minElement.innerText = min;
+  minElement.className = "SliderRange";
+
+  // The Max
+  maxElement.innerText = max;
+  maxElement.className = "SliderRange";
+
+  // The Value
+  valueElement.id = "value_" + sliderId;
+  valueElement.className = "SliderValue";
+  valueElement.innerText = `{${value}}`; // Is either from storage or the default slider value
+
+  // Add to DOM
+  parent = parent ? (typeof parent === "string" ? document.getElementById( parent ) : parent) : document.body;
+  parent.appendChild( labelElement );
+  parent.appendChild( minElement );
+  parent.appendChild( sliderElement );
+  parent.appendChild( maxElement );
+  parent.appendChild( valueElement );
+
+  // Initial call to user callback
+  if( callback ) callback( value ); // Initial slider value
+
+  // input is an active event (fires as slider is moving)
+  sliderElement.addEventListener( "input", event => {
+    value = event.target.value;
+    valueElement.innerText = `{${value}}`;
+    // if( callback ) callback( value );
+    if( callback )
+      callback( value );
+  } );
+
+  if( storeAndRestore ) {
+    // change event only fires when slider stops moving, so good time to store value in localStorage
+    sliderElement.addEventListener( "change", event => {
+      value = event.target.value;
+      jsonToLocalStorage( value, `Slider_${sliderId}` );
+    } );
+  }
+
+  return sliderId;
+}
 
 
 

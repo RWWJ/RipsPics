@@ -39,16 +39,16 @@ if( event.target.innerText.includes("Save") ) {
 
 
 // Some Rawlins globals
-var RawlinsImage = null;
-var RawlinsX = 0;
-var RawlinsY = 0;
-var RawlinsWidth = 0;
-var RawlinsHeight = 0;
-var RawlinsDir = 4;
-var RawlinsMediaStream = null;
-var RawlinsMediaRecorder;
-var RawlinsBlob;
-var RawlinsRecorded = false;
+let RawlinsImage = null;
+let RawlinsX = 0;
+let RawlinsY = 0;
+let RawlinsWidth = 0;
+let RawlinsHeight = 0;
+let RawlinsDir = 4;
+let RawlinsMediaStream = null;
+let RawlinsMediaRecorder;
+let RawlinsBlob;
+let RawlinsRecorded = false;
 
 //
 //
