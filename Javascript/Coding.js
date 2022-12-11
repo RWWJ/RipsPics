@@ -93,7 +93,7 @@ function  titleOnClick( event ) {
       if( event.propertyName == "min-height" ) {
         // Store the div element for all to use for displaying content in
         WorkElement = event.target.querySelector( "[data-code-function]" ); // The transition is on the .RollDownContent
-        WorkElement.innerHTML = ""; // Clear anything there (i.e. NOTES to developer) in the html
+        // WorkElement.innerHTML = ""; // Clear anything there (i.e. NOTES to developer) in the html
 
         getWorkArea( );
 

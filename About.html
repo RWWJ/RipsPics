@@ -46,9 +46,12 @@
     <div class="Content">
       <h2>Photographer, Instructor, Tutor</h2>
       <hr>
-      <img height="200" src="Images/RayGreenScreen-20-12-25-043.jpg" alt="Author">
+      <img onclick="getLoc()" height="200" src="Images/RayGreenScreen-20-12-25-043.jpg" alt="Author">
       <br>
 
+<div class="LocStatus">
+
+</div>
     </div> <!-- End Content -->
 
 
@@ -58,6 +61,23 @@
       <span><span class="Email"><a href="mailto:Ray@RipsPics.com?bcc=HoudiniJr@GMail.com&subject=RipsPics%20website" target="_blank" title="Webmaster EMail">Ray@RipsPics.com</a></span> <span class="Version"></span></span>
     </footer>
 
+<script type="text/javascript">
+function status( txt ) {
+  let con = document.querySelector("div.LocStatus");
+  con.innerHTML += `<p>${txt}</p>`;
+}
+function getLoc(  ) {
+  // Debug testing
+  navigator.geolocation.getCurrentPosition( coords => {
+    status( coords );
+    status( `Coordinates: lat ${coords.latitude}, lon ${coords.longitude}, alt ${coords.altitude}` );
+    status( `Direction ${Math.floor(coords.heading)}, speed ${coords.speed} m/s` );
+  }, error => {
+    status( error.message );
+  } );
+}
+
+</script>
 
   </body>
 </html>

@@ -92,7 +92,7 @@ function status( msg ) {
 
 
 function score( num ) {
-  SimonScoreDiv.innerText = num;
+  SimonScoreDiv.innerText = "🏆" + num; // "🏆⭐"
 }
 
 

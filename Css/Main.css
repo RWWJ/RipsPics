@@ -33,6 +33,12 @@ hr {
   margin: 10px 0px;
 }
 
+hr.Fancy {
+  border: solid 1px gvar(--MediumColor);
+  margin: 5px;
+  border-top: 3px double #333;
+}
+
 
 header {
   text-transform: capitalize;

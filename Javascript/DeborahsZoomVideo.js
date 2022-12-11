@@ -5,13 +5,32 @@ let SaveButton = null;
 let CanvasCtx;
 let CanvasWidth = 1080;   // titok prefered dimensions
 let CanvasHeight = 1920;  // titok prefered dimensions
+let Video;
+
+
+// Some Rawlins globals
+let RawlinsImage = null;
+let RawlinsX = 0;
+let RawlinsY = 0;
+let RawlinsWidth = 0;
+let RawlinsHeight = 0;
+let RawlinsDir = 4;
+let RawlinsMediaStream = null;
+let RawlinsMediaRecorder;
+let RawlinsBlob;
+let RawlinsRecorded = false;
+
 
 
 function deborahsZoomVideoStart( ) {
+  Video = document.querySelector( "video" );
   CanvasCtx = document.createElement( "canvas" ).getContext("2d"); // , {willReadFrequently:true});
   CanvasCtx.canvas.width = CanvasWidth;
   CanvasCtx.canvas.height = CanvasHeight;
   WorkElement.appendChild( CanvasCtx.canvas );
+
+  Video.width = 300;
+  Video.height = 200;
 
   // Find and store the Save test button, so we can enable/disable it as needed
   for( let button of TestButtons ) {
@@ -19,7 +38,7 @@ function deborahsZoomVideoStart( ) {
   }
 
   // SaveButton.disabled = true;
-  SaveButton.classList.add("Disabled");  // Enable the save button
+  SaveButton.classList.add("Disabled");  // Disable the save button
 
   rawlinsZoom( 0 );
 }
@@ -37,18 +56,6 @@ if( event.target.innerText.includes("Save") ) {
   }
 }
 
-
-// Some Rawlins globals
-let RawlinsImage = null;
-let RawlinsX = 0;
-let RawlinsY = 0;
-let RawlinsWidth = 0;
-let RawlinsHeight = 0;
-let RawlinsDir = 4;
-let RawlinsMediaStream = null;
-let RawlinsMediaRecorder;
-let RawlinsBlob;
-let RawlinsRecorded = false;
 
 //
 //
@@ -96,7 +103,6 @@ function rawlinsZoom( milliseconds ) {
   LastAnimationRequest = requestAnimationFrame( rawlinsZoom );
 }
 
-
 function rawlinsInitCapture( ) {
   RawlinsMediaStream = CanvasCtx.canvas.captureStream( ); // Defaults to on canvas change. Else could try 30 fps or 60 fps
   RawlinsMediaRecorder = new MediaRecorder( RawlinsMediaStream, {mimeType:"video/webm"} ); // NOT "video/mp4"
@@ -120,21 +126,26 @@ function rawlinsInitCapture( ) {
   RawlinsMediaRecorder.start( );
 }
 
+
 // Create a video from the Blob chunk saved in .ondataavailable event handler
 function rawlinsShowBlob( ) {
   let dataUrl = URL.createObjectURL( RawlinsBlob );
   // .onload triggered by setting .src below
-  document.querySelector( "video" ).oncanplaythrough = event => {
+  Video.oncanplaythrough = event => {
     URL.revokeObjectURL( dataUrl );
-    document.querySelector( "video" ).play()
+    Video.play()
     .catch( console.error("Video .play() failed") );
   };
-  document.querySelector( "video" ).src = dataUrl;
+  Video.src = dataUrl;
 }
+
 
 function rawlinsStop( ) {
   // This results in a .ondataavailable event with the Blob, followed by a .onstop event
   RawlinsMediaRecorder.stop( );
+
+  RawlinsMediaStream = null;   // Free up the Canvas class object
+  RawlinsMediaRecorder = null; // Free up the MediaRecorder memory
 }
 
 
