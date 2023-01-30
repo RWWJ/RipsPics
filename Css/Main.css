@@ -10,13 +10,26 @@ html {
   --MediumColor: #d2b48c; /* tan; */
   --NormalColor: blanchedalmond;
   --LightColor: beige;
-  --SkyBlue: #009cd8;
+  --SkyBlue: SkyBlue; /* #87CEEB hsl(197, 71%, 72%) */
+  --HarleyOrange: #c93413;
 
-  --FancyFont: "Calisto MT", Georgia, serif;
-  --NiceFont: 'Trebuchet MS', "Lucida Sans", sans-serif;
+  /* These fonts seem to be standard on most Operating Systems */
+  --FancyFont: "Calisto MT", "Lucida Bright", Lucidabright, Georgia, "Times New Roman", serif;
+  --NiceFont: 'Trebuchet MS', "Lucida Sans", Verdana, sans-serif;
   --SharpFont: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
   --CursiveFont: 'Brush Script MT', 'Brush Script Std', cursive; /* Hard to read, not on Cell phones */
-  --FantasyFont: Copperplate, Papyrus, fantasy;
+  --MonoSpaceFont: "DejaVu Sans Mono", "Courier New", monospace;
+  --FantasyFont: "Comic Sans MS", "Comic Relief", Papyrus, Sans-serif;
+  --CleanFont: "URW Gothic L", sans-serif;
+  --FunFont: Fredericka, serif;
+}
+
+.Houdini:after {
+  content: " \2620  \2654  \26CF  "; /* Hex values for Skull Crossbones, Kings Crown, Pickaxe */
+  /* font-size: 1.5rem; */
+  font-weight: bolder;
+  outline: solid 4px var(--HarleyOrange);
+  color: red;
 }
 
 body {

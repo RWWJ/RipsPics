@@ -10,6 +10,9 @@
 const Version = "V1.01";
 const FirstYear = "2022";
 
+
+var Houdini = false;
+
 const MenuEntries = [
         {url:"index.html", button:"Home"},
         {url:"Photos.html", button:"Photos"},
@@ -40,8 +43,8 @@ function init( ) {
 
 
 
-// DEBUG Menus visibly shift/bounce left/right when I change pages
-//   This is no better than OLD()
+//
+// DEBUG FIX Menus visibly shift/bounce left/right when I change pages
 //
 function createMenus( ) {
   let menuElement = document.querySelector( "menu" );
@@ -63,22 +66,20 @@ function createMenus( ) {
 }
 
 
-function createMenusOLD( ) {
-  let menuElement = document.querySelector( "menu" );
-  let pageUrl = pageName( ) + ".html";
+//
+// Toggle Houdini when user Alt-clicks on my EMail address
+//
+// css can target .Houdini to markup the <a> email address element (highligt, add text :after, etc...)
+//
+function houdini( event ) {
+  if( event.altKey ) {
+    Houdini = !Houdini;
 
-  menuElement.innerHTML = "";
-
-  // for( let nextMenu = 0; nextMenu < MenuEntries.length; ++nextMeny )
-  for( let menu of MenuEntries ) {
-    // <a href="index.html" target="_self">Home</a>
-    if( menu.url == pageUrl ) {
-      // Include CurrentMenu class
-      menuElement.innerHTML += `<a href="${menu.url}" target="_self" class="CurrentMenu">${menu.button}</a>`;
-    }
-    else menuElement.innerHTML += `<a href="${menu.url}" target="_self">${menu.button}</a>`;
+    if( Houdini ) event.target.classList.add( "Houdini" );
+    else          event.target.classList.remove( "Houdini" );
   }
 }
+
 
 
 
