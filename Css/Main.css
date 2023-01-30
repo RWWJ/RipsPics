@@ -47,7 +47,7 @@ hr {
 }
 
 hr.Fancy {
-  border: solid 1px gvar(--MediumColor);
+  border: solid 1px var(--MediumColor);
   margin: 5px;
   border-top: 3px double #333;
 }
