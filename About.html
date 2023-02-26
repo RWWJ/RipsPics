@@ -46,12 +46,15 @@
     <div class="Content">
       <h2>Photographer, Instructor, Tutor</h2>
       <hr>
-      <img onclick="getLoc()" height="200" src="Images/RayGreenScreen-20-12-25-043.jpg" alt="Author">
+      <img onclick="getLocationOnClick(event)" height="200" src="Images/RayGreenScreen-20-12-25-043.jpg" alt="Author">
       <br>
 
-<div class="LocStatus">
+      <!-- Debug testing SEE script below footer -->
+      <div id="LocationStatusID">
+      </div>
+      <div id="LocationMapID">
+      </div>
 
-</div>
     </div> <!-- End Content -->
 
 
@@ -61,23 +64,72 @@
       <span><span class="Email"><a onclick="houdini(event)" href="mailto:Ray@RipsPics.com?bcc=HoudiniJr@GMail.com&subject=RipsPics%20website" target="_blank" title="Webmaster EMail">Ray@RipsPics.com</a></span> <span class="Version"></span></span>
     </footer>
 
-<script type="text/javascript">
-function status( txt ) {
-  let con = document.querySelector("div.LocStatus");
-  con.innerHTML += `<p>${txt}</p>`;
-}
-function getLoc(  ) {
-  // Debug testing
-  navigator.geolocation.getCurrentPosition( coords => {
-    status( coords );
-    status( `Coordinates: lat ${coords.latitude}, lon ${coords.longitude}, alt ${coords.altitude}` );
-    status( `Direction ${Math.floor(coords.heading)}, speed ${coords.speed} m/s` );
-  }, error => {
-    status( error.message );
-  } );
-}
+    <script type="text/javascript">
+      function getLocationOnClick( event ) {
+        getLoc( );
+      }
+      function status( txt ) {
+        LocationStatusID.innerHTML += `<p>${txt}</p>`;
+      }
+      function getLoc(  ) {
+        // Debug testing
+        navigator.geolocation.getCurrentPosition( coords => {
+          if( coords.coords.latitude ) {
+            let iframeHtml = "";
+            let latitude = coords.coords.latitude;
+            let longitude = coords.coords.longitude;
+            status( `Coordinates: latitude ${latitude}, longitude ${longitude}` );
 
-</script>
+//             let locationString = "0x0%3A0xeacd1cd50377c1b9";
+//             let placeName = "Somewhere%20Out%20There"
+//
+//             // src="https://www.google.com/maps/
+//             // embed?pb=
+//             //   !1m14
+//             //     !1m8
+//             //       !1m3
+//             //         !1d4285.728582824752
+//             //         !2d${longitude}
+//             //         !3d${latitude}
+//             //       !3m2
+//             //         !1i1024
+//             //         !2i768
+//             //       !4f13.1
+//             //       !3m3
+//             //         !1m2
+//             //           !1s0x0%3A0xeacd1cd50377c1b9
+//             //           !2sSOMEWHERE
+//             //         !5e0
+//             //   !3m2
+//             //     !1sen
+//             //     !2sus
+//             //   !4v1663722717929
+//             //   !5m2
+//             //     !1sen
+//             //     !2sus"
+//             iframeHtml = `<iframe`;
+// //            status(` src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d4285.728582824752!2d${longitude}!3d${latitude}!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xeacd1cd50377c1b9!2s${placeName}!5e0!3m2!1sen!2sus!4v1663722717929!5m2!1sen!2sus"`);
+// //            console.log(` src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d4285.728582824752!2d${longitude}!3d${latitude}!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xeacd1cd50377c1b9!2s${placeName}!5e0!3m2!1sen!2sus!4v1663722717929!5m2!1sen!2sus"`);
+//             iframeHtml += ` src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d4285.728582824752!2d${longitude}!3d${latitude}!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s${locationString}!2s${placeName}!5e0!3m2!1sen!2sus!4v1663722717929!5m2!1sen!2sus"`;
+// //            iframeHtml += ` src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d4285.728582824752!2d-71.68550097780273!3d42.444843372955376!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xeacd1cd50377c1b9!2sCollege%20Seventh-day%20Adventist%20Church!5e0!3m2!1sen!2sus!4v1663722717929!5m2!1sen!2sus"`;
+//             iframeHtml += ` width="600" height="450"
+//                 style="border:0;"
+//                 allowfullscreen
+//                 loading="lazy"
+//                 referrerpolicy="no-referrer-when-downgrade">
+//               </iframe>`;
+//               console.log( iframeHtml);
+//               status( iframeHtml );
+//             LocationMapID.innerHTML = iframeHtml;
+          }
+          if( coords.coords.altitude ) status( `Altitude ${coords.coords.altitude}` );
+          if( coords.coords.heading ) status( `Direction ${Math.floor(coords.coords.heading)}` );
+          if( coords.coords.speed ) status( `Speed ${coords.coords.speed} m/s` );
+        }, error => {
+          status( `NOPE: ${error.message}` );
+        } );
+      }
+    </script>
 
   </body>
 </html>

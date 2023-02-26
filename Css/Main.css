@@ -41,6 +41,11 @@ body {
   font-size: 14px;
 }
 
+h2 {
+  margin-top: 0.75rem;
+  margin-left: 0.75rem;
+}
+
 hr {
   border: 2px inset var(--MediumColor);
   margin: 10px 0px;

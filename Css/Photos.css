@@ -23,12 +23,16 @@
 
   height: 128px;
   margin: 0px auto;
+
+  cursor: pointer;
 }
 
 .Image span {
   box-shadow: 6px 6px 12px black;
 
   margin: 2px auto 0px auto;  /* Center horizontaly */
+
+  cursor: pointer;
 }
 
 

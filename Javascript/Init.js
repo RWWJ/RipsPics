@@ -15,6 +15,7 @@ var Houdini = false;
 
 const MenuEntries = [
         {url:"index.html", button:"Home"},
+        {url:"Florida.html", button:"Florida"},
         {url:"Photos.html", button:"Photos"},
         {url:"TutorialsPhotography.html", button:"Photography"},
         {url:"TutorialsPhotoshop.html", button:"Photoshop"},
@@ -39,6 +40,7 @@ function init( ) {
   // Call some init() routines based on the web page we are on
   if( pageName() == "TutorialsPhotoshop" || pageName() == "TutorialsPhotography" ) tutorialsInit( pageName );
   else if( pageName() == "Coding" ) codingInit();
+  else if( pageName() == "Florida" ) displayPhotoList( "Florida" );
 }
 
 
