@@ -47,8 +47,7 @@ function spritesheetEditingStart( ) {
   }
 
 
-  // SpriteSheet.src = "../Coding/Chris_Hamons-PublicDomain-DungeonCrawl_ProjectUtumnoTileset-32x32.png";
-  SpriteSheet.src = "../Coding/Wolfenstein 33 - Wall Textures Rip - 1375 - 64x64.png";
+  SpriteSheet.src = "../Coding/Chris_Hamons-PublicDomain-DungeonCrawl_ProjectUtumnoTileset-32x32.png";
 
   // Load and process Spritesheets associated .json file
   fileReadJson( changeExtension( SpriteSheet.src, ".json" ), data => {
@@ -56,6 +55,9 @@ function spritesheetEditingStart( ) {
     SpriteSize.h = data.jsonObj.height;
     SpriteSize.cols = data.jsonObj.cols;
     SpriteSize.rows = data.jsonObj.rows;
+
+    // Start at 2nd icon, incase first is blank (like in Chris_Hammon...)
+    ArrowX = SpriteSize.w;
   } );
 
   document.onkeydown = keyOnClick;
