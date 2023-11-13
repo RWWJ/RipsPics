@@ -32,8 +32,11 @@ function getDeborahsFormDataOnClick( event ) {
     dataObj => {
       ContactFormData = dataObj.jsonObj;
 
-      if( ContactFormData.success ) displayFormsubmitCOFormData( ContactFormData );
-      else console.error( `Api request failed: ${ContactFormData.message}` );
+      if( ContactFormData ) {
+        if( ContactFormData.success ) displayFormsubmitCOFormData( ContactFormData );
+        else console.error( `Api request failed: ${ContactFormData.message}` );
+      }
+      else console.error( `Api request returned NULL` );
   } );
 }
 
@@ -51,19 +54,22 @@ function oneTimeToGetDeborahsApiKey( ) {
 function displayFormsubmitCOFormData( formData ) {
   let tableHtml = "<table><thead><tr>";
 
-  tableHtml += `<th>EMail</th> <th>Name</th> <th>Date</th> <th>Message</th>`;
-  tableHtml += "</tr></thead><tbody>";
+  if( formData ) {
+    tableHtml += `<th>EMail</th> <th>Name</th> <th>Date</th> <th>Message</th>`;
+    tableHtml += "</tr></thead><tbody>";
 
-  if( !formData.submissions.length ) tableHtml += "<tr><td>___</td><td>___</td><td>___</td><td>NO MESSAGES</td></tr>";
-  for( let submission of formData.submissions ) {
-    let date = submission.submitted_at.date.split(" ")[0];
+    if( !formData.submissions.length ) tableHtml += "<tr><td>___</td><td>___</td><td>___</td><td>NO MESSAGES</td></tr>";
+    for( let submission of formData.submissions ) {
+      let date = submission.submitted_at.date.split(" ")[0];
 
-    tableHtml += "<tr>";
-    tableHtml += `<td>${submission.form_data.email}</td> <td>${submission.form_data.name}</td> <td>${date}</td> <td>${submission.form_data.Message}</td>\n`;
-    tableHtml += "</tr>";
+      tableHtml += "<tr>";
+      tableHtml += `<td>${submission.form_data.email}</td> <td>${submission.form_data.name}</td> <td>${date}</td> <td>${submission.form_data.Message}</td>\n`;
+      tableHtml += "</tr>";
+    }
+
+    WorkElement.innerHTML = tableHtml + "</tbody></table>";
   }
-
-  WorkElement.innerHTML = tableHtml + "</tbody></table>";
+  else WorkElement.innerHTML = "<h1>NO FORM DATA AVAILABLE</h1>"
 }
 
 function saveDeborahsFormDataOnClick( event ) {
@@ -79,7 +85,7 @@ function FormsubmitCOJsonToCsv( formData ) {
   // Headers
   csvData += "Name, EMail, Date, Message\n";
 
-  if( formData.success ) {
+  if( formData && formData.success ) {
     for( let submission of formData.submissions ) {
       let date = submission.submitted_at.date.split(" ")[0];  // Just date, NOT time
       // Need to quote the msg if there are embedded , (comman), " (quote), \r\n, or \n

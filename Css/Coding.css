@@ -178,12 +178,6 @@ input[type="range"] {
   /* border: solid 2px red; */
 }
 
-label {
-  display: block; /* So we can do margin-top */
-  margin-top: 20px;
-  background-color: orange;
-  cursor: pointer;
-}
 .SectionTest {
   background-color: yellow;
   cursor: pointer;

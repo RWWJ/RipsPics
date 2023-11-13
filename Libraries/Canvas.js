@@ -1,5 +1,5 @@
 //
-//    Canvas.js
+//    canvas.js
 //
 //
 
@@ -7,7 +7,7 @@
 //   8 Oct 2022  Created
 //  30 Oct 2022  Added more methods
 //  31 Oct 2022  AddisPointInPath( x, y )
-//   3 Nov 2022  Added mouseOnMove(), get mouseX(), get mouseY()
+//   3 Nov 2022  Added onMouseMove(), get mouseX(), get mouseY()
 //  10 Nov 2022  Added shadow(), dropShadow(), boxShadow()
 //               V1.4
 //  16 Nov 2022  Added strokeRect( ), drawImageRotate( ), and imageRotate( )
@@ -26,49 +26,136 @@
 //               V1.6a
 //  28 Nov 2022  Added text( ) and centerText( ). Added color param to vector()
 //               V1.6b
+//  29 Nov 2022  Added setTransform( ) and transform( ). Added a few comments.
+//               Added getters and setters for lineWidth()
+//               V1.7
+//               Added oval() and ellipse(). Made lots of minor changes around color and returning this
+//               V1.7a
+//               Added toDataURL(), strokeArc() strokeEllipse() and strokeOval(). Changed .arc() to NOT draw the path
+//               V1.7b
+//  13 Dec 2022  Started adding animateQue, addObj(), delObj(), clearObjs(), _moveObjs(), _drawObjs()
+//  14 Dec 2022  Added toColorString( ) to convert a number to a css color.
+//               Modified all the color code to use the new toColorString( )
+//               Fixed set color(), it was not setting the .canvas fillStyle or strokeStyle correctly
+//               V1.8
+//  18 Apr 2023  Added putImageData(), getImageData( ), createImageData()
+//               V1.9
+//  22 Apr 2023  Changed putImageData() parameter names dx and dy made me think of deltaX deltaY, not destX
+//               V2.0
+//  23 Apr 2023  Fix first line of circle() to be this.canvas.strokeStyle, NOT JUST this.strokeStyle
+//               v2.1
+//   6 Jun 2023  Fixed _drawObjs() so it clears the screen every frame
+//               Added fps default for addObj()
+//               Modified _moveObjs() to deal with a null move() (i.e. no move specified)
+//               Fixed setting ._previousMs in _moveObjs(), so that ALL objects will move
+//               Add .resized function pointer
+//               ReWrote clearRect() to be just that (i.e. the same as canvas clearRect() )
+//               ReWrote clear(), but it still has the same functionality (i.e. clear canvas (clear screen) )
+//               v2.2
+//  26 Jun 2023  Change _animate() to do nothing if animate objects queue is empty (i.e. don't clear canvas)
+//               v2.3
+//  19 Oct 2023  Fixed _animate() to check for existance of Paused global variable before using it
+//               v2.4
+//  22 Oct 2023  Added point( x, y, color = this.strokeColor )
+//               v2.5
+//  24 Oct 2023  Paused check in _animate() was still broken...fixed again :-)
+//               v2.6
+//  26 Oct 2023  Changed the call to draw() callback, to pass this Canvas object (useful to get width & height)
+//               v2.7
+//               Fixed toColorString() to pad the hex color string with 0's
+//               v2.7b
+//  28 Oct 2023  Added resetTransform() and resetMatrix()
+//               v2.8
+//   6 Nov 2023  Changed from using .onmousedown and .onmousemove to using addEventListener("..."), so they can't be (accidentally) overridden
+//               v2.9
+//   8 Nov 2023  Fixed this.mouseDown() so user specified this.mouseDown() is a different name than the internal this._mouseDown()
+//               Added this.element Synonym for this.canvasElement
+//               v3.0
+//  10 Nov 2023  Added setLineDash()
+//               v3.1
+//  11 Nov 2023  Added onResize() and resize()
+//               Deprecated resized()
+//               V3.2
+//               Added static degrees(radians)
+//               Added/changed some comments
+//               Added counterclockwise parameter to arc() and strokeArc()
+//               Added getDataURL( x, y, width, height )
+//               V3.3
+//  12 Nov 2023  Fixed dropShadow() and boxShadow() to use ...argv when calling shadow()
+//               V3.4
 
 
-var CanvasJsVersion = "1.6b";
+var CanvasJsVersion = "3.4";
 
 
-//   METHODS
+
+//    PROPERTIES / MEMBER VARIABLES
+//  element           ---   The DOM <canvas> element that we create the 2d context on
+//  canvasElement     ---   Synonym for element.  The DOM <canvas> element that we create the 2d context on
+//  canvas            ---   The 2d context to draw on
+//  mouse.x           ---   Constantly updated mouse coordinate
+//  mouse.y           ---   Constantly updated mouse coordinate
+//  mouseDown         ---   Set to a callback that is passed the event
+
+
+//    METHODS
 //
+//    User specified event listeners
+//  mouseMove( event )          --- User specified mouseDown callback
+//  onResize( )                --- User specified resize callback
+//  resize( )                  --- onResize() synonym
+//
+//
+//    Regular methods
 //  constructor( container )
-//  onMouseDown( event )
-//  onMouseMove( event )
-//  onResize( event )
+//  _mouseDown( event )
+//  _onResize( event )
+//  resized                    --- DEPRECATED User specified callback for canvas resize
 //  save( )
 //  restore( )
+//  toColorString( color )
 //  set color( color )
 //  get color( )
 //  set strokeStyle( color )
 //  get strokeStyle( )
 //  set fillStyle( color )
 //  get fillStyle( )
+//  set lineWidth( width )
+//  get lineWidth( )
 //  set lineCap( style )
 //  get lineCap( )
 //  set lineJoin( style )
 //  get lineJoin( )
 //  translate( x, y )
-//  rotate( angle )
+//  transform( a,b, c,d, e,f )
+//  setTransform( a,b, c,d, e,f )
+//  resetTransform( )
+//  resetMatrix( )
+//  rotate( angleDeg, cx=null, cy=null )   // Optionaly translate to cx,cy before rotating
 //  beginPath( )
 //  closePath( )
 //  stroke( )
 //  fill( )
+//  point( x, y, color = this.strokeColor )
 //  moveTo( x, y )
 //  lineTo( x, y )
-//  line( sx, sy, dx, dy, color = this.strokeRectolor )
-//  clearRect( )
+//  line( sx, sy, dx, dy, color = this.strokeColor )
+//  clearRect( x, y, w, h )
 //  clear( )
 //  rect( x, y, w, h, color = this.strokeColor )
 //  strokeRect( x, y, w, h, color = this.strokeColor )
 //  fillRect( x, y, w, h, color = this.fillColor )
 //  roundedRect( x1, y1, w, h, radius, color=this.strokeColor )
 //  arcTo( x1, y1, x2, y2, r )
-//  arc( cx, cy, r, deg1, deg2, color = this.strokeRectolor )
-//  circle( cx, cy, r, color = this.strokeRectolor )
-//  strokeCircle( cx, cy, r, color = this.strokeRectolor )
+//  arc( cx, cy, r, deg1, deg2, color = this.strokeColor, counterclockwise = false )
+//  strokeArc( cx, cy, r, deg1, deg2, color = this.strokeColor, counterclockwise = false )
+//  circle( cx, cy, r, color = this.strokeColor )
+//  strokeCircle( cx, cy, r, color = this.strokeColor )
 //  fillCircle( cx, cy, r, color = this.fillColor )
+//  oval( x, y, radiusX, radiusY, rotationDeg=0 )
+//  strokeOval( x, y, radiusX, radiusY, rotationDeg=0, color = this.strokeColor )
+//  ellipse( x, y, radiusX, radiusY, rotationDeg=0, startAngle=0, endAngle=360, counterclockwise = false )
+//  strokeEllipse( x, y, radiusX, radiusY, rotationDeg=0, startAngle=0, endAngle=360, counterclockwise = false, color = this.strokeColor )
 //  vector( x, y, angle, distance, color = this.strokeColor )
 //  strokeText( text, x, y, color = this.strokeColor )
 //  fillText( text, x, y, color = this.fillColor )
@@ -80,17 +167,33 @@ var CanvasJsVersion = "1.6b";
 //  get textAlign( )
 //  set textBaseline( how )
 //  get textBaseline( )
-//  drawImage( img, x1, y1, w1, h1, x2, y2, w2, h2 )
-//  image( img, x1, y1, w1, h1, x2, y2, w2, h2 )
-//  imageRotate( img, x1, y1, w1, h1, x2, y2, w2, h2, angle = 0 )
-//  drawImageRotate( img, x1, y1, w1, h1, x2, y2, w2, h2, angle = 0 )
-//  drawImage( img, x1, y1, w1, h1, x2, y2, w2, h2 )
+//  image( img, x1, y1, w1, h1, x2, y2, w2, h2 )     // Most are optional params, just like canvas context
+//  drawImage( img, x1, y1, w1, h1, x2, y2, w2, h2 )  // Most are optional params, just like canvas context
+//  imageRotate( img, x1, y1, w1, h1, x2, y2, w2, h2, angleDeg = 0 )
+//  drawImageRotate( img, x1, y1, w1, h1, x2, y2, w2, h2, angleDeg = 0 )
+//  getImageData( srcX, srcY, srcW, srcH )
+//  putImageData( imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight )
+//  createImageData( width, height )
+//  toDataURL( mimeType = "image/png" ) // Get whole canvas as a dataURL
+//  getDataURL( x, y, width, height )   // Similar to toDataURL(), but for spefic area of canvas
 //  bezierCurveTo( ctlX1, ctlY1, ctlX2, ctlyY2, x, y )
 //  isPointInPath( x, y )
 //  shadow( offsetX, offsetY, blurRadius, color )
 //  boxShadow( offsetX, offsetY, blurRadius, color )
 //  dropShadow( offsetX, offsetY, blurRadius, color )
-//  radians( degrees )
+//  setLineDash( lengths )
+//  addObj( move, draw, fps )   // Where move() and draw() are both passed this Canvas object
+//  delObj( objId )
+//  clearObjs( )
+//  _moveObjs( ms )
+//  _drawObjs( )
+//  _animate( ms )
+//
+//
+//    Static methods, call with Canvas.fn()
+//  Canvas.radians( degrees )   // Static method
+//  Canvas.degrees( radians )   // Static method
+//
 
 
 
@@ -98,50 +201,58 @@ class Canvas {
 
   //
   // container can be:
-  //   ""  --- We will create a <div> container and a <canvas>, appended to the <body>
-  //   "idName"  --- Id name of a <div> container, we will create a <canvas>, appended to the <div>
-  //   element  --- A <div> element, we will create a <canvas>, appended to the <div>
+  //   ""  --- We will create a <div> container appended to the <body>  and a <canvas> appended to the <div>
+  //   "idName"  --- Id name of a <div> container (or other element), we will create a <canvas>, appended to the element
+  //   element  --- A <div> element (or other element), we will create a <canvas>, appended to the element
   //
   constructor( container = "" ) {
-    if( container === "" ) {
-      container = document.body.appendChild( document.createElement( "div" ) );
-    }
-    else if( typeof container === "string" ) {
-      container = document.body.appendChild( document.getElementById( container ) );
+    const MinHeight = 600;  // Only used if container has 0 height
+
+    if( container === "" )  container = document.body.appendChild( document.createElement( "section" ) );
+    else if( typeof container === "string" ) container = document.body.appendChild( document.getElementById( container ) );
+    if( !container.offsetHeight ) {
+      console.error( `ContentArea div has no height, so canvas would have 0px height! Forcing it to ${MinHeight}` );
+      container.style.height = MinHeight+"px";  // The section defaults to 0px high, which will make our canvas 0px as well
     }
     this.containerElement = container;
     this.canvasElement = document.createElement( "canvas" );
+    this.element = this.canvasElement
     this.canvas = this.canvasElement.getContext( "2d" );
 
-    // Set
+    this.resized = null;
+
+    // Sets
     //  this.width
     //  this.height
     //  this.offsetX
     //  this.offsetY
-    this.onResize();
+    this._onResize();
 
     this.mouse = {x:0, y:0};
 
     this.containerElement.appendChild( this.canvasElement );
 
-    this.lineWidth = 1;
-    this.strokeColor = "black";
-    this.fillColor = "black";
+    this.lineWidthValue = this.canvas.lineWidth = 1; // Value for .canvas.lineWidth
+    this.strokeColor = this.canvas.strokeStyle = "black";
+    this.fillColor = this.canvas.fillStyle = "black";
 
     // Setup event handlers
 
-    window.addEventListener( "resize", event => this.onResize( event ) ); // NOTE: ONLY window get's a resize event
+    window.addEventListener( "resize", event => this._onResize( event ) ); // NOTE: ONLY window get's a resize event
 
-    // NOTE: Must either use .bind(this) or a arrow function
-    this.canvas.canvas.onmousedown = this.onMouseDown.bind(this);      // Example with bind
-    this.canvas.canvas.onmousemove = event => this.onMouseMove(event); // Example with arrow function
-  }
+    this.canvas.canvas.addEventListener( "mousedown", event => this._mouseDown(event) )
+    this.canvas.canvas.addEventListener( "mousemove", event => this.mouseMove(event) )
+
+    this._animateQue = []; // [{move:function, draw:function, fps:60, elapsedSec}, {}, ...]
+    this._previousMs = performance.now();
+    this._animate( this._previousMs );
+  } // END constructor
 
 
   //
   // .mouse.x & .mouse.y are relative to Canvas
   //
-  onMouseDown( event ) {
+  _mouseDown( event ) {
     this.mouse.x = event.offsetX;
     this.mouse.y = event.offsetY;
 
@@ -152,13 +263,13 @@ class Canvas {
   //
   // .mouse.x & .mouse.y are relative to Canvas
   //
-  onMouseMove( event ) {
+  mouseMove( event ) {
     this.mouse.x = event.offsetX;
     this.mouse.y = event.offsetY;
   }
 
 
-  onResize( event ) {
+  _onResize( event ) {
     this.width = this.containerElement.offsetWidth;
     this.height = this.containerElement.offsetHeight;
 
@@ -170,8 +281,15 @@ class Canvas {
     this.canvasElement.height = this.height;
 
     // These get us offset from the left/top of the document NOT the window
+    // Probably not useful
     this.offsetX = this.containerElement.offsetLeft;
     this.offsetY = this.containerElement.offsetTop;
+
+    // Call user resized handler
+    if( this.onResize ) this.onResize(  );
+    if( this.resize ) this.resize(  );
+    // .resized is deprecated. Keep for backwards compatibility
+    if( this.resized ) this.resized( this.offsetX, this.offsetY, this.width, this.height );
   }
 
 
@@ -188,9 +306,22 @@ class Canvas {
   }
 
 
+  //
+  // If color is a number, then convert it to standard css hex string (#000000)
+  // Otherwise, return unchanged
+  //
+  static toColorString( color ) {
+    // .floor() to deal with floats
+    if( typeof color == "number" ) {
+      color = "#" + Math.floor(color).toString(16).padStart(6,0);
+    }
+
+    return color;
+  }
+
   set color( color ) {
-    this.strokeColor = color;
-    this.fillColor = color;
+    this.strokeStyle = color;
+    this.fillStyle = color;
 
     return color;
   }
@@ -205,6 +336,10 @@ class Canvas {
   // For canvas naming consistency
   //
   set strokeStyle( color ) {
+    color = Canvas.toColorString( color );
+
+    this.canvas.strokeStyle = color;
+
     return this.strokeColor = color;
   }
 
@@ -218,12 +353,26 @@ class Canvas {
   // For canvas naming consistency
   //
   set fillStyle( color ) {
+    color = Canvas.toColorString( color );
+
+    this.canvas.fillStyle = color;
+
     return this.fillColor = color;
   }
 
 
   get fillStyle( ) {
     return this.fillColor;
+  }
+
+  set lineWidth( width ) {
+    this.canvas.lineWidth = width;
+
+    return this.lineWidthValue = width;
+  }
+
+  get lineWidth( ) {
+    return this.lineWidthValue;
   }
 
 
@@ -257,6 +406,12 @@ class Canvas {
   }
 
 
+  //
+  // Modify the matrix, moving the origin to be x, y for drawing
+  //
+  // Negative values can effectively flip the canvas, but this is
+  // probably not what you want if using text or images
+  //
   translate( x, y ) {
     this.canvas.translate( x, y );
 
@@ -264,9 +419,65 @@ class Canvas {
   }
 
 
+  //
+  // Multiply the matrix by these values
+  //
+  // Documentation calls these parameters: a, b, c, d, e, f
+  //  --or-- m11, m12, m21, m22, dx, dy
+  // Defined as: xScale, ySkew, xSkew, yScale, xTranslate, yTranslate
+  //
+  transform( a,b, c,d, e,f ) {
+    this.canvas.transform( a,b, c,d, e,f );
+
+    return this;
+  }
+
+
+  //
+  // The unity matrix (original, no translation, no rotation), is ( 1,0, 0,1, 0,0 )
+  // So setting the matrix with those values is the same as resetTransform()
+  //
+  // Documentation calls these parameters: a, b, c, d, e, f
+  //  --or-- m11, m12, m21, m22, dx, dy
+  // Defined as: xScale, ySkew, xSkew, yScale, xTranslate, yTranslate
+  //
+  setTransform( a,b, c,d, e,f ) {
+    this.canvas.setTransform( a,b, c,d, e,f );
+
+    return this;
+  }
+
+
+  //
+  // Same as resetMatrix()
+  //
+  resetTransform( ) {
+    this.canvas.resetTransform( );
+
+    return this;
+  }
+
+
+  //
+  // Same as resetTransform()
+  //
+  resetMatrix( ) {
+    this.canvas.resetTransform( );
+
+    return this;
+  }
+
+
+  //
   // Angle in degrees
-  rotate( angle ) {
-    this.canvas.rotate( this.radians(angle) );
+  //
+  // Optional translation to cx, cy
+  //
+  rotate( angleDeg, cx=null, cy=null ) {
+    // If cx and cy were specified, then translate to there before rotating
+    if( cx != null && cy != null )  this.translate( cx, cy );
+
+    this.canvas.rotate( Canvas.radians(angleDeg) );
 
     return this;
   }
@@ -287,9 +498,6 @@ class Canvas {
 
 
   stroke( ) {
-    this.canvas.strokeStyle = this.strokeColor;
-    this.canvas.lineWidth = this.lineWidth;
-
     this.canvas.stroke();
 
     return this;
@@ -297,11 +505,14 @@ class Canvas {
 
 
   fill( ) {
-    this.canvas.fillStyle = this.fillColor;
-
     this.canvas.fill();
 
     return this;
+  }
+
+
+  pixel( x, y, color = this.strokeColor ) {
+    fillRect( x, y, 1, 1, color );
   }
 
 
@@ -320,31 +531,34 @@ class Canvas {
 
 
   line( sx, sy, dx, dy, color = this.strokeColor ) {
-    this.strokeColor = color;
+    this.canvas.strokeStyle = Canvas.toColorString( color );
     this.canvas.beginPath( );
     this.canvas.moveTo( sx, sy );
     this.canvas.lineTo( dx, dy );
-    this.stroke( );  // Sets lineWidth and strokeStyle
+    this.canvas.stroke( );
+
+    this.canvas.strokeStyle = this.strokeColor; // Restore strokeStyle
+
+    return this;
+  }
+
+
+  clearRect( x = 0, y = 0, w = this.width, h = this.height ) {
+    this.canvas.clearRect( x, y, w, h );
 
     return this;
   }
 
 
   //
-  // Synonym for clear()
-  //
-  clearRect( ) {
-    this.canvas.clearRect( 0, 0, this.width, this.height );
-
-    return this;
-  }
-
-
-  //
-  // Synonym for clearRect()
+  // Clear the whole canvas
   //
   clear( ) {
-    this.clearRect();
+    // Ensure "clear screen" is not translated or rotated
+    this.canvas.save();
+    this.canvas.setTransform( 1,0, 0,1, 0,0 ); // Unity
+    this.canvas.clearRect( 0, 0, this.width, this.height );
+    this.canvas.restore();
 
     return this;
   }
@@ -353,58 +567,83 @@ class Canvas {
   //
   // Synonym for strokeRect()
   //
+  // Does not effect path
+  //
   rect( x, y, w, h, color = this.strokeColor ) {
-    this.strokeRect( x, y, w, h, color );
-
-    return this;
+    return this.strokeRect( x, y, w, h, color );
   }
 
 
+  //
+  // Does not effect path
+  //
   strokeRect( x, y, w, h, color = this.strokeColor ) {
-    this.save( );
-    this.canvas.strokeStyle = color;
-    this.canvas.lineWidth = this.lineWidth;
-
+    this.canvas.strokeStyle = Canvas.toColorString( color );
     this.canvas.strokeRect( x, y, w, h );
-    this.restore( );
+
+    this.canvas.strokeStyle = this.strokeColor; // Restore strokeStyle
 
     return this;
   }
 
 
   fillRect( x, y, w, h, color = this.fillColor ) {
-    this.save( );
-    this.canvas.fillStyle = color;
-    this.canvas.lineWidth = this.lineWidth;
-
+    this.canvas.fillStyle = Canvas.toColorString( color );
     this.canvas.fillRect( x, y, w, h );
-    this.restore( );
+
+    this.canvas.fillStyle = this.fillColor; // Restore fillStyle
 
     return this;
   }
 
 
   //
-  // NOTE: I DID write this function :-)
+  // NOTE: I DID write this function :-) As apposed to the old one that I did not
   //
   roundedRect( x1, y1, w, h, r, color=this.strokeColor ) {
     let x2 = x1 + w - 1;
     let y2 = y1 + h -1;
 
-    this.save( );
-    this.strokeColor = color;
-    this.beginPath( );
-    this.moveTo( x1, y2 - r );  // Start at radius distance from Bottom left
+    this.canvas.strokeStyle = Canvas.toColorString( color );
+    this.canvas.beginPath( );
+    this.canvas.moveTo( x1, y2 - r );  // Start at radius distance from Bottom left
 
     // Draw line to within radius distance from the corner
     // Arc from that point toward corner THEN arc toward next corner
-    this.arcTo( x1, y1, x2, y1, r );       // Top Left
+    this.canvas.arcTo( x1, y1, x2, y1, r );       // Top Left
     // Repeat for other three sides and corners
-    this.arcTo( x2, y1, x2, y2, r );       // Top right
-    this.arcTo( x2, y2, x1, y2, r );       // Bottom right
-    this.arcTo( x1, y2, x1, y2 - r, r ); // Bottom left (ending at y1 would duplicate line)
-    this.stroke( );  // Sets lineWidth and strokeStyle
-    this.restore( );
+    this.canvas.arcTo( x2, y1, x2, y2, r );       // Top right
+    this.canvas.arcTo( x2, y2, x1, y2, r );       // Bottom right
+    this.canvas.arcTo( x1, y2, x1, y2 - r, r ); // Bottom left (ending at y1 would duplicate line)
+    this.canvas.stroke( );
+
+    this.canvas.strokeStyle = this.strokeColor; // Restore strokeStyle
+
+    return this;
+  }
+
+
+  //
+  // NOTE: I DID write this function :-) As apposed to the old one that I did not
+  //
+  fillRoundedRect( x1, y1, w, h, r, color=this.fillColor ) {
+    let x2 = x1 + w - 1;
+    let y2 = y1 + h - 1;
+
+    this.canvas.fillStyle = Canvas.toColorString( color );
+    this.canvas.beginPath( );
+    this.canvas.moveTo( x1, y2 - r );  // Start at radius distance from Bottom left
+
+    // Draw line to within radius distance from the corner
+    // Arc from that point toward corner THEN arc toward next corner
+    this.canvas.arcTo( x1, y1, x2, y1, r );       // Top Left
+    // Repeat for other three sides and corners
+    this.canvas.arcTo( x2, y1, x2, y2, r );       // Top right
+    this.canvas.arcTo( x2, y2, x1, y2, r );       // Bottom right
+    this.canvas.arcTo( x1, y2, x1, y2 - r, r ); // Bottom left (ending at y1 would duplicate line)
+    this.canvas.fill( );
+
+    this.canvas.fillStyle = this.fillColor; // Restore strokeStyle
 
     return this;
   }
@@ -415,30 +654,40 @@ class Canvas {
   // Good for rounding rectangle corners
   //
   arcTo( x1, y1, x2, y2, r ) {
-    this.canvas.arcTo( x1, y1, x2, y2, r );
+    return this.canvas.arcTo( x1, y1, x2, y2, r );
+  }
+
+
+  //
+  // Add an arc to the path
+  // Does NOT stroke/draw the path
+  //
+  arc( cx, cy, r, deg1, deg2, counterclockwise = false ) {
+    this.canvas.arc( cx, cy, r, Canvas.radians(deg1), Canvas.radians(deg2), counterclockwise );
 
     return this;
   }
 
 
-  arc( cx, cy, r, deg1, deg2, color = this.strokeColor ) {
-    let rad1 = Math.PI / 180 * deg1;
-    let rad2 = Math.PI / 180 * deg2;
-
-    this.strokeColor = color;
+  strokeArc( cx, cy, r, deg1, deg2, color = this.strokeColor, counterclockwise = false ) {
+    this.canvas.strokeStyle = Canvas.toColorString( color );
     this.canvas.beginPath( );
-    this.canvas.arc( cx, cy, r, rad1, rad2 );
-    this.stroke( );  // Sets lineWidth and strokeStyle
+    this.canvas.arc( cx, cy, r, Canvas.radians(deg1), Canvas.radians(deg2), counterclockwise );
+    this.canvas.stroke( );
+
+    this.canvas.strokeStyle = this.strokeColor; // Restore strokeStyle
 
     return this;
   }
 
 
   circle( cx, cy, r, color = this.strokeColor ) {
-    this.strokeColor = color;
+    this.canvas.strokeStyle = Canvas.toColorString( color );
     this.canvas.beginPath( );
     this.canvas.arc( cx, cy, r, 0, Math.PI * 2, color );
-    this.stroke( );  // Sets lineWidth and strokeStyle
+    this.canvas.stroke( );
+
+    this.canvas.strokeStyle = this.strokeColor; // Restore strokeStyle
 
     return this;
   }
@@ -448,28 +697,88 @@ class Canvas {
   // Synonym for circle()
   //
   strokeCircle( cx, cy, r, color = this.strokeColor ) {
-    this.circle( cx, cy, r, color );
-
-    return this;
+    return this.circle( cx, cy, r, color );
   }
+
 
 
   fillCircle( cx, cy, r, color = this.fillColor ) {
-    this.fillColor = color;
+    this.canvas.fillStyle = Canvas.toColorString( color );
     this.canvas.beginPath( );
     this.canvas.arc( cx, cy, r, 0, Math.PI * 2 );
-    this.fill( );  // Sets fillStyle
+    this.canvas.fill( );
+
+    this.canvas.fillStyle = this.fillColor; // Restore fillStyle
 
     return this;
   }
 
 
   //
-  // Draw line with given angle and lenght (distance)
+  // Add a full (closed) oval/elipse to the path
   //
-  vector( x, y, angle, distance, color = this.strokeColor ) {
-    let newX = x + Math.cos(angle) * distance;
-    let newY = y + Math.sin(angle) * distance;
+  oval( x, y, radiusX, radiusY, rotationDeg=0 ) {
+    this.ellipse( x, y, radiusX, radiusY, rotationDeg, 0, 360 );
+
+    return this;
+  }
+
+
+  //
+  // Draw a full (closed) oval/elipse
+  //
+  strokeOval( x, y, radiusX, radiusY, rotationDeg=0, color = this.strokeColor ) {
+    this.canvas.strokeStyle = Canvas.toColorString( color );
+    this.canvas.beginPath();
+    this.ellipse( x, y, radiusX, radiusY, rotationDeg, 0, 360 );
+    this.canvas.stroke();
+
+    this.canvas.strokeStyle = this.strokeColor; // Restore strokeStyle
+
+    return this;
+  }
+
+
+  //
+  // Adds an ellipse, whole or part of one, to the path (does NOT draw the path)
+  //
+  // rotation angle is in degrees (it is converted to radians for you)
+  // rotation seems to start with 0 at radiusX on the x axis and go clockwise
+  //
+  ellipse( x, y, radiusX, radiusY, rotationDeg=0, startAngle=0, endAngle=360, counterclockwise = false ) {
+    this.canvas.ellipse( x, y, radiusX, radiusY, Canvas.radians(rotationDeg),
+      Canvas.radians(startAngle), Canvas.radians(endAngle), counterclockwise );
+
+    return this;
+  }
+
+
+  //
+  // Draws an ellipse, whole or part of one
+  //
+  // rotation angle is in degrees (it is converted to radians for you)
+  // rotation seems to start with 0 at radiusX on the x axis and go clockwise
+  //
+  strokeEllipse( x, y, radiusX, radiusY, rotationDeg=0, startAngle=0, endAngle=360,
+        counterclockwise = false, color = this.strokeColor ) {
+    this.canvas.strokeStyle = Canvas.toColorString( color );
+    this.canvas.beginPath();
+    this.canvas.ellipse( x, y, radiusX, radiusY, Canvas.radians(rotationDeg),
+      Canvas.radians(startAngle), Canvas.radians(endAngle), counterclockwise );
+    this.canvas.stroke();
+
+    this.canvas.strokeStyle = this.strokeColor; // Restore strokeStyle
+
+    return this;
+  }
+
+
+  //
+  // Draw line with given angle (degrees) and length (distance)
+  //
+  vector( x, y, angleDeg, distance, color = this.strokeColor ) {
+    let newX = x + Math.cos(Canvas.radians(angleDeg)) * distance;
+    let newY = y + Math.sin(Canvas.radians(angleDeg)) * distance;
 
     this.line( x, y, newX, newY, color );
 
@@ -478,18 +787,20 @@ class Canvas {
 
 
   strokeText( text, x, y, color = this.strokeColor ) {
-    this.canvas.strokeStyle = color;
-
+    this.canvas.strokeStyle = Canvas.toColorString( color );
     this.canvas.strokeText( text, x, y );
+
+    this.canvas.strokeStyle = this.strokeColor; // Restore strokeStyle
 
     return this;
   }
 
 
   fillText( text, x, y, color = this.fillColor ) {
-    this.canvas.fillStyle = color;
-
+    this.canvas.fillStyle = Canvas.toColorString( color );
     this.canvas.fillText( text, x, y );
+
+    this.canvas.fillStyle = this.fillColor; // Restore strokeStyle
 
     return this;
   }
@@ -592,11 +903,11 @@ class Canvas {
   //
   // Draw sprite rotated around it's center
   //
-  imageRotate( img, x1, y1, w1, h1, x2, y2, w2, h2, angle = 0 ) {
+  imageRotate( img, x1, y1, w1, h1, x2, y2, w2, h2, angleDeg = 0 ) {
     if( arguments.length >= 9 ) {
       this.canvas.save( );
       this.canvas.translate( x2+w2/2, y2+h2/2 );
-      this.canvas.rotate( angle * Math.PI / 180 );
+      this.canvas.rotate( Canvas.radians(angleDeg) );
 
       this.canvas.drawImage( img, x1, y1, w1, h1, -w2/2, -h2/2, w2, h2 );
       this.canvas.restore( );
@@ -616,6 +927,48 @@ class Canvas {
       return this;
   }
 
+  getImageData( srcX, srcY, srcW, srcH ) {
+    return this.canvas.getImageData( srcX, srcY, srcW, srcH );
+  }
+
+  putImageData( imageData, destX, destY, dirtyX=0, dirtyY=0, dirtyWidth=imageData.width, dirtyHeight=imageData.height ) {
+    this.canvas.putImageData( imageData, destX, destY, dirtyX, dirtyY, dirtyWidth, dirtyHeight );
+
+    return this;
+  }
+
+  createImageData( width, height ) {
+    return this.canvas.createImageData( width, height );
+  }
+
+  //
+  // Returns a dataURL of the canvas contents,
+  // which can be used as the same as a image file name for image .src etc..
+  //
+  toDataURL( mimeType = "image/png", quality = 1.0 ) {
+    // Needs the canvasElement
+    return this.canvasElement.toDataURL( mimeType, quality ); // 1.0 is high quality, for lossy mime types
+  }
+
+
+  //
+  // Return specified area of Canvas as a DataURL
+  //
+  getDataURL( x, y, width, height ) {
+    let scratchpadCanvasElement =  document.createElement("canvas")
+    let scratchpadCanvas = this.scratchpadCanvasElement.getContext( "2d" )
+
+    // Canvas width & height can change from call to call, without having to create a new canvas
+    scratchpadCanvasElement.width = width
+    scratchpadCanvasElement.height = height
+
+    // Copy from main canvas element, to scratchpad canvas context
+    scratchpadCanvas.drawImage( this.element, x, y, width, height, 0, 0, width, height )
+
+    return scratchpadCanvasElement.toDataURL( "image/png" ) // Need to use the large png if we want transparency!!!
+  }
+
+
   //
   // Draw a curve from the current path point to x,y using the two control points to set the curve
   //
@@ -634,13 +987,13 @@ class Canvas {
 
 
   //
-  // Synonym for boxShadow() and dropShadow()
+  // Caller should probably wrap code in a .save() and .restore() as appropriate
   //
   shadow( offsetX, offsetY, blurRadius, color = "black" ) {
-    CanvasCtx.shadowOffsetX = offsetX;
-    CanvasCtx.shadowOffsetY = offsetY;
-    CanvasCtx.shadowBlur = blurRadius;
-    CanvasCtx.shadowColor = color;
+    this.canvas.shadowOffsetX = offsetX;
+    this.canvas.shadowOffsetY = offsetY;
+    this.canvas.shadowBlur = blurRadius;
+    this.canvas.shadowColor = color;
 
     return this;
   }
@@ -650,9 +1003,7 @@ class Canvas {
   // Synonym for shadow()
   //
   boxShadow( ...argz ) {
-    this.shadow( argz );
-
-    return this;
+    return this.shadow( ...argz );
   }
 
 
@@ -660,9 +1011,82 @@ class Canvas {
   // Synonym for shadow()
   //
   dropShadow( ...argz ) {
-    this.shadow( argz );
+    return this.shadow( ...argz );
+  }
 
-    return this;
+
+  //
+  // Set lenghts of dashes so we draw a "dotted" line
+  //
+  setLineDash( lengths ) {
+    this.canvas.setLineDash( lengths )
+
+    return this
+  }
+
+
+  //
+  // Add move() and draw() functions to the que to be called via requestAnimationFrame()
+  //
+  // NOTE: move() can be null if object does not move every frame
+  //
+  // Returns identifier that can be used by call to delObj(id) (is actually the index into our ._animateQue[])
+  //
+  // ._animateQue = [{move:function, draw:function, fps:60, elapsedSec}, {}, ...]
+  //
+  addObj( move, draw, fps=60 ) {
+    this._animateQue.push( {move,draw,fps,elapsedSec:0} );
+
+    return this._animateQue.length - 1;
+  }
+
+
+  delObj( objId ) {
+    this._animateQue.splice( objId, 1 );
+  }
+
+
+  clearObjs( ) {
+    this._animateQue = [];
+  }
+
+  _moveObjs( ms ) {
+    let deltaSecs;
+
+    for( let obj of this._animateQue ) {
+      if( obj.move ) {
+        deltaSecs = (ms - this._previousMs) / 1000;   // Seconds since last call to _moveObjs()
+        obj.elapsedSec += deltaSecs;
+
+        if( obj.elapsedSec >= (1 / obj.fps) ) {
+          obj.elapsedSec = 0; // Start timing over
+
+          obj.move( this );  // Pass Canvas object, to use for getting canvas width & height, etc..
+        }
+      }
+    } // END for
+
+    this._previousMs = ms;        // Save new previous value
+  }
+
+
+  _drawObjs( ) {
+    this.clear();
+
+    for( let obj of this._animateQue ) {
+      obj.draw( this );  // Pass Canvas object, to use for drawing
+    }
+  }
+
+
+  _animate( ms ) {
+    // Let the canvas be used for static drawing, if nothing is in the animate object queue
+    if( (!("Paused" in window) || !Paused) && this._animateQue.length  ) {
+      this._moveObjs( ms );
+      this._drawObjs();
+    }
+
+    requestAnimationFrame( ms => this._animate(ms) );
   }
 
 
@@ -671,9 +1095,22 @@ class Canvas {
   //
   // NOTE: Same as radians(degrees) from math.js, to keep us independant of math.js
   //
-  radians( degrees ) {
+  static radians( degrees ) {
     return degrees * Math.PI / 180;
   }
+
+
+  //
+  // Convert radians to degrees
+  //
+  // NOTE: Same as degrees(radians) from math.js
+  //
+  static degrees( radians ) {
+    return radians * 180 / Math.PI;
+  }
+
+
+
 
 
 

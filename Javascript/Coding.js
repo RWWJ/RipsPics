@@ -7,11 +7,11 @@
 
 
 const DispatchTable = {
+  ColorfulCar : {start:colorfulCarStart, stop:colorfulCarStop},
   SimonSays : {start:simonSaysStart, stop:simonSaysStop},
   AutumnLeaves : {start:autumnLeavesStart, stop:autumnLeavesStop},
   CanvasPlay : {start:canvasPlayStart, stop:canvasPlayStop},
   SpritesheetEditing : {start:spritesheetEditingStart, stop:spritesheetEditingStop},
-  DeborahsZoomVideo : {start:deborahsZoomVideoStart, stop:deborahsZoomVideoStop},
   DeborahsFormData : {start:deborahsFormDataStart, stop:deborahsFormDataStop},
 };
 
