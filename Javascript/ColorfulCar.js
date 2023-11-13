@@ -5,7 +5,7 @@
 function colorfulCarStart( ) {
   WorkElement.innerHTML = "<h1>Fun Colorful Car animation</h1>"
 
-  MainCanvas = new Canvas( )
+  MainCanvas = new Canvas( WorkElement )
 
   // DEBUG Just playing around with some crazy code
   let x = 0
