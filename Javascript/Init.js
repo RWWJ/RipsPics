@@ -71,13 +71,16 @@ function createMenus( ) {
 //
 // Toggle Houdini when user Alt-clicks on my EMail address
 //
-// css can target .Houdini to markup the <a> email address element (highligt, add text :after, etc...)
+// css can target .Houdini to markup the <a> email address element (highlight, add text :after, etc...)
 //
 function houdini( event ) {
   if( event.altKey ) {
     Houdini = !Houdini;
 
-    if( Houdini ) event.target.classList.add( "Houdini" );
+    if( Houdini ) {
+      event.target.classList.add( "Houdini" );
+      window.location.href = `${window.location.origin}/test.html`
+    }
     else          event.target.classList.remove( "Houdini" );
   }
 }
