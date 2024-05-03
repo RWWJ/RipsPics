@@ -86,6 +86,35 @@ function createTable( ) {
 
 
 
+//
+// CatBox
+//
+function catBoxWriteUrlOnClick( event ) {
+  let form = new FormData()
+  // let form = new FormData( SendImgUrlFormID )
+  let apiUrl = "https://catbox.moe/user/api.php"  // "https://reqres.in/api/users"
+  let userHash = "529ff4c513f89932b474d83d8"
+  let imageUrl = "https://ripspics.com/Images/StillLifes.jpg" // "https://ripspics.com/Images/Birds.jpg"
+
+  // Build up form data
+  form.set( "reqtype", "urlupload" )
+  form.set( "userhash", userHash )
+  form.set( "url", imageUrl )
+
+  // Send "form" request with fetch()
+  // fetch( apiUrl, {method:"POST", body:form, headers:{"Content-Type":"mutipart/form-data"}} )
+  fetch( apiUrl, {method:"POST", body:form} )  // Defaults to "cors" and "mutipart/form-data"
+  // fetch( apiUrl, {method:"POST", body:new URLSearchParams(form)} )  // Defaults to "application/x-www-form-urlencoded"
+  .then( response => response.text() )
+  .then( fileUrl => console.log( fileUrl ) )
+  .catch( error => {
+    console.log( "Caught fetch() error: ")
+    console.log( error )
+  } )
+}
+
+
+
 
 
 
