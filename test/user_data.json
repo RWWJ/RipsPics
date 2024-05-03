@@ -1,0 +1,86 @@
+[
+    {
+        "id": 12951,
+        "user_id": 1,
+        "balance_amt": 100,
+        "year": 2020,
+        "username": "User1"
+    },
+    {
+        "id": 11751,
+        "user_id": 2,
+        "balance_amt": 100,
+        "year": 2020,
+        "username": "User2"
+    },
+    {
+        "id": 12816,
+        "user_id": 1,
+        "balance_amt": 100,
+        "year": 2021,
+        "username": "User1"
+    },
+    {
+        "id": 11014,
+        "user_id": 3,
+        "balance_amt": 0,
+        "year": 2020,
+        "username": "User3"
+    },
+    {
+        "id": 11817,
+        "user_id": 2,
+        "balance_amt": 100,
+        "year": 2021,
+        "username": "User2"
+    },
+    {
+        "id": 12466,
+        "user_id": 3,
+        "balance_amt": 100,
+        "year": 2021,
+        "username": "User3"
+    },
+    {
+        "id": 10664,
+        "user_id": 3,
+        "balance_amt": 0,
+        "year": 2022,
+        "username": "User3"
+    },
+    {
+        "id": 8944,
+        "user_id": 3,
+        "balance_amt": 100,
+        "year": 2023,
+        "username": "User3"
+    },
+    {
+        "id": 7269,
+        "user_id": 1,
+        "balance_amt": 0,
+        "year": 2022,
+        "username": "User1"
+    },
+    {
+        "id": 5632,
+        "user_id": 2,
+        "balance_amt": 0,
+        "year": 2022,
+        "username": "User2"
+    },
+    {
+        "id": 4034,
+        "user_id": 3,
+        "balance_amt": 0,
+        "year": 2024,
+        "username": "User3"
+    },
+    {
+        "id": 2476,
+        "user_id": 2,
+        "balance_amt": 0,
+        "year": 2023,
+        "username": "User2"
+    }
+  ]

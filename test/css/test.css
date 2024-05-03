@@ -1,0 +1,30 @@
+/*
+      test.css
+ */
+
+
+table {
+  border: solid 2px var(--DarkestColor);
+  border-collapse: collapse;
+}
+
+thead tr {
+  background: var(--DarkColor);
+}
+
+td, th {
+  padding: 0 10px;
+  border-bottom: solid 1px var(--DarkestColor);
+}
+
+td {
+  text-align: right;
+}
+
+tr:last-of-type td {
+  border: initial;
+}
+
+
+
+/*  */
