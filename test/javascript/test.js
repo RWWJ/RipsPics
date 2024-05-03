@@ -18,18 +18,18 @@ doTest( )
 
 
 function doTest( ) {
-  let {length, angle} = handleSkew( 10, -10 )
-  TestOutputID.innerHTML = `A: ${angle}, L: ${Math.floor(length)}`
-
-
-  fileReadJson( "test/user_data.json", result => {
-    if( result.jsonObj ) {
-      UserData = result.jsonObj
-
-      buildUsersAndYears( )
-      createTable( )
-    }
-  } )
+  // let {length, angle} = handleSkew( 10, -10 )
+  // TestOutputID.innerHTML = `A: ${angle}, L: ${Math.floor(length)}`
+  //
+  //
+  // fileReadJson( "test/user_data.json", result => {
+  //   if( result.jsonObj ) {
+  //     UserData = result.jsonObj
+  //
+  //     buildUsersAndYears( )
+  //     createTable( )
+  //   }
+  // } )
 }
 
 function handleSkew( skewX, skewY )  {
