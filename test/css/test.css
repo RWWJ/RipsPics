@@ -27,4 +27,25 @@ tr:last-of-type td {
 
 
 
+
+#nav {
+  height: 50px;
+  position: sticky;
+  top: 20px;
+
+  background-color: #f33;
+  /* z-index: 10; */
+}
+#card {
+  position: relative;
+  background: linear-gradient(45deg, #f3ec78, #af4261);
+  min-height: 1200px;
+
+  margin: 0px 50px;
+}
+
+
+
+
+
 /*  */

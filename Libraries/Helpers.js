@@ -27,11 +27,11 @@
 //  RWWJ   5 Sep 2022  Added hash() function (I did not write it)
 //  RWWJ  24 Sep 2022  Removed "redundant" .replace(".html", "") in pageName(), as it is a fix for Atom preview
 //  RWWJ  07 Oct 2022  Added extension()
-//					   Version 1.9
+//					           Version 1.9
 //  RWWJ  30 Oct 2022  Added changeExtension( fileName, ext )
 //
 //  19 Nov 2022  Added uuid() and initSlider()
-//        Version 2.0
+//                     Version 2.0
 
 
 var HelpersJsVersion = "2.0";
