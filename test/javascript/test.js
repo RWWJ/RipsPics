@@ -21,6 +21,7 @@ function doTest( ) {
     TestAreaID.innerHTML += `.changedTouches.offsetX: ${event.changedTouches[0].offsetX} <br><hr>`
     TestAreaID.innerHTML += `.changedTouches.clientX: ${event.changedTouches[0].clientX} <br><hr>`
     TestAreaID.innerHTML += `.changedTouches.pageX: ${event.changedTouches[0].pageX} <br><hr>`
+    TestAreaID.innerHTML += `Calculated: ${event.changedTouches[0].pageX - event.changedTouches[0].target.offsetLeft - event.changedTouches[0].target.clientLeft} <br><hr>`
   } )
 }
 
