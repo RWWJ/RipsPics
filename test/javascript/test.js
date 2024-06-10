@@ -12,13 +12,15 @@ doTest( )
 function doTest( ) {
   TestImageID.addEventListener( "mousemove", event => {
     TestAreaID.innerHTML += `event: ${JSON.stringify(event)} <br><hr>`
-    TestAreaID.innerHTML += `x: ${event.offsetX} <br><hr>`
+    TestAreaID.innerHTML += `event.offsetX: ${event.offsetX} <br><hr>`
+    TestAreaID.innerHTML += `event.clientX: ${event.clientX} <br><hr>`
+    TestAreaID.innerHTML += `event.pageX: ${event.pageX} <br><hr>`
   } )
   TestImageID.addEventListener( "touchmove", event => {
-    TestAreaID.innerHTML += `event.changedTouches: ${JSON.stringify(event.changedTouches)} <br><hr>`
-    TestAreaID.innerHTML += `.offsetX: ${event.offsetX} <br><hr>`
-    TestAreaID.innerHTML += `.pageX: ${event.pageX} <br><hr>`
-    TestAreaID.innerHTML += `.changedTouches.pageX: ${event.changedTouches.pageX} <br><hr>`
+    TestAreaID.innerHTML += `event.changedTouches: ${JSON.stringify(event.changedTouches[0])} <br><hr>`
+    TestAreaID.innerHTML += `.changedTouches.offsetX: ${event.changedTouches[0].offsetX} <br><hr>`
+    TestAreaID.innerHTML += `.changedTouches.clientX: ${event.changedTouches[0].clientX} <br><hr>`
+    TestAreaID.innerHTML += `.changedTouches.pageX: ${event.changedTouches[0].pageX} <br><hr>`
   } )
 }
 
