@@ -58,6 +58,11 @@ function clearOnClick( event ) {
 }
 
 
+function saveOnClick( event ) {
+  if( CanvasObj ) fileSaveCanvas( "Leaves.png", CanvasObj );
+}
+
+
 function canvasPlay( milliseconds ) {
   CanvasObj.save();
   // I'm no longer drawing lines (I'm filling shapes), so these settings have no effect

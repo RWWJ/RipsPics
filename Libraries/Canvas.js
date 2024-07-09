@@ -5,112 +5,107 @@
 
 //
 //   8 Oct 2022  Created
-//  30 Oct 2022  Added more methods
-//  31 Oct 2022  AddisPointInPath( x, y )
-//   3 Nov 2022  Added onMouseMove(), get mouseX(), get mouseY()
-//  10 Nov 2022  Added shadow(), dropShadow(), boxShadow()
-//               V1.4
-//  16 Nov 2022  Added strokeRect( ), drawImageRotate( ), and imageRotate( )
-//  17 Nov 2022  Added mouseDown() user mouse click event handler support
-//  25 Nov 2022  Added strokeCircle() and fillCircle(). Fixed .circle() and .arc() to use arc(), NOT arcTo()
-//               Removed get mouseX() and get mouseY()
-//               Added set strokeStyle() and set fillStyle()
-//               Fixed arcTo(). Added closePath(). Fixed a bunch of color useage
-//               Added roundedRect(). Changed font(), textAlign() and textBaseline()
-//               to be getters and setters. Added "return this" to most methods (for chaining)
-//               V1.5
-//  26 Nov 2022  Added some save() restore() calls to some methods.
-//               Consolidate some color and lineWidth into .stroke() and .fill() calls
-//               V1.6
-//               Added radians( ), fixed calls to .stroke() and .fill() to set color first
-//               V1.6a
-//  28 Nov 2022  Added text( ) and centerText( ). Added color param to vector()
-//               V1.6b
-//  29 Nov 2022  Added setTransform( ) and transform( ). Added a few comments.
-//               Added getters and setters for lineWidth()
-//               V1.7
-//               Added oval() and ellipse(). Made lots of minor changes around color and returning this
-//               V1.7a
-//               Added toDataURL(), strokeArc() strokeEllipse() and strokeOval(). Changed .arc() to NOT draw the path
-//               V1.7b
-//  13 Dec 2022  Started adding animateQue, addObj(), delObj(), clearObjs(), _moveObjs(), _drawObjs()
-//  14 Dec 2022  Added toColorString( ) to convert a number to a css color.
-//               Modified all the color code to use the new toColorString( )
-//               Fixed set color(), it was not setting the .canvas fillStyle or strokeStyle correctly
-//               V1.8
-//  18 Apr 2023  Added putImageData(), getImageData( ), createImageData()
-//               V1.9
-//  22 Apr 2023  Changed putImageData() parameter names dx and dy made me think of deltaX deltaY, not destX
-//               V2.0
-//  23 Apr 2023  Fix first line of circle() to be this.canvas.strokeStyle, NOT JUST this.strokeStyle
-//               v2.1
-//   6 Jun 2023  Fixed _drawObjs() so it clears the screen every frame
-//               Added fps default for addObj()
-//               Modified _moveObjs() to deal with a null move() (i.e. no move specified)
-//               Fixed setting ._previousMs in _moveObjs(), so that ALL objects will move
-//               Add .resized function pointer
-//               ReWrote clearRect() to be just that (i.e. the same as canvas clearRect() )
-//               ReWrote clear(), but it still has the same functionality (i.e. clear canvas (clear screen) )
-//               v2.2
-//  26 Jun 2023  Change _animate() to do nothing if animate objects queue is empty (i.e. don't clear canvas)
-//               v2.3
-//  19 Oct 2023  Fixed _animate() to check for existance of Paused global variable before using it
-//               v2.4
-//  22 Oct 2023  Added point( x, y, color = this.strokeColor )
-//               v2.5
-//  24 Oct 2023  Paused check in _animate() was still broken...fixed again :-)
-//               v2.6
-//  26 Oct 2023  Changed the call to draw() callback, to pass this Canvas object (useful to get width & height)
-//               v2.7
-//               Fixed toColorString() to pad the hex color string with 0's
-//               v2.7b
-//  28 Oct 2023  Added resetTransform() and resetMatrix()
-//               v2.8
-//   6 Nov 2023  Changed from using .onmousedown and .onmousemove to using addEventListener("..."), so they can't be (accidentally) overridden
-//               v2.9
-//   8 Nov 2023  Fixed this.mouseDown() so user specified this.mouseDown() is a different name than the internal this._mouseDown()
-//               Added this.element Synonym for this.canvasElement
-//               v3.0
-//  10 Nov 2023  Added setLineDash()
-//               v3.1
-//  11 Nov 2023  Added onResize() and resize()
-//               Deprecated resized()
-//               V3.2
-//               Added static degrees(radians)
-//               Added/changed some comments
-//               Added counterclockwise parameter to arc() and strokeArc()
-//               Added getDataURL( x, y, width, height )
-//               V3.3
-//  12 Nov 2023  Fixed dropShadow() and boxShadow() to use ...argv when calling shadow()
-//               V3.4
+//...
+//...
+//...
+//  13 Nov 2023  Added .width and .height getters and setters that resize the canvas and .containerElement
+//  14 Nov 2023  Changed so that obj.draw() is only called at the rate of obj.fps like obj.move()
+//               Move functionality of _moveObjs() and _drawObjs() into _animate()
+//               Objects and now drawn at the same speed as they are moved. No more unnecessary CPU cycles used for drawing
+//               V3.5
+//  15 Nov 2023  Defined user callback function pointers, .onResize, .onMouseDown, .onMouseMove (it's more documentary)
+//               Added .autoWidth and .autoHeight booleans and there useage
+//               V3.6
+//  16 Nov 2023  Changed .autoWidth and .autoHeight to be ._autoWidth and ._autoHeight
+//               Fixed .width() and .height() setters to set ._auto??? to false instead of true
+//               Fixed _onResize() to use ._width and ._height, NOT .width and .height
+//               V3.7
+//               Removed this.offsetX and this.offsetY
+//               Removed this.resized
+//  17 Nov 2023  Finished getting _onResize() and main.css canvas to work
+//               V3.8
+//               Fixed onMouseMove() to pass the event parameter to the callback()
+//               Changed _mouseDown() and _mousemove() to pass this to the callback()'s
+//               Added _mouseUp() and associated onMouseUp() callback
+//               V3.9
+// 18 Nov 2023  Changed getImageData() and putImageData() to have more helpful default parameters
+//              Changed _onResize() to preserve the canvas contents when resize would clear canvas
+// 19 Nov 2023  Fixed _animate( ) to always call obj.draw(). I broke this when I combined draw and move into one animate function
+//              V4.0
+// 20 Nov 2023  Added .onMouseOut and .onMouseLeave
+//              V4.1
+// 21 Nov 2023  Changed "Container element has no height" message from an console.error() to a console.warning()
+// 23 Nov 2023  Added .disableSmoothing and .canvas.imageSmoothingEnabled
+//              V4.2
+//  7 Dec 2023  Fixed .getImageData() so it doesn't crash if width or height is 0
+//              V4.3
+// 13 Dec 2023  Deprecated appending container to the body WHEN NO container (i.e. "") is specified.
+//              Useful from making non-displayed work canvases
+//              V4.4
+// 14 Dec 2023  Fixed getDataURL() where it was using a this. and shouldn't have
+//              V4.5
+// 28 Dec 2023  Added onContextMenu and _onContextMenu()
+//              V4.6
+// 17 Jan 2024  Added .typeof = "Dialog"
+//              V4.7
+// 20 Feb 2024  Enanced image()'s optional parameters, to include 1 param
+//              Added toBlob()
+//              V4.8
+//  6 Mar 2024  Changed _animate() to draw all objects and then move all objects (incase moving modifies location on collisions)
+//              V4.9
+//  9 Mar 2024  Changed so that obj.move() is passed deltaSecs
+// 22 Mar 2024  Merged edits from edit_image_sheet, init ._width, ._height, comments, reversed couple of if(!) lines to if()
+//              V5.0
+//  1 Apr 2024  Changed clear() and imageRotate() to use .getTransform() and .setTransform()
+//              V5.1
+// 29 May 2024  Added quadraticCurveTo( )
+//              V5.2
+//  9 Jun 2024  Added support for Alt-Click to pause
+//              Added this.paused and code to set and check it
+//              V5.3
+//
 
 
-var CanvasJsVersion = "3.4";
+
+var CanvasJsVersion = "5.3";
 
 
 
 //    PROPERTIES / MEMBER VARIABLES
 //  element           ---   The DOM <canvas> element that we create the 2d context on
-//  canvasElement     ---   Synonym for element.  The DOM <canvas> element that we create the 2d context on
+//  canvasElement     ---   Synonym for element.
 //  canvas            ---   The 2d context to draw on
 //  mouse.x           ---   Constantly updated mouse coordinate
 //  mouse.y           ---   Constantly updated mouse coordinate
-//  mouseDown         ---   Set to a callback that is passed the event
+//  width             ---   A setter and getter are used
+//  height            ---   A setter and getter are used
 
 
 //    METHODS
 //
 //    User specified event listeners
-//  mouseMove( event )          --- User specified mouseDown callback
-//  onResize( )                --- User specified resize callback
-//  resize( )                  --- onResize() synonym
+//  onMouseDown   ( event, this )          --- User specified mouseDown callback. Called on mousedown event
+//  onMouseUp   ( event, this )            --- User specified mouseUp callback. Called on mouseup event
+//  onMouseMove   ( event, this )          --- User specified mouseMove callback. Called on mousemove event
+//  onMouseOut   ( event, this )           --- User specified mouseOut callback. Called on mouseout event
+//  onMouseLeave   ( event, this )         --- User specified mouseLeave callback. Called on mouseleave event
+//  onContextMenu   ( event, this )        --- User specified contextMenu (right click) callback. Called on contextmenu event
+//  onResize   ( )                         --- User specified resize callback. Called on a window resize
+//  resized                    --- DEPRECATED See onResize() above
 //
 //
 //    Regular methods
 //  constructor( container )
+//
+//  typeof = "Canvas"     // Caller can test for type via:   if(someObj.typeof == "Canvas")   OR the standard   someObj instanceof Canvas
+//
 //  _mouseDown( event )
+//  _mouseUp( event )
+//  _mouseMove( event )
+//  _mouseOut( event )
+//  _mouseLeave( event )
+//  _contextMenu( event )
 //  _onResize( event )
-//  resized                    --- DEPRECATED User specified callback for canvas resize
 //  save( )
 //  restore( )
 //  toColorString( color )
@@ -176,7 +171,9 @@ var CanvasJsVersion = "3.4";
 //  createImageData( width, height )
 //  toDataURL( mimeType = "image/png" ) // Get whole canvas as a dataURL
 //  getDataURL( x, y, width, height )   // Similar to toDataURL(), but for spefic area of canvas
+//  toBlob( callback, type, quality )   // type default's to "image/png". quality defaults to 0.9
 //  bezierCurveTo( ctlX1, ctlY1, ctlX2, ctlyY2, x, y )
+//  quadraticCurveTo( ctlX1, ctlY1, x, y )
 //  isPointInPath( x, y )
 //  shadow( offsetX, offsetY, blurRadius, color )
 //  boxShadow( offsetX, offsetY, blurRadius, color )
@@ -185,8 +182,6 @@ var CanvasJsVersion = "3.4";
 //  addObj( move, draw, fps )   // Where move() and draw() are both passed this Canvas object
 //  delObj( objId )
 //  clearObjs( )
-//  _moveObjs( ms )
-//  _drawObjs( )
 //  _animate( ms )
 //
 //
@@ -206,49 +201,79 @@ class Canvas {
   //   element  --- A <div> element (or other element), we will create a <canvas>, appended to the element
   //
   constructor( container = "" ) {
+    this.typeof = "Canvas"  // Caller can test for type via:   if(someObj.typeof == "Canvas")
+
     const MinHeight = 600;  // Only used if container has 0 height
 
-    if( container === "" )  container = document.body.appendChild( document.createElement( "section" ) );
+    this.disableSmoothing = true  //
+
+    // NOTE: Deprecated appending container to the body WHEN NO container (i.e. "") is specified
+    //       Useful from making non-displayed work canvases
+    // if( container === "" )  container = document.body.appendChild( document.createElement( "section" ) );
+    if( container === "" )  container = document.createElement( "section" );
     else if( typeof container === "string" ) container = document.body.appendChild( document.getElementById( container ) );
     if( !container.offsetHeight ) {
-      console.error( `ContentArea div has no height, so canvas would have 0px height! Forcing it to ${MinHeight}` );
-      container.style.height = MinHeight+"px";  // The section defaults to 0px high, which will make our canvas 0px as well
+      console.warn( `Container element has no height, so canvas would have 0px height! Forcing it to ${MinHeight}` );
+      container.style.height = MinHeight+"px";  // div and section elements default to 0px high, which would make our canvas 0px as well
     }
     this.containerElement = container;
     this.canvasElement = document.createElement( "canvas" );
-    this.element = this.canvasElement
+    this.element = this.canvasElement  // Synonym
     this.canvas = this.canvasElement.getContext( "2d" );
 
-    this.resized = null;
+    this.onResize = null;  // If set, called on a window resize
+    this.resized = null;   // Deprecated
+    this.onMousedown = null; // If set, called on mousedown event
+    this.onMouseUp = null
+    this.onMousemove = null; // If set, called on mousemove event
 
-    // Sets
-    //  this.width
-    //  this.height
-    //  this.offsetX
-    //  this.offsetY
-    this._onResize();
+    this._animateQue = []; // [{move:function, draw:function, fps:60, elapsedSec}, {}, ...]
+    this._previousMs = performance.now();
+
+    // Canvas width tracks window size by default
+    // NOTE If .container is display "Hidden" we will get a .width and .height of 0 ZERO on a .onResize()
+    this._autoWidth = true
+    this._autoHeight = true
+
+    // These properties are set by ._onResize()
+    this._width  = 0
+    this._height = 0
+    this._onResize();  // Requires _animateQue already be initialzed
 
     this.mouse = {x:0, y:0};
 
+    // NOTE: NOTE: For ._autoWidth and ._autoHeight, .onResize() must be called first, so the canvas is the correct size
+    //       That is because .onResize() indirectly does:
+    //              this.canvasElement.width = this.containerElement.offsetWidth
     this.containerElement.appendChild( this.canvasElement );
 
     this.lineWidthValue = this.canvas.lineWidth = 1; // Value for .canvas.lineWidth
     this.strokeColor = this.canvas.strokeStyle = "black";
     this.fillColor = this.canvas.fillStyle = "black";
 
+    if( window.Paused != undefined ) this.paused = Paused
+    else this.paused = false
+
     // Setup event handlers
 
     window.addEventListener( "resize", event => this._onResize( event ) ); // NOTE: ONLY window get's a resize event
 
-    this.canvas.canvas.addEventListener( "mousedown", event => this._mouseDown(event) )
-    this.canvas.canvas.addEventListener( "mousemove", event => this.mouseMove(event) )
+    this.canvas.canvas.addEventListener( "mousedown", event => this._mouseDown( event ) );
+    this.canvas.canvas.addEventListener( "mouseup", event => this._mouseUp( event ) );
+    this.canvas.canvas.addEventListener( "mousemove", event => this._mouseMove( event ) );
+    this.canvas.canvas.addEventListener( "mouseout", event => this._mouseOut( event ) );
+    this.canvas.canvas.addEventListener( "mouseleave", event => this._mouseLeave( event ) );
+    this.canvas.canvas.addEventListener( "contextmenu", event => this._contextMenu( event ) );
 
-    this._animateQue = []; // [{move:function, draw:function, fps:60, elapsedSec}, {}, ...]
-    this._previousMs = performance.now();
-    this._animate( this._previousMs );
+
+    this._animate( this._previousMs );  // Prime the requestAnimationFrame()
   } // END constructor
 
 
+  //
+  // Call user specified mouseDown callback
+  //
+  // Toggle Paused and .paused if Alt key is pressed (i.e. Alt-Click)
   //
   // .mouse.x & .mouse.y are relative to Canvas
   //
@@ -256,40 +281,136 @@ class Canvas {
     this.mouse.x = event.offsetX;
     this.mouse.y = event.offsetY;
 
-    if( this.mouseDown ) this.mouseDown( event );
+    // Call user specified callback
+    if( this.onMouseDown ) this.onMouseDown( event, this );
+
+    // Toggle Paused and .paused if Alt key is pressed (i.e. Alt-Click)
+    if( event.altKey ) {
+      if( window.Paused != undefined ) {
+        Paused = !Paused
+        this.paused = Paused
+      }
+      else this.paused = !this.paused
+    }
   }
 
 
+  //
+  // Call user specified mouseUp callback. Called on mouseup event
   //
   // .mouse.x & .mouse.y are relative to Canvas
   //
-  mouseMove( event ) {
+  _mouseUp( event ) {
     this.mouse.x = event.offsetX;
     this.mouse.y = event.offsetY;
+
+    if( this.onMouseUp ) this.onMouseUp( event, this );
   }
 
 
+  //
+  // Call user specified mouseMove callback. Called on mousemove event
+  //
+  // .mouse.x & .mouse.y are relative to Canvas
+  //
+  _mouseMove( event ) {
+    this.mouse.x = event.offsetX;
+    this.mouse.y = event.offsetY;
+
+    if( this.onMouseMove )  this.onMouseMove( event, this );
+  }
+
+
+  //
+  // Call user specified mouseOut callback. Called on mouseout event
+  //
+  // .mouse.x & .mouse.y are relative to Canvas
+  //
+  _mouseOut( event ) {
+    this.mouse.x = event.offsetX;
+    this.mouse.y = event.offsetY;
+
+    if( this.onMouseOut ) this.onMouseOut( event, this )
+  }
+
+
+  //
+  // Call user specified mouseLeave callback. Called on mouseleave event
+  //
+  // .mouse.x & .mouse.y are relative to Canvas
+  //
+  _mouseLeave( event ) {
+    this.mouse.x = event.offsetX;
+    this.mouse.y = event.offsetY;
+
+    if( this.onMouseLeave ) this.onMouseLeave( event, this )
+  }
+
+
+  //
+  // Call user specified contextMenu callback. Called on contextmenu event
+  //
+  // .mouse.x & .mouse.y are relative to Canvas
+  //
+  _contextMenu( event ) {
+    this.mouse.x = event.offsetX;
+    this.mouse.y = event.offsetY;
+
+    if( this.onContextMenu )  this.onContextMenu( event, this )
+  }
+
+
+  set width( w ) {
+    this._autoWidth = false;
+
+    this._width = w;
+
+    this._onResize( null );
+  }
+
+  get width( ) {
+    return this._width;
+  }
+
+  set height( h ) {
+    this._autoHeight = false;
+
+    this._height = h;
+
+    this._onResize( null );
+  }
+
+  get height( ) {
+    return this._height;
+  }
+
+
+  // NOTE: MUST set <canvas> position to absolute in the .css file for resize to work
   _onResize( event ) {
-    this.width = this.containerElement.offsetWidth;
-    this.height = this.containerElement.offsetHeight;
+    if( this._autoWidth )  this._width = this.containerElement.offsetWidth;
+    else  this.containerElement.style.width = this._width + "px";
 
-    // Setting the canvas height can cause it's container <div> to grow by a few (4?) pixels,
-    // due to <canvas> being inline, so they take up space below them,
-    // like text does to leave space for descenders.
-    // Fix is to set <canvas> position to absolute in the .css file
-    this.canvasElement.width = this.width;
-    this.canvasElement.height = this.height;
+    if( this._autoHeight )  this._height = this.containerElement.offsetHeight;
+    else  this.containerElement.style.height = this._height + "px";
 
-    // These get us offset from the left/top of the document NOT the window
-    // Probably not useful
-    this.offsetX = this.containerElement.offsetLeft;
-    this.offsetY = this.containerElement.offsetTop;
+    // Resizing causes Javascript to clear the canvas.
+    // So if we are not redrawing every frame (i.e. there are no obj's in our que) we need to save and restore
+    // This is really only useful if user is enlarging the canvas
+    let canvasData
+    // Save canvas:
+    if( !this._animateQue.length )  canvasData = this.getImageData()
+
+    this.canvasElement.width = this._width;
+    this.canvasElement.height = this._height;
+    // NOTE Anytime we set the .width or .height, the canvas will reset the .imageSmoothingEnabled back to true!!!
+    this.canvas.imageSmoothingEnabled = !this.disableSmoothing;
+
+    // Restore canvas:
+    if( !this._animateQue.length ) this.putImageData( canvasData )
+
 
     // Call user resized handler
     if( this.onResize ) this.onResize(  );
-    if( this.resize ) this.resize(  );
-    // .resized is deprecated. Keep for backwards compatibility
-    if( this.resized ) this.resized( this.offsetX, this.offsetY, this.width, this.height );
   }
 
 
@@ -543,7 +664,7 @@ class Canvas {
   }
 
 
-  clearRect( x = 0, y = 0, w = this.width, h = this.height ) {
+  clearRect( x = 0, y = 0, w = this._width, h = this._height ) {
     this.canvas.clearRect( x, y, w, h );
 
     return this;
@@ -555,10 +676,10 @@ class Canvas {
   //
   clear( ) {
     // Ensure "clear screen" is not translated or rotated
-    this.canvas.save();
+    let oldMatrix = this.canvas.getTransform()
     this.canvas.setTransform( 1,0, 0,1, 0,0 ); // Unity
-    this.canvas.clearRect( 0, 0, this.width, this.height );
-    this.canvas.restore();
+    this.canvas.clearRect( 0, 0, this._width, this._height );
+    this.canvas.setTransform( oldMatrix )
 
     return this;
   }
@@ -877,14 +998,16 @@ class Canvas {
 
   //
   // Variations of params:
-  //  img, dx, dy
-  //  img, dx, dy, dw, dh
-  //  img, sx, sy, sw, sh, dx, dy, dw, dh
+  //  img                                  --- Non-standard. Fills canvas with img (possibly resized)
+  //  img, dx, dy                          --- Draws img at it's size
+  //  img, dx, dy, dw, dh                  --- Draws img possibly resized to dw, dh
+  //  img, sx, sy, sw, sh, dx, dy, dw, dh  --- Draws portion of img possibly resized to dw, dh
   //
   image( img, x1, y1, w1, h1, x2, y2, w2, h2 ) {
-    if( arguments.length == 3 ) this.canvas.drawImage( img, x1, y1 );
-    if( arguments.length == 5 ) this.canvas.drawImage( img, x1, y1, w1, h1 );
-    if( arguments.length == 9 ) this.canvas.drawImage( img, x1, y1, w1, h1, x2, y2, w2, h2 );
+    if( arguments.length == 1 ) this.canvas.drawImage( img, 0, 0, this.width, this.height );
+    else if( arguments.length == 3 ) this.canvas.drawImage( img, x1, y1 );
+    else if( arguments.length == 5 ) this.canvas.drawImage( img, x1, y1, w1, h1 );
+    else if( arguments.length == 9 ) this.canvas.drawImage( img, x1, y1, w1, h1, x2, y2, w2, h2 );
 
     return this;
   }
@@ -905,12 +1028,12 @@ class Canvas {
   //
   imageRotate( img, x1, y1, w1, h1, x2, y2, w2, h2, angleDeg = 0 ) {
     if( arguments.length >= 9 ) {
-      this.canvas.save( );
+      let oldMatrix = this.canvas.getTransform()
       this.canvas.translate( x2+w2/2, y2+h2/2 );
       this.canvas.rotate( Canvas.radians(angleDeg) );
 
       this.canvas.drawImage( img, x1, y1, w1, h1, -w2/2, -h2/2, w2, h2 );
-      this.canvas.restore( );
+      this.canvas.setTransform( oldMatrix )
     }
     else console.error( "imageRotate(): Wrong number of parameters" );
 
@@ -927,11 +1050,24 @@ class Canvas {
       return this;
   }
 
-  getImageData( srcX, srcY, srcW, srcH ) {
+  //
+  // Has a convenient default of getting the whole canvas if no parameters are passed
+  //
+  getImageData( srcX = 0, srcY = 0, srcW = this.width, srcH = this.height ) {
+    // Keep .getImageData() from crashing if width or height is 0
+    srcW = srcW ? srcW : 1
+    srcH = srcH ? srcH : 1
     return this.canvas.getImageData( srcX, srcY, srcW, srcH );
   }
 
-  putImageData( imageData, destX, destY, dirtyX=0, dirtyY=0, dirtyWidth=imageData.width, dirtyHeight=imageData.height ) {
+  //
+  // Has a convenient default of writting all the data canvas to upper left corner of canvas if no parameters are passed
+  // This allows:
+  //   data = this.getImageData()
+  //   this.putImageData( data )
+  // To save and restore the whole canvas OR copy the whole canvas to another canvas
+  //
+  putImageData( imageData, destX = 0, destY = 0, dirtyX = 0, dirtyY = 0, dirtyWidth = imageData.width, dirtyHeight = imageData.height ) {
     this.canvas.putImageData( imageData, destX, destY, dirtyX, dirtyY, dirtyWidth, dirtyHeight );
 
     return this;
@@ -956,7 +1092,7 @@ class Canvas {
   //
   getDataURL( x, y, width, height ) {
     let scratchpadCanvasElement =  document.createElement("canvas")
-    let scratchpadCanvas = this.scratchpadCanvasElement.getContext( "2d" )
+    let scratchpadCanvas = scratchpadCanvasElement.getContext( "2d" )
 
     // Canvas width & height can change from call to call, without having to create a new canvas
     scratchpadCanvasElement.width = width
@@ -965,8 +1101,21 @@ class Canvas {
     // Copy from main canvas element, to scratchpad canvas context
     scratchpadCanvas.drawImage( this.element, x, y, width, height, 0, 0, width, height )
 
+    // Default type "image/png"
+    // Jpeg compression is 0 to 1, with 0.1 being low quality/high compression. Default is browser's default
+    // A 64x64 image at 0.1 is about 1.2kb, at 0.5 about 1.8kb, at 0.9 about 4.5kb, png about 5kb
     return scratchpadCanvasElement.toDataURL( "image/png" ) // Need to use the large png if we want transparency!!!
   }
+
+
+
+  //
+  // type default's to "image/png". quality defaults to 0.9
+  //
+  toBlob( callback, type = "image/png", quality = 0.1 ) {
+    this.canvasElement.toBlob( callback, type, quality )
+  }
+
 
 
   //
@@ -974,6 +1123,16 @@ class Canvas {
   //
   bezierCurveTo( ctlX1, ctlY1, ctlX2, ctlyY2, x, y ) {
     this.canvas.bezierCurveTo( ctlX1, ctlY1, ctlX2, ctlyY2, x, y );
+
+    return this;
+  }
+
+
+  //
+  // Draw a curve from the current path point to x,y using the two control points to set the curve
+  //
+  quadraticCurveTo( ctlX1, ctlY1, x, y ) {
+    this.canvas.quadraticCurveTo( ctlX1, ctlY1, x, y );
 
     return this;
   }
@@ -1050,40 +1209,32 @@ class Canvas {
     this._animateQue = [];
   }
 
-  _moveObjs( ms ) {
-    let deltaSecs;
 
-    for( let obj of this._animateQue ) {
-      if( obj.move ) {
-        deltaSecs = (ms - this._previousMs) / 1000;   // Seconds since last call to _moveObjs()
+  _animate( ms ) {
+    // Let the canvas be used for static drawing, if nothing is in the animate object queue
+    if( !window.Paused && !this.paused && this._animateQue.length  ) {  // The ! deals with the case where the global Paused does not exist
+      let deltaSecs;
+
+      this.clear();
+
+      // Draw obj
+      for( let obj of this._animateQue ) {
+        if( obj.draw )  obj.draw( this );  // Pass Canvas object, to use for drawing
+      }
+
+      // Move obj @ .fps
+      for( let obj of this._animateQue ) {
+        deltaSecs = (ms - this._previousMs) / 1000;   // Seconds since last call to _animate()
         obj.elapsedSec += deltaSecs;
 
         if( obj.elapsedSec >= (1 / obj.fps) ) {
           obj.elapsedSec = 0; // Start timing over
 
-          obj.move( this );  // Pass Canvas object, to use for getting canvas width & height, etc..
+          if( obj.move )  obj.move( this, deltaSecs );  // Pass Canvas object, to use for getting canvas width & height, etc..
         }
       }
-    } // END for
 
-    this._previousMs = ms;        // Save new previous value
-  }
-
-
-  _drawObjs( ) {
-    this.clear();
-
-    for( let obj of this._animateQue ) {
-      obj.draw( this );  // Pass Canvas object, to use for drawing
-    }
-  }
-
-
-  _animate( ms ) {
-    // Let the canvas be used for static drawing, if nothing is in the animate object queue
-    if( (!("Paused" in window) || !Paused) && this._animateQue.length  ) {
-      this._moveObjs( ms );
-      this._drawObjs();
+      this._previousMs = ms;        // Save new previous value
     }
 
     requestAnimationFrame( ms => this._animate(ms) );
