@@ -1,5 +1,9 @@
 /*   Coding.css
  *
+ *
+ * 30 Mar 2025  Changed RollDownContent first-child to have 4 grid columns
+ *              Changed first-child to nav (it was a div)
+ *
  */
 
 
@@ -87,9 +91,10 @@ video {
 /*
  * NOTE See RollUpDown.css for other RollDownContent and RollUpDown settings
  */
-.RollDownContent > div:first-child {
+.RollDownContent > nav {
   display: grid;
-  grid-template-columns: max-content max-content min-content;
+  /* DEBUG */
+  grid-template-columns: max-content max-content max-content max-content;
 
   text-align: center;
 

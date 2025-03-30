@@ -93,8 +93,8 @@
       <section class="RollUpDown">
         <div class="Title">USA Flag</div>
         <div class="RollDownContent">
-          <div>
-          </div>
+          <nav>
+          </nav>
 
           <div data-code-function="UsaFlag">
             This is your    WorkElement    use it for your output (canvas, text, HTML tags, etc)
@@ -108,8 +108,8 @@
       <section class="RollUpDown">
         <div class="Title">Colorful Car</div>
         <div class="RollDownContent">
-          <div>
-          </div>
+          <nav>
+          </nav>
 
           <div data-code-function="ColorfulCar">
             This is your    WorkElement    use it for your output (canvas, text, HTML tags, etc)
@@ -148,7 +148,7 @@
       <section class="RollUpDown">
         <div class="Title">Autumn Leaves</div>
         <div class="RollDownContent">
-          <div>
+          <nav>
             <button type="button" onclick="leavesRunOnClick(event)">RE-RUN</button>
             <button type="button" onclick="leavesClearOnClick(event)">CLEAR</button>
             <div class="SliderContainer">
@@ -158,8 +158,8 @@
               <span class="SliderMax">99</span>
               <output>46</output>
             </div>
-          </div>
- 
+          </nav>
+
           <div data-code-function="AutumnLeaves">
             This is your    WorkElement    use it for your output (canvas, text, HTML tags, etc)
           </div>
@@ -170,11 +170,11 @@
       <section class="RollUpDown"> <!-- js code toggles .RollDown on this when Title is clicked -->
         <div class="Title">Canvas Play</div>
         <div class="RollDownContent">
-          <div>
+          <nav>
             <button type="button" onclick="playOnClick(event)">RE-RUN</button>
             <button type="button" onclick="clearOnClick(event)">CLEAR</button>
             <button type="button" onclick="saveOnClick(event)">SAVE</button>
-          </div>
+          </nav>
 
           <div data-code-function="CanvasPlay">
             <!-- This is your    WorkElement    use it for your output (canvas, text, HTML tags, etc) -->
@@ -186,7 +186,7 @@
       <section class="RollUpDown"> <!-- js code toggles .RollDown on this when Title is clicked -->
         <div class="Title">Spritesheet Editing</div>
         <div class="RollDownContent">
-          <div>
+          <nav>
             <!-- <canvas width="64px" height="64px"></canvas> -->
             <button type="button" onclick="saveSpriteSheetOnClick(event)"
               style="height:64px; background-image: url('Coding/save-icon.png');
@@ -194,13 +194,17 @@
               background-position: right;
               background-repeat: no-repeat;"
             >
-            SAVE SPRITE SHEET</button>
+              SAVE SPRITE SHEET
+            </button>
 
             <div class="">
               <p>Arrows to select source icon.</p>
               <p>Click grid cell to place on grid.</p>
             </div>
-          </div>
+
+            <button type="button" onclick="toggleGridOnClick(event)">TOGGLE GRID</button>
+          </nav>
+
           <div data-code-function="SpritesheetEditing">
             <!-- This is your    WorkElement    use it for your output (canvas, text, HTML tags, etc) -->
           </div>
@@ -211,10 +215,10 @@
       <section class="RollUpDown LocalHostOnly Hidden">
         <div class="Title">GET & SAVE DEBORAH'S CONTACT FORM DATA</div>
         <div class="RollDownContent">
-          <div class="">
+          <nav class="">
             <button type="button" name="button" onclick="getDeborahsFormDataOnClick(event)">GET FORM DATA</button>
             <button type="button" name="button" onclick="saveDeborahsFormDataOnClick(event)">SAVE FORM DATA</button>
-          </div>
+          </nav>
 
           <div data-code-function="DeborahsFormData"> <!-- js will insert html here --> </div>
         </div>

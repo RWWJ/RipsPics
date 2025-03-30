@@ -1,7 +1,8 @@
 //
 //  Spritesheet Editing
 //
-
+// 30 Mar 2025  Added ShowGrid and a button in Coding.html to toggle it
+//
 
 
 
@@ -13,7 +14,7 @@ let GridSprites = [];   // 2d array
 let SpriteSize = {w:0,h:0,cols:0,rows:0};
 let ArrowX = 0;  // Arrow keys move this by SpriteSize ammount
 let ArrowY = 0;  // Arrow keys move this by SpriteSize ammount
-
+let ShowGrid = true
 
 
 // Expects an empty div that is a child of RollDownContent
@@ -23,8 +24,8 @@ function spritesheetEditingStart( ) {
   window.onresize = contentOnResize; // NOTE: resize event is ONLY fired for the window (no other elements)
 
   SpriteSheet = new Image();
-
-  SpriteCanvas = createCanvas( WorkElement.parentElement.querySelector("div"), CellSize, CellSize );
+ 
+  SpriteCanvas = createCanvas( WorkElement.parentElement.querySelector("nav"), CellSize, CellSize );
 
 
   MainCanvas = createCanvas( WorkElement, WorkAreaWidth, 400 )  // WorkAreaHeight );
@@ -144,6 +145,11 @@ function saveSpriteSheetOnClick( event ) {
 }
 
 
+function toggleGridOnClick( event ) {
+  ShowGrid = !ShowGrid
+}
+
+
 function createCanvas( attachmentElement, width, height ) {
   let canvasElement = document.createElement( "canvas" );
 
@@ -164,7 +170,7 @@ function animate( milliseconds ) {
   let destX;
   let destY;
 
-  MainCanvas.clearRect( 0, 0, WorkAreaWidth, MainCanvas.canvas.heightht );
+  MainCanvas.clearRect( 0, 0, WorkAreaWidth, MainCanvas.canvas.height );
   SpriteCanvas.clearRect( 0, 0, CellSize, CellSize );
 
   // Draw current selected sprite
@@ -184,10 +190,12 @@ function animate( milliseconds ) {
   }
 
   // Draw grid on canvas
-  for( let x = 0; x < WorkAreaWidth; x += CellSize ) {
-    for( let y = 0; y < MainCanvas.canvas.height; y += CellSize ) {
-      drawLine( MainCanvas, x, y, x + CellSize, y, 1, "red" ); // Horizontal Line
-      drawLine( MainCanvas, x, y, x, y + CellSize, 1, "red" ); // Vertical Line
+  if( ShowGrid ) {
+    for( let x = 0; x < WorkAreaWidth; x += CellSize ) {
+      for( let y = 0; y < MainCanvas.canvas.height; y += CellSize ) {
+        drawLine( MainCanvas, x, y, x + CellSize, y, 1, "red" ); // Horizontal Line
+        drawLine( MainCanvas, x, y, x, y + CellSize, 1, "red" ); // Vertical Line
+      }
     }
   }
 
