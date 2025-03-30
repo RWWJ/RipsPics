@@ -9,6 +9,7 @@ let AutumnLeavesGlobals = { spritesheet:null, sprite:{w:0,h:0,cols:0,rows:0} };
 
 function autumnLeavesStart( ) {
   CanvasObj = new Canvas( WorkElement );
+  CanvasObj.height = 400
 
   // Display the slider's current value, as well as min & max
   document.querySelector( ".SliderContainer output" ).value = document.querySelector( 'input[type="range"]' ).valueAsNumber;
@@ -46,7 +47,7 @@ function leafAnimation( milliseconds ) {
   let depth;
   let x;
   let y;
-  let goalW = WorkAreaWidth / 3; // Arbitrary goal, try different values to find what looks good
+  let goalW = CanvasObj.width / 3; // Arbitrary goal, try different values to find what looks good
   let xInc;
   let yScale;
   let scaledW;
@@ -64,20 +65,20 @@ function leafAnimation( milliseconds ) {
     CanvasObj.clear();
 
     // Set bottom center of canvas as origin
-    CanvasObj.translate( WorkAreaWidth/2, WorkAreaHeight );
+    CanvasObj.translate( CanvasObj.width/2, CanvasObj.height );
 
     // DEBUG X marks the center of the canvas
     CanvasObj.line( -64, -1, 64, -1 ); // y of 1, so we can see line just above the bottom of the canvas
     CanvasObj.line( 0, -64, 0, 64 );
 
-    depth = WorkAreaHeight; // * 0.666;
+    depth = CanvasObj.height; // * 0.666;
     drawH = 64;
-    xInc = (WorkAreaWidth - goalW) / depth; // x amount per y
+    xInc = (CanvasObj.width - goalW) / depth; // x amount per y
     yScale = 1 / depth;
 
     for( y = 0; y < depth; ++y ) {
       // Go from full canvas width, down to goalW
-      scaledW = WorkAreaWidth - xInc * y;
+      scaledW = CanvasObj.width - xInc * y;
 
       drawW = Math.ceil( 64 * yScale * (depth-y) );
       drawH = drawW;

@@ -5,14 +5,15 @@
 function colorfulCarStart( ) {
   WorkElement.innerHTML = "<h1>Fun Colorful Car animation</h1>"
 
-  MainCanvas = new Canvas( WorkElement )
+  CanvasObj = new Canvas( WorkElement )
+  CanvasObj.height = 300
 
   // DEBUG Just playing around with some crazy code
   let x = 0
   let y = 200
   let w = 250
   let a = 0
-  MainCanvas.addObj( canvas => {
+  CanvasObj.addObj( canvas => {
     x += 10
     if( x >= canvas.width ) x = -w + 10
     a += 10
@@ -70,7 +71,8 @@ function drawWheel( canvas, x, y, r, a ) {
 
 
 function colorfulCarStop( ) {
-
+  CanvasObj.canvasElement.remove();           // Remove <canvas> from DOM
+  CanvasObj = null;           // Free canvas memory
 }
 
 

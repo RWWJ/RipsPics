@@ -3,6 +3,8 @@
  *
  *  2 Dec 2022  Changed ".RollDownContent div {}" to be ".RollDownContent > div{}"
  *              So this .css file does NOT break <div> formating in .css files loaded before it
+ * 30 Mar 2025  Changed .RollDown and .RollDownContent height and min-height
+ *
  */
 
 .RollUpDown {
@@ -55,7 +57,8 @@
         1fr;
 }
 .RollDown .RollDownContent {
-  min-height: 680px;
+  min-height: 180px;
+  height: max-content;
 
   opacity: 1;
 

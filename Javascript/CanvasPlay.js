@@ -11,6 +11,8 @@ let LeafSize = {w:0,h:0,cols:0,rows:0};
 // Expects an empty div that is a child of RollDownContent
 function canvasPlayStart( ) {
   CanvasObj = new Canvas( WorkElement );
+  CanvasObj.height = 400
+
 
   LeafSize.w = 0;
   LeafSize.h = 0;
@@ -19,14 +21,10 @@ function canvasPlayStart( ) {
 
   CanvasObj.canvas.canvas.onmousemove = mouseOnMove;
 
-  getWorkArea( );
-  constrainWorkArea( );
-
   document.onkeydown = "";
 
   CanvasObj.clear( );
 
-  // loadLeafSprites( "../Coding/Leaves Autumn Colors 1 - Spritesheet - 600x600x8.png" );
   loadLeafSprites( "../Coding/Leaves Autumn Colors 2 - Spritesheet - 600x600x7.png", _ => canvasPlay(0) );
 }
 
@@ -64,22 +62,12 @@ function saveOnClick( event ) {
 
 
 function canvasPlay( milliseconds ) {
+  let length = 120 // 180;
+
   CanvasObj.save();
-  // I'm no longer drawing lines (I'm filling shapes), so these settings have no effect
-  // CanvasObj.lineCap = "round";
-  // CanvasObj.lineStyle = "round";
-
-  let length = 180;
-
-// DEBUG
-CanvasObj.color = "red";
-CanvasObj.lineWidth = 4;
-CanvasObj.line( 0, 1, 50, 1 );
-CanvasObj.color = "green";
-CanvasObj.line( 0, 27, 50, 27 );
 
   // Move the origin to be center bottom of canvas, so tree can grow up from there
-  CanvasObj.translate( WorkAreaWidth/2, WorkAreaHeight-1 );
+  CanvasObj.translate( CanvasObj.width/2, CanvasObj.height-1 );
 
   // Draw the tree by starting with the trunk "branch"
   drawBranch( length, 140 );
@@ -113,7 +101,6 @@ function drawBranch( length, width ) {
 
   let widthPrevious = 0;
   let widthNew = length * 0.05 < 1 ? 1 : length * 0.05;
-//  CanvasObj.line( 0, 0, 0, -length );
   drawSegment( 0, -length, width, widthNew );
 
   // Move to the end of the line we just drew
@@ -122,7 +109,6 @@ function drawBranch( length, width ) {
   CanvasObj.save();
   CanvasObj.rotate(twigOneAngle);
   CanvasObj.lineWidth = twigLength * 0.05 < 1 ? 1 : twigLength * 0.05;
-//  CanvasObj.line( 0, 0, 0, -twigLength );
   if( nextBranchLength > minSize ) drawBranch( nextBranchLength, newWidth );
   else drawLeaf( nextBranchLength );
   CanvasObj.restore();
@@ -130,7 +116,6 @@ function drawBranch( length, width ) {
   CanvasObj.save();
   CanvasObj.rotate(-twigTwoAngle);
   CanvasObj.lineWidth = twigLength * 0.05 < 1 ? 1 : twigLength * 0.05;
-//  CanvasObj.line( 0, 0, 0, -twigLength );
   if( nextBranchLength > minSize ) drawBranch( nextBranchLength, newWidth );
   else drawLeaf( nextBranchLength );
   CanvasObj.restore();

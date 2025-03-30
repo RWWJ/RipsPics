@@ -19,30 +19,27 @@ let ArrowY = 0;  // Arrow keys move this by SpriteSize ammount
 // Expects an empty div that is a child of RollDownContent
 function spritesheetEditingStart( ) {
   // Setup event handlers
-  WorkElement.onmousedown = mouseOnDown;
   document.querySelector(".Coding").onscroll = contentOnScroll;
   window.onresize = contentOnResize; // NOTE: resize event is ONLY fired for the window (no other elements)
 
   SpriteSheet = new Image();
 
-  // Only create the canvases the first time we roll down this section
-  if( !WorkElement.querySelector("canvas") ) {
-    SpriteCanvas = createCanvas( WorkElement.parentElement.querySelector("div"), CellSize, CellSize );
+  SpriteCanvas = createCanvas( WorkElement.parentElement.querySelector("div"), CellSize, CellSize );
 
-    // Inserting the SpriteCanvas shrinks the area left for the MainCanvas, so reget that WorkArea
-    getWorkArea( );
-    constrainWorkArea( );
 
-    MainCanvas = createCanvas( WorkElement, WorkAreaWidth, WorkAreaHeight );
+  MainCanvas = createCanvas( WorkElement, WorkAreaWidth, 400 )  // WorkAreaHeight );
+  // Sizing canvas and inserting the SpriteCanvas affects the use area and thus # of CellRows, so reget that WorkArea
+  getWorkArea( );
+  constrainWorkArea( );
 
-    MainCanvas.canvas.onmousemove = mouseOnMove;
+  MainCanvas.canvas.onmousedown = mouseOnDown;
+  MainCanvas.canvas.onmousemove = mouseOnMove;
 
-    // Init GridSprites 2d array
-    for( let col = 0; col < CellCols; ++col ) {
-      GridSprites[col] = [];
-      for( let row = 0; row < CellRows; ++row ) {
-        GridSprites[col][row] = {x:-1, y:-1}; // Init to no sprite
-      }
+  // Init GridSprites 2d array
+  for( let col = 0; col < CellCols; ++col ) {
+    GridSprites[col] = [];
+    for( let row = 0; row < CellRows; ++row ) {
+      GridSprites[col][row] = {x:-1, y:-1}; // Init to no sprite
     }
   }
 
@@ -68,6 +65,7 @@ function spritesheetEditingStart( ) {
 
 function spritesheetEditingStop( ) {
   WorkElement.onmousedown = null;  // Remove handler
+  MainCanvas.onmousedown = null;  // Remove handler
   document.querySelector(".Coding").onscroll = null; // Remove handler
   window.onresize = null;          // Remove handler
   SpriteSheet = null;              // Free Image memory
@@ -82,7 +80,7 @@ function spritesheetEditingStop( ) {
 function spritesheetOnResize( ) {
   // MainCanvas may have to change it's size
   MainCanvas.canvas.width = WorkAreaWidth;
-  MainCanvas.canvas.height = WorkAreaHeight;
+  // MainCanvas.canvas.height = WorkAreaHeight;
 
   // See if we need to increase our GridSprites array
   if( CellCols > GridSprites.length ) {
@@ -166,7 +164,7 @@ function animate( milliseconds ) {
   let destX;
   let destY;
 
-  MainCanvas.clearRect( 0, 0, WorkAreaWidth, WorkAreaHeight );
+  MainCanvas.clearRect( 0, 0, WorkAreaWidth, MainCanvas.canvas.heightht );
   SpriteCanvas.clearRect( 0, 0, CellSize, CellSize );
 
   // Draw current selected sprite
@@ -187,14 +185,15 @@ function animate( milliseconds ) {
 
   // Draw grid on canvas
   for( let x = 0; x < WorkAreaWidth; x += CellSize ) {
-    for( let y = 0; y < WorkAreaHeight; y += CellSize ) {
+    for( let y = 0; y < MainCanvas.canvas.height; y += CellSize ) {
       drawLine( MainCanvas, x, y, x + CellSize, y, 1, "red" ); // Horizontal Line
       drawLine( MainCanvas, x, y, x, y + CellSize, 1, "red" ); // Vertical Line
     }
   }
+
   // Draw whole right edge and bottom edge
-  drawLine( MainCanvas, WorkAreaWidth, 0, WorkAreaWidth, WorkAreaHeight, 1, "red" );
-  drawLine( MainCanvas, 0, WorkAreaHeight, WorkAreaWidth, WorkAreaHeight, 1, "red" );
+  drawLine( MainCanvas, WorkAreaWidth, 0, WorkAreaWidth, MainCanvas.canvas.height, 1, "red" );
+  drawLine( MainCanvas, 0, MainCanvas.canvas.height, WorkAreaWidth, MainCanvas.canvas.height, 1, "red" );
 
   // Draw edge if the sprite is from the edge of the SpriteSheet
   if( ArrowX == 0 ) {
