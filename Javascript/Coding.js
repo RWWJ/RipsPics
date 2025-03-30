@@ -1,12 +1,14 @@
 //
 //       Coding.js
 //
-//  ~23 Sep 2022  Created for fetching and saving Deboraha's contact form submissions
+// ~23 Sep 2022  Created for fetching and saving Deboraha's contact form submissions
+//  30 Mar 2025  Added usaFlag
 //
-//
+
 
 
 const DispatchTable = {
+  UsaFlag : {start:usaFlagStart, stop:usaFlagStop},
   ColorfulCar : {start:colorfulCarStart, stop:colorfulCarStop},
   SimonSays : {start:simonSaysStart, stop:simonSaysStop},
   AutumnLeaves : {start:autumnLeavesStart, stop:autumnLeavesStop},

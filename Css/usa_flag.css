@@ -1,0 +1,50 @@
+/*    usa_flag.css */
+
+
+#FlagID {
+  position: relative;
+  background-color: red;
+  height: max-content;
+  width: 500px;
+  border-radius: 3px;
+  margin: 50px;
+}
+
+#StarFieldID {
+  position: absolute;
+  background-color: blue;
+  height: max-content;
+  width: max-content;
+  border-radius: 3px;
+  padding: 8px;
+
+  display: grid;
+  grid-template-columns: repeat(11, max-content);
+}
+
+
+.Star, .Space {
+  height: 16px;
+  width: 16px;
+  border-radius: 100%;
+}
+.Star {
+  /* background-color: white; */
+  color: white;
+}
+.Star::before {
+  content: "★";
+}
+
+.Stripe, .Blank {
+  height: 23px;
+  width: 100%;
+}
+.Stripe {
+  background-color: white;
+}
+
+
+
+
+/*  */
