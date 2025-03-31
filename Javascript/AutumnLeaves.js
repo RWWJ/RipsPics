@@ -11,6 +11,8 @@ function autumnLeavesStart( ) {
   CanvasObj = new Canvas( WorkElement );
   CanvasObj.height = 400
 
+  getWorkArea() // Update with the new size 
+
   // Display the slider's current value, as well as min & max
   document.querySelector( ".SliderContainer output" ).value = document.querySelector( 'input[type="range"]' ).valueAsNumber;
   document.querySelector( ".SliderContainer .SliderMin" ).innerText = document.querySelector( 'input[type="range"]' ).min;

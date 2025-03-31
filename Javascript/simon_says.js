@@ -57,6 +57,8 @@ function simonSaysStart( ) {
     </div>
   `;
 
+  getWorkArea() // Update with the new size
+
   Color1Div = document.querySelector(".UpperLeftCir");
   Color2Div = document.querySelector(".UpperRightCir");
   Color3Div = document.querySelector(".LowerRightCir");
