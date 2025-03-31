@@ -3,6 +3,7 @@
 //
 // ~23 Sep 2022  Created for fetching and saving Deboraha's contact form submissions
 //  30 Mar 2025  Added usaFlag
+//               Added .scrollIntoView() to getWorkArea()
 //
 
 
@@ -126,6 +127,10 @@ function getWorkArea( ) {
 
   WorkAreaWidth = elementRect.width;
   WorkAreaHeight = elementRect.height;
+
+  // Odd place for this, but hopefully projects that change the WorkArea size will call getWorkArea()
+  // So we can scroll things up into view
+  WorkElement.parentElement.parentElement.scrollIntoView()
 }
 
 function contentOnScroll( event ) {

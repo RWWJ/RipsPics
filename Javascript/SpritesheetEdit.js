@@ -11,7 +11,7 @@ let MainCanvas = null;
 let SpriteCanvas = null;
 let SpriteSheet;
 let GridSprites = [];   // 2d array
-let SpriteSize = {w:0,h:0,cols:0,rows:0};
+let SpriteSize = {w:0,h:0,cols:0,rows:0};  // NOTE I don't currently use .cols and .rows in this program
 let ArrowX = 0;  // Arrow keys move this by SpriteSize ammount
 let ArrowY = 0;  // Arrow keys move this by SpriteSize ammount
 let ShowGrid = true
@@ -24,9 +24,8 @@ function spritesheetEditingStart( ) {
   window.onresize = contentOnResize; // NOTE: resize event is ONLY fired for the window (no other elements)
 
   SpriteSheet = new Image();
- 
-  SpriteCanvas = createCanvas( WorkElement.parentElement.querySelector("nav"), CellSize, CellSize );
 
+  SpriteCanvas = createCanvas( WorkElement.parentElement.querySelector("nav"), CellSize, CellSize );
 
   MainCanvas = createCanvas( WorkElement, WorkAreaWidth, 400 )  // WorkAreaHeight );
   // Sizing canvas and inserting the SpriteCanvas affects the use area and thus # of CellRows, so reget that WorkArea
@@ -47,16 +46,19 @@ function spritesheetEditingStart( ) {
 
   SpriteSheet.src = "../Coding/Chris_Hamons-PublicDomain-DungeonCrawl_ProjectUtumnoTileset-32x32.png";
 
-  // Load and process Spritesheets associated .json file
-  fileReadJson( changeExtension( SpriteSheet.src, ".json" ), data => {
-    SpriteSize.w = data.jsonObj.width;
-    SpriteSize.h = data.jsonObj.height;
-    SpriteSize.cols = data.jsonObj.cols;
-    SpriteSize.rows = data.jsonObj.rows;
+  SpriteSheet.onload = event => {
+    // Load and process Spritesheets associated .json file
+    fileReadJson( changeExtension( SpriteSheet.src, ".json" ), data => {
+      SpriteSize.w = data.jsonObj.width;
+      SpriteSize.h = data.jsonObj.height;
+      // NOTE I don't currently use .cols and .rows in this program
+      SpriteSize.cols = data.jsonObj.cols || SpriteSheet.width / SpriteSize.w
+      SpriteSize.rows = data.jsonObj.rows || SpriteSheet.height / SpriteSize.h
 
-    // Start at 2nd icon, incase first is blank (like in Chris_Hammon...)
-    ArrowX = SpriteSize.w;
-  } );
+      // Start at 2nd icon, incase first is blank (like in Chris_Hammon...)
+      ArrowX = SpriteSize.w;
+    } );
+  }
 
   document.onkeydown = keyOnClick;
 
@@ -65,7 +67,6 @@ function spritesheetEditingStart( ) {
 
 
 function spritesheetEditingStop( ) {
-  WorkElement.onmousedown = null;  // Remove handler
   MainCanvas.onmousedown = null;  // Remove handler
   document.querySelector(".Coding").onscroll = null; // Remove handler
   window.onresize = null;          // Remove handler
