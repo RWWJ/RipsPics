@@ -17,15 +17,17 @@ function doTest( ) {
 
   ctx.fillRect( 0, 20, 20, 20 )
 
+  TestAreaID.innerHTML = ""
   TestCanvasID.addEventListener( "mousemove", event => {
     TestAreaID.innerHTML += `event: ${JSON.stringify(event)} <br><hr>`
     TestAreaID.innerHTML += `event.offsetX: ${event.offsetX} <br><hr>`
     TestAreaID.innerHTML += `event.clientX: ${event.clientX} <br><hr>`
     TestAreaID.innerHTML += `event.pageX: ${event.pageX} <br><hr>`
-    TestAreaID.innerHTML += `Calculated: ${event.pageX - event.target.offsetLeft - event.target.clientLeft} <br><hr>`
+    TestAreaID.innerHTML += `Calculated: ${event.pageX - event.target.offsetLeft - event.target.clientLeft} <br><hr><hr><br>`
   } )
   TestCanvasID.addEventListener( "touchmove", event => {
     TestAreaID.innerHTML += `event.changedTouches: ${JSON.stringify(event.changedTouches[0])} <br><hr>`
+    // .offsetX is undefined
     TestAreaID.innerHTML += `.changedTouches.offsetX: ${event.changedTouches[0].offsetX} <br><hr>`
     TestAreaID.innerHTML += `.changedTouches.clientX: ${event.changedTouches[0].clientX} <br><hr>`
     TestAreaID.innerHTML += `.changedTouches.pageX: ${event.changedTouches[0].pageX} <br><hr>`
@@ -61,6 +63,22 @@ function catBoxWriteUrlOnClick( event ) {
   } )
 }
 
+
+function dummyJsonOnClick( event ) {
+  let apiUrl = 'https://dummyjson.com/posts/add'
+  let body = JSON.stringify( { title: 'I am in love with someone.', userId: 5 } )
+
+  fetch( apiUrl, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: body } )
+  .then( res => res.json() )
+  .then( json => {
+    console.log( "Good Response: " )
+    console.log( json )
+  } )
+  .catch( error => {
+    console.log( "Caught fetch() error: ")
+    console.log( error )
+  } )
+}
 
 
 
