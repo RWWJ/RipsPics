@@ -36,8 +36,51 @@ function doTest( ) {
 }
 
 
+
+// Save this out to a .json file using
+//   fsWriteJson( "", ImgApiTests, res => console.log( res.ok?"Saved","Error saving." ) )
+let ImgApiTests = [
+  { siteName: "", siteUrl: "", filename: "", filePath: "", fileUrl: "", id: ""}
+]
+
+// NOTE Use a forwarding server (or write one to use)
+
 //
-// CatBox
+// CatBox  ---  file
+//
+function catBoxWriteFileOnClick( event ) {
+  let form = new FormData()
+  let apiUrl = "https://catbox.moe/user/api.php"
+  let userHash = "529ff4c513f89932b474d83d8"
+  let imageUrl = "https://ripspics.com/Images/StillLifes.jpg" // "https://ripspics.com/Images/Birds.jpg"
+
+  fileGetImageData( fileData => {
+    // {fileName, image, element}
+    console.log( `fileData is: ${typeof fileData}` )
+
+    // Build up form data
+    form.set( "reqtype", "fileupload" )
+    form.set( "userhash", userHash )
+    form.set( "fileToUpload", fileData.image )
+
+    // Send "form" request with fetch()
+    fetch( apiUrl, {method:"POST", body:form} )  // Defaults to "cors" and "mutipart/form-data"
+    .then( response => {
+      if( response.ok )  return response.text()
+      else throw new Error( `Bad fetch() response: ${response.statusText}` )
+    } )
+    .then( fileUrl => console.log( fileUrl ) )
+    .catch( error => {
+      console.log( `fetch() error: ${error}`)
+      // console.log( error )
+    } )
+  } )
+
+}
+
+
+//
+// CatBox  ---  URL
 //
 function catBoxWriteUrlOnClick( event ) {
   let form = new FormData()
@@ -52,14 +95,15 @@ function catBoxWriteUrlOnClick( event ) {
   form.set( "url", imageUrl )
 
   // Send "form" request with fetch()
-  // fetch( apiUrl, {method:"POST", body:form, headers:{"Content-Type":"mutipart/form-data"}} )
   fetch( apiUrl, {method:"POST", body:form} )  // Defaults to "cors" and "mutipart/form-data"
-  // fetch( apiUrl, {method:"POST", body:new URLSearchParams(form)} )  // Defaults to "application/x-www-form-urlencoded"
-  .then( response => response.text() )
+  .then( response => {
+    if( response.ok )  return response.text()
+    else throw new Error( `Bad fetch() response: ${response.statusText}` )
+  } )
   .then( fileUrl => console.log( fileUrl ) )
   .catch( error => {
-    console.log( "Caught fetch() error: ")
-    console.log( error )
+    console.log( `fetch() error: ${error}`)
+    // console.log( error )
   } )
 }
 
